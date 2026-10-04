@@ -8,6 +8,7 @@ This file only handles the screen. The real work lives in:
 """
 
 import html
+import re
 from typing import List
 
 import streamlit as st
@@ -125,7 +126,8 @@ def show_answer(answer: Answer) -> None:
     if answer.error:
         st.info(answer.error)
     else:
-        st.markdown(answer.text)
+        # The model sometimes writes "•" bullets; Markdown needs "- " to show a list.
+        st.markdown(re.sub(r"^\s*•\s*", "- ", answer.text, flags=re.MULTILINE))
         st.caption(f"{answer.input_tokens:,} input + {answer.output_tokens:,} output tokens · about US\$ {answer.cost_usd:.4f}")
     # With no generated answer the passages are the result, so open them.
     show_sources(answer.chunks, expanded=bool(answer.error))
