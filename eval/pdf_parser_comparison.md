@@ -5,6 +5,8 @@ separated "59% 2030 Target" from its heading, and the model reported 59% as the 
 target (it is the Scope 1 and 2 target). Would a layout-aware parser,
 [Docling](https://github.com/docling-project/docling), give better answers?
 
+> **Note:** this experiment was run with the original settings (MiniLM, 800/150 chunks, ±1 neighbouring chunk), before tuning. Re-running `compare_pdf_parsers.py` now uses the tuned settings, so its numbers will differ from the tables below.
+
 **Method.** Both reports were converted with Docling (one markdown string per page,
 OCR off, table detection on), then run through exactly the same chunking (800/150),
 embedding (MiniLM), retrieval (FAISS, company names removed from the query,
