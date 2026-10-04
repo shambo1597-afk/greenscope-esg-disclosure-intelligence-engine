@@ -42,7 +42,7 @@ MINUTES_SAVED_PER_LOOKUP = 8
 st.set_page_config(page_title="GreenScope", page_icon="🌱", layout="wide")
 
 
-@st.cache_resource(show_spinner="Loading the report index (first run builds it, about a minute)...")
+@st.cache_resource(show_spinner="Loading the report index (first run builds it, about 2 minutes)...")
 def load_index() -> ReportIndex:
     """Load the FAISS indexes once per server process, not on every click."""
     return ReportIndex()

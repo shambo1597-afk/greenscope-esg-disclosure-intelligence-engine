@@ -227,7 +227,7 @@ def build_index(force: bool = False) -> Dict[str, dict]:
     """Return {company: {"vectors": np.ndarray, "chunks": [{"text", "metadata"}]}}.
 
     Loads from index/ if a valid cache exists; otherwise loads, chunks and
-    embeds both PDFs (about a minute on a laptop CPU) and saves the result.
+    embeds both PDFs (about 2 minutes on a laptop CPU) and saves the result.
     """
     if not force and _cache_is_valid():
         data = {}

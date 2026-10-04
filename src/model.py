@@ -130,8 +130,8 @@ class ReportIndex:
 
     IndexFlatIP = exact ("flat", no approximation) search by inner product (IP).
     Because every vector was normalized to length 1 in data.py, the inner
-    product of two vectors IS their cosine similarity. With ~600 chunks per
-    report an exact search takes well under a millisecond, so no approximate
+    product of two vectors IS their cosine similarity. With about 2,000 chunks
+    per report an exact search takes about 0.03 seconds, so no approximate
     index is needed.
     """
 

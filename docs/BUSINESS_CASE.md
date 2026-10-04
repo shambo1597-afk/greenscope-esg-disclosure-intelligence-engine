@@ -47,10 +47,10 @@ exact supporting passages one click away. Measured in this repository:
 | Measure | Value | Source |
 |---|---|---|
 | Cost per answer (Claude Haiku 4.5) | about US$0.002 to US$0.0035 | measured token usage, shown in the app |
-| Right page among the 5 passages given to the AI | 85% of 40 test questions (Hit@5) | `eval/results.md` |
-| Fully correct answers on the 16-question graded test | 13 of 16 (2 partly correct, 1 with an error) | `eval/pdf_parser_comparison.md` |
-| Time per answer | a few seconds (search under 1 s; AI answer 2 to 6 s) | observed in testing |
-| Setup | one-off indexing of both reports in about 1 minute on a laptop | `src/data.py` |
+| Right page among the 5 passages given to the AI | 93% of 40 test questions (Hit@5; also 93% on held-out questions in cross-validation) | `eval/results.md`, `eval/tuning_results.md` |
+| Fully correct answers on the 16-question graded test | 13 of 16 (1 partly correct, 2 with an error) | `eval/answer_check_tuned.md` |
+| Time per answer | about 3.5 s (search 0.03 s, word explanation 0.2 s, AI answer 3.3 s) | measured on a 4-core CPU |
+| Setup | one-off indexing of both reports in about 2 minutes on a laptop | `src/data.py` |
 
 Accuracy is high but not perfect, so the workflow keeps a human in the loop: the analyst
 reads the cited passage before using a figure. The time-saving assumption below includes
