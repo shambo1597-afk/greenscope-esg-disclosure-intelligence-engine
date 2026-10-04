@@ -70,3 +70,6 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# GreenScope: locally built vector index (rebuilt from data/raw by src/data.py)
+index/
