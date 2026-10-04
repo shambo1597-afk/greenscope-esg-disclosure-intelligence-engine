@@ -3,8 +3,8 @@
 > **Status of the numbers.** Product figures (report length, cost per answer, speed,
 > accuracy) are **measured** in this repository. Market and time-saving figures are
 > **assumptions**, stated openly so they can be challenged and replaced with
-> measurements (see "Validating the key assumption"). Regulatory facts should be
-> checked against the latest SEBI / EU sources before presenting.
+> measurements (see "Validating the key assumption"). The SEBI BRSR facts in section 1
+> were checked against public sources in October 2026 (linked there).
 
 ## 1. The problem
 
@@ -15,10 +15,15 @@ reading the surrounding text to check the scope, baseline year and fiscal year, 
 recording the page so a reviewer can check it. Doing this for dozens of metrics across
 several peers is slow, repetitive and error-prone.
 
-Demand for this work is growing. In India, SEBI requires the top 1,000 listed companies
-to publish a Business Responsibility and Sustainability Report (BRSR), and buyers of IT
-services, especially in Europe and the US, increasingly ask suppliers for ESG data for
-their own value-chain (Scope 3) reporting.
+Demand for this work is growing. In India, SEBI has required the top 1,000 listed
+companies by market capitalisation to publish a Business Responsibility and
+Sustainability Report (BRSR) since FY2022-23, and a core set of about 30 indicators
+(BRSR Core) must be independently assured, phased in from the top 150 companies in
+FY2023-24 to all 1,000 by FY2026-27 ([Taxmann](https://www.taxmann.com/post/blog/top-1000-listed-entities-to-submit-business-responsibility-and-sustainability-report-brsr-sebi/),
+[ICAI](https://sustainability.icai.org/wp-content/uploads/2025/06/Background-Material-on-Sustainability-Business-Responsibility-Sustainability-Reporting-BRSR-Revised-Edition-2024.pdf)).
+More reports, and more scrutiny of the figures in them, mean more lookups. Buyers of IT
+services also ask suppliers for ESG data for their own value-chain (Scope 3) reporting;
+this is our qualitative observation, not a measured trend.
 
 General-purpose chatbots are fast but answer from memory, can invent figures and give
 no page reference. ESG data vendors provide standardized scores, but they are expensive
@@ -66,8 +71,8 @@ that check.
 | Time with GreenScope (read answer, check cited passage) | 2 min | assumption, to be measured |
 | **Time saved per company lookup** | **8 min** | difference of the two |
 | Lookups per year for one analyst team | 2,400 | e.g. 10 benchmarking projects × 8 companies × 30 metrics |
-| Loaded analyst cost: India scenario | ₹1,000/hour (≈ US$12) | assumption |
-| Loaded analyst cost: global consultancy scenario | US$60/hour | assumption |
+| Loaded analyst cost: India scenario | ₹500/hour (≈ US$6) | a ₹7 lakh salary (typical ESG analyst pay is about ₹4.5 to 9.5 lakh, [Glassdoor](https://www.glassdoor.co.in/Salaries/sustainability-esg-analyst-salary-SRCH_KO0,26.htm)) × 1.4 for overheads ÷ 2,000 hours |
+| Loaded analyst cost: global consultancy scenario | US$60/hour | assumption: a junior consultant in Europe or the US, including overheads |
 | AI cost per lookup | US$0.003 | measured |
 | Hosting (small cloud VM) | US$30/month = US$360/year | assumption |
 | Maintenance (adding reports, re-running the evaluation) | 1 day/month = 96 hours/year at the analyst rate | assumption |
@@ -77,14 +82,14 @@ that check.
 | | India scenario | Global scenario |
 |---|---|---|
 | Hours saved (2,400 × 8 min) | 320 h | 320 h |
-| **Value of time saved** | **US$3,840** (₹3.2 lakh) | **US$19,200** |
+| **Value of time saved** | **US$1,920** (₹1.6 lakh) | **US$19,200** |
 | AI cost (2,400 × US$0.003) | US$7 | US$7 |
 | Hosting | US$360 | US$360 |
-| Maintenance (96 h) | US$1,152 | US$5,760 |
-| **Total cost** | **US$1,519** | **US$6,127** |
-| **Net benefit** | US$2,321 | US$13,073 |
-| **ROI** = net benefit ÷ cost | **153%** | **213%** |
-| Break-even | about 950 lookups/year | about 770 lookups/year |
+| Maintenance (96 h) | US$576 | US$5,760 |
+| **Total cost** | **US$943** | **US$6,127** |
+| **Net benefit** | US$977 | US$13,073 |
+| **ROI** = net benefit ÷ cost | **104%** | **213%** |
+| Break-even | about 1,200 lookups/year | about 770 lookups/year |
 
 The AI cost is negligible (under 1% of total cost). The economics are driven almost
 entirely by **analyst time saved** versus **maintenance time**.
@@ -98,7 +103,7 @@ entirely by **analyst time saved** versus **maintenance time**.
 | 12 min | 200 h | 480 h | 1,000 h |
 
 Multiply by the hourly cost for the value. Even in the most pessimistic cell
-(4 minutes, 1,000 lookups, India rate) the time saved (67 h ≈ US$800) does not cover the
+(4 minutes, 1,000 lookups, India rate) the time saved (67 h ≈ US$400) does not cover the
 fixed costs, which is why the go-to-market below starts with teams that do recurring
 benchmarking at volume.
 

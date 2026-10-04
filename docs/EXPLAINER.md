@@ -527,7 +527,7 @@ two PDF readers we tested and rejected.
 **15. What is the business value?**
 For an ESG analyst, a lookup that takes about 10 minutes by hand takes about 2 with
 GreenScope, including checking the cited passage. For a team doing 2,400 lookups a year
-that is 320 hours. The ROI is 153% at Indian analyst rates and 213% at global
+that is 320 hours. The ROI is 104% at Indian analyst rates and 213% at global
 consultancy rates, after hosting and maintenance. The 10 and 2 minutes are assumptions;
 `docs/BUSINESS_CASE.md` describes a time trial to measure them.
 
