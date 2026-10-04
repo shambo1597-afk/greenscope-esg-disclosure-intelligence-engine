@@ -71,5 +71,11 @@ Thumbs.db
 *.swp
 *.swo
 
-# GreenScope: locally built vector index (rebuilt from data/raw by src/data.py)
-index/
+# GreenScope: the app's pre-built index IS committed (so a demo machine needs no
+# rebuild); experiment caches and run state are not.
+index/*
+!index/manifest.json
+!index/Wipro_vectors.npy
+!index/Wipro_chunks.json
+!index/HCLTech_vectors.npy
+!index/HCLTech_chunks.json

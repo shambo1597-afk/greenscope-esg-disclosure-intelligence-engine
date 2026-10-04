@@ -539,6 +539,17 @@ def split_question(question: str) -> SplitQuestion:
     return SplitQuestion(queries or [question], cost)
 
 
+def answer_request(question: str, chunks: List[RetrievedChunk]) -> dict:
+    """The exact Claude request used to answer a question (also used by the
+    evaluation, so it tests precisely what the app sends)."""
+    return {
+        "model": LLM_MODEL,
+        "max_tokens": MAX_ANSWER_TOKENS,
+        "system": SYSTEM_PROMPT,
+        "messages": [{"role": "user", "content": f"Report excerpts:\n\n{format_context(chunks)}\n\nQuestion: {question}"}],
+    }
+
+
 def generate_answer(question: str, chunks: List[RetrievedChunk]) -> Answer:
     """Ask Claude to answer `question` using only `chunks`.
 
@@ -560,18 +571,9 @@ def generate_answer(question: str, chunks: List[RetrievedChunk]) -> Answer:
 
     import anthropic  # imported here so retrieval works even without the package configured
 
-    user_message = (
-        f"Report excerpts:\n\n{format_context(chunks)}\n\n"
-        f"Question: {question}"
-    )
     try:
         client = anthropic.Anthropic(api_key=get_api_key())
-        response = client.messages.create(
-            model=LLM_MODEL,
-            max_tokens=MAX_ANSWER_TOKENS,
-            system=SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": user_message}],
-        )
+        response = client.messages.create(**answer_request(question, chunks))
     except anthropic.AuthenticationError:
         return Answer(text="", error="The Anthropic API key was rejected. Please check it in your .env file.", chunks=chunks)
     except anthropic.RateLimitError:
@@ -592,18 +594,50 @@ def generate_answer(question: str, chunks: List[RetrievedChunk]) -> Answer:
     )
 
 
+def preflight(live: bool = False) -> bool:
+    """Pre-demo check: is everything the app needs in place? Prints PASS/FAIL lines.
+
+    Run on the presenting machine before a demo:  python -m src.model --check [--live]
+    --live also makes one tiny Claude call (about US$0.0001) to prove the key works.
+    """
+    import time
+
+    from src.data import RAW_DATA_DIR, _cache_is_valid
+
+    ok = True
+
+    def report(passed: bool, label: str, detail: str = "") -> None:
+        nonlocal ok
+        ok &= passed
+        print(f"[{'PASS' if passed else 'FAIL'}] {label}{': ' + detail if detail else ''}")
+
+    for company, filename in COMPANIES.items():
+        report((RAW_DATA_DIR / filename).exists(), f"{company} PDF present", filename)
+    report(_cache_is_valid(), "Pre-built index matches the PDFs and settings",
+           "" if _cache_is_valid() else "it will be rebuilt on first use (about 2 minutes)")
+    t0 = time.time()
+    index = ReportIndex()
+    report(True, "Index and embedding model loaded", f"{time.time() - t0:.0f} s")
+    for company, question, page in (("Wipro", "What is Wipro's Scope 3 target?", {46, 63, 67, 88}),
+                                    ("HCLTech", "What is HCLTech's Scope 3 target?", {54, 56})):
+        pages = [r.page for r in index.retrieve(question, company, top_k=5)]
+        report(bool(page & set(pages)), f"{company} sample search finds the right page", f"pages {pages}")
+    report(has_api_key(), "Anthropic API key configured",
+           "" if has_api_key() else "AI answers disabled; search still works")
+    if live and has_api_key():
+        import anthropic
+
+        try:
+            anthropic.Anthropic(api_key=get_api_key()).messages.create(
+                model=LLM_MODEL, max_tokens=5, messages=[{"role": "user", "content": "Reply OK"}])
+            report(True, "Live API call")
+        except anthropic.APIError as e:
+            report(False, "Live API call", type(e).__name__)
+    print("\nReady for the demo." if ok else "\nFix the FAIL lines before the demo.")
+    return ok
+
+
 if __name__ == "__main__":
-    # Quick smoke test: retrieval for one question per company (no API cost),
-    # plus a generated answer if a key is configured.
-    idx = ReportIndex()
-    q = "What are the company's Scope 3 emissions reduction targets?"
-    for company in COMPANIES:
-        top = idx.retrieve(q, company, top_k=3)
-        print(f"\n== {company} ==")
-        for c in top:
-            print(f"  {c.score:.3f}  p.{c.page:<4} {c.text[:110]!r}")
-        if has_api_key():
-            ans = generate_answer(q, top)
-            print("\n" + (ans.error or ans.text))
-    if not has_api_key():
-        print("\n(No ANTHROPIC_API_KEY set: generation skipped.)")
+    import sys
+
+    sys.exit(0 if preflight(live="--live" in sys.argv) else 1)
