@@ -99,6 +99,132 @@
     "verified": false
   },
   {
+    "id": "wipro-09",
+    "company": "Wipro",
+    "question": "What is Wipro's 2030 target for Scope 1 and 2 emissions?",
+    "gold_pages": [
+      46,
+      63,
+      67,
+      88
+    ],
+    "expected_answer": "59% reduction by 2030 from a 2017 baseline",
+    "verified": false
+  },
+  {
+    "id": "wipro-10",
+    "company": "Wipro",
+    "question": "What were Wipro's total GHG emissions in FY25, and what share was Scope 3?",
+    "gold_pages": [
+      67
+    ],
+    "expected_answer": "approximately 219,683 tCO2e; Scope 3 around 86%",
+    "verified": false
+  },
+  {
+    "id": "wipro-11",
+    "company": "Wipro",
+    "question": "By when does Wipro aim to use 100% renewable energy?",
+    "gold_pages": [
+      4,
+      65
+    ],
+    "expected_answer": "100% renewable energy by 2030",
+    "verified": false
+  },
+  {
+    "id": "wipro-12",
+    "company": "Wipro",
+    "question": "What share of Wipro's spend goes to diverse suppliers?",
+    "gold_pages": [
+      7
+    ],
+    "expected_answer": "13.5% supplier diversity spend",
+    "verified": false
+  },
+  {
+    "id": "wipro-13",
+    "company": "Wipro",
+    "question": "How many nationalities are represented in Wipro's workforce?",
+    "gold_pages": [
+      7
+    ],
+    "expected_answer": "146 nationalities",
+    "verified": false
+  },
+  {
+    "id": "wipro-14",
+    "company": "Wipro",
+    "question": "How many persons with disabilities work at Wipro?",
+    "gold_pages": [
+      7
+    ],
+    "expected_answer": "2,080 persons with disabilities (voluntary self-declaration)",
+    "verified": false
+  },
+  {
+    "id": "wipro-15",
+    "company": "Wipro",
+    "question": "How much paid maternity leave does Wipro offer?",
+    "gold_pages": [
+      104,
+      106
+    ],
+    "expected_answer": "12 weeks of paid maternity leave",
+    "verified": false
+  },
+  {
+    "id": "wipro-16",
+    "company": "Wipro",
+    "question": "What EcoVadis rating did Wipro receive?",
+    "gold_pages": [
+      11
+    ],
+    "expected_answer": "Silver rating in EcoVadis",
+    "verified": false
+  },
+  {
+    "id": "wipro-17",
+    "company": "Wipro",
+    "question": "How many of Wipro's independent directors are women?",
+    "gold_pages": [
+      15
+    ],
+    "expected_answer": "two of the six independent directors are women",
+    "verified": false
+  },
+  {
+    "id": "wipro-18",
+    "company": "Wipro",
+    "question": "What share of Wipro's facilities hold ISO 14001 certification?",
+    "gold_pages": [
+      64
+    ],
+    "expected_answer": "89% of facilities assessed and certified ISO 14001 and ISO 45001",
+    "verified": false
+  },
+  {
+    "id": "wipro-19",
+    "company": "Wipro",
+    "question": "Which Wipro campus received LEED Platinum certification, and when?",
+    "gold_pages": [
+      4,
+      66
+    ],
+    "expected_answer": "green building in Gurgaon in 2006 received LEED Platinum",
+    "verified": false
+  },
+  {
+    "id": "wipro-20",
+    "company": "Wipro",
+    "question": "How much did Wipro's customer Net Promoter Score increase?",
+    "gold_pages": [
+      7
+    ],
+    "expected_answer": "640 bps increase in customer NPS",
+    "verified": false
+  },
+  {
     "id": "hcltech-01",
     "company": "HCLTech",
     "question": "What is HCLTech's target for reducing Scope 3 emissions?",
@@ -190,6 +316,141 @@
       56
     ],
     "expected_answer": "25% reduction against the FY20 baseline",
+    "verified": false
+  },
+  {
+    "id": "hcltech-09",
+    "company": "HCLTech",
+    "question": "What is HCLTech's 2030 target for Scope 1 and 2 emissions?",
+    "gold_pages": [
+      5,
+      54
+    ],
+    "expected_answer": "50% reduction in absolute Scope 1 and 2 emissions by FY30 (FY20 baseline)",
+    "verified": false
+  },
+  {
+    "id": "hcltech-10",
+    "company": "HCLTech",
+    "question": "What is HCLTech's target for women in senior leadership?",
+    "gold_pages": [
+      5
+    ],
+    "expected_answer": "30% gender representation in senior leadership by 2030",
+    "verified": false
+  },
+  {
+    "id": "hcltech-11",
+    "company": "HCLTech",
+    "question": "What share of HCLTech's fresher hires are women?",
+    "gold_pages": [
+      39
+    ],
+    "expected_answer": "44% of fresher hires are women",
+    "verified": false
+  },
+  {
+    "id": "hcltech-12",
+    "company": "HCLTech",
+    "question": "How much have HCLTech's Scope 3 emissions fallen since FY20?",
+    "gold_pages": [
+      3,
+      6,
+      31,
+      56
+    ],
+    "expected_answer": "29% reduction in FY24 vs FY20",
+    "verified": false
+  },
+  {
+    "id": "hcltech-13",
+    "company": "HCLTech",
+    "question": "By how much has HCLTech reduced its total energy consumption?",
+    "gold_pages": [
+      3,
+      6,
+      60
+    ],
+    "expected_answer": "26% reduction vs FY20 baseline",
+    "verified": false
+  },
+  {
+    "id": "hcltech-14",
+    "company": "HCLTech",
+    "question": "What share of HCLTech's owned buildings are Platinum certified?",
+    "gold_pages": [
+      6,
+      60
+    ],
+    "expected_answer": "98% of owned buildings Platinum certified by Green Building Councils",
+    "verified": false
+  },
+  {
+    "id": "hcltech-15",
+    "company": "HCLTech",
+    "question": "What EcoVadis rating did HCLTech receive?",
+    "gold_pages": [
+      97
+    ],
+    "expected_answer": "Gold rating from EcoVadis",
+    "verified": false
+  },
+  {
+    "id": "hcltech-16",
+    "company": "HCLTech",
+    "question": "How many hours of sustainability training did HCLTech employees complete?",
+    "gold_pages": [
+      6,
+      31,
+      71
+    ],
+    "expected_answer": "over 15,700 hours at the Sustainability School",
+    "verified": false
+  },
+  {
+    "id": "hcltech-17",
+    "company": "HCLTech",
+    "question": "What share of HCLTech's water withdrawals come from high water-stress areas?",
+    "gold_pages": [
+      59
+    ],
+    "expected_answer": "53% of withdrawals in FY2022-23 from 'Extremely High' water stress areas",
+    "verified": false
+  },
+  {
+    "id": "hcltech-18",
+    "company": "HCLTech",
+    "question": "What was HCLTech's total headcount in FY24?",
+    "gold_pages": [
+      36,
+      40,
+      49,
+      95
+    ],
+    "expected_answer": "227,481 employees",
+    "verified": false
+  },
+  {
+    "id": "hcltech-19",
+    "company": "HCLTech",
+    "question": "How many lives has the HCLFoundation impacted?",
+    "gold_pages": [
+      3,
+      6,
+      31
+    ],
+    "expected_answer": "6.5 million lives",
+    "verified": false
+  },
+  {
+    "id": "hcltech-20",
+    "company": "HCLTech",
+    "question": "Was HCLTech recognised as one of the World's Most Ethical Companies?",
+    "gold_pages": [
+      3,
+      97
+    ],
+    "expected_answer": "Yes, by Ethisphere in 2024",
     "verified": false
   }
 ]

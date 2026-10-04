@@ -142,8 +142,8 @@ def main():
         "",
         "## Limitations",
         "",
-        "- **Small eval set.** 16 questions (8 per company) is enough to spot gross failures, "
-        "not to measure small differences. One question changes a per-company score by 0.125.",
+        "- **Small eval set.** 40 questions (20 per company) is enough to spot gross failures, "
+        "not to measure small differences. One question changes a per-company score by 0.05.",
         "- **Page-level matching only.** A chunk counts as relevant if it is on a gold page, even if "
         "it is a different paragraph of that page. A chunk on a non-gold page that does contain the "
         "answer counts as a miss if we did not list that page.",
