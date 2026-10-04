@@ -1,7 +1,10 @@
 streamlit
-langchain
 langchain-community
+langchain-core
+langchain-text-splitters
 pypdf
 sentence-transformers
 faiss-cpu
+numpy
+anthropic
 python-dotenv
