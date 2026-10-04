@@ -41,38 +41,50 @@ COMPANIES: Dict[str, str] = {
     "HCLTech": "hcltech_sustainability_fy2024.pdf",
 }
 
-EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
-# Some embedding models are trained to expect an instruction in front of search
-# questions (not in front of the passages). MiniLM is not, so this is empty.
-QUERY_PREFIX = ""
+# --- Tuned parameters ----------------------------------------------------------
+# All three values below were chosen by a grid search over 36 combinations of
+# embedding model x chunk size x overlap, with 5-fold cross-validation on a
+# 40-question evaluation set (eval/tune.py, results in eval/tuning_results.md).
+# The same combination won in all 5 folds. On questions NOT used to choose it,
+# it ranked the right page higher than the original setting (MiniLM, 800/150):
+# held-out MRR@5 0.82 vs 0.67, Hit@5 0.93 vs 0.85.
 
-# --- Chunking parameters -----------------------------------------------------
-# CHUNK_SIZE = 800 characters (~130-160 words, ~180-200 tokens).
+# EMBEDDING MODEL: BAAI/bge-small-en-v1.5 (384-number vectors, reads up to 512
+# word-pieces). Same size and speed class as all-MiniLM-L6-v2, but trained
+# specifically for search (question -> passage), which is our task. It beat
+# MiniLM (fast, general purpose) and all-mpnet-base-v2 (2x larger, slower).
+EMBEDDING_MODEL_NAME = "BAAI/bge-small-en-v1.5"
+# BGE models are trained to expect this instruction in front of search QUESTIONS
+# (not in front of the passages). Leaving it out lowers search quality.
+QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
+
+# CHUNK_SIZE = 400 characters (~60-80 words, two to four sentences).
+# Why small chunks keep matches FOCUSED:
+#   * Each chunk becomes ONE vector that summarises its meaning. The more topics a
+#     chunk mixes (emissions + water + board diversity), the more its vector is an
+#     average that matches no single question well. ESG reports pack a different
+#     metric into almost every sentence, so short chunks match questions precisely.
+#   * Measured: average MRR@5 fell steadily with size for every model
+#     (400: 0.72, 800: 0.66, 1200: 0.57).
+# The risk of small chunks is losing context: a figure such as "42%" cut off from
+# the words saying WHAT it measures. That is handled separately: the model is
+# given each match WITH its surrounding text from the same page ("small-to-big",
+# CONTEXT_CHARS in model.py), so search is precise and the answer still has context.
 #
-# Why 800 keeps chunks FOCUSED:
-#   * Each chunk becomes ONE vector that summarises its meaning. If a chunk mixes
-#     several topics (emissions + water + board diversity), its vector is an
-#     average of all of them and matches no single question well. ~800 chars is
-#     one or two paragraphs of an ESG report, usually a single topic or metric.
-#   * all-MiniLM-L6-v2 reads at most 256 word-pieces; anything longer is cut
-#     off silently. 800 chars fits comfortably, so no text is lost.
-#   * Small chunks let us hand several of them to the LLM without filling the
-#     prompt with irrelevant text (cheaper and fewer distractions).
-#
-# Why not smaller (e.g. 200-300): a number such as "1,23,456 tCO2e" cut off
-# from the sentence saying WHAT it measures and for WHICH YEAR is useless.
-# 800 chars keeps a metric together with its label, unit and reporting period.
-#
-# CHUNK_OVERLAP = 150 characters (~19% of a chunk) preserves CONTEXT across
-# boundaries:
+# CHUNK_OVERLAP = 250 characters: each chunk repeats the last 250 characters of
+# the previous one, so a new chunk starts every ~150 characters.
+# Why overlap preserves CONTEXT across boundaries:
 #   * Splitting is mechanical, so a cut can land mid-thought:
 #     "...reduced emissions by" | "42% against the FY20 baseline".
-#     Repeating the last ~150 chars (about one sentence) at the start of the
-#     next chunk means a fact that straddles a cut appears whole in at least one
-#     chunk.
-#   * Under 20% overlap keeps duplicate text (and duplicate search hits) low.
-CHUNK_SIZE = 800
-CHUNK_OVERLAP = 150
+#     With overlap, a fact that straddles one cut appears whole in another chunk.
+#   * With high overlap, every sentence appears in two or three chunks, at least
+#     one of which has it near the middle with its neighbours, which helps short
+#     chunks most. Measured at 400 characters: overlap 0 / 75 / 150 / 250 gave
+#     MRR@5 0.74 / 0.79 / 0.74 / 0.82 with BGE.
+#   * The cost is more chunks to store (about 4,000 instead of 1,100), which is
+#     still tiny for FAISS. Repeated text is merged before it reaches the model.
+CHUNK_SIZE = 400
+CHUNK_OVERLAP = 250
 
 # Chunks shorter than this are mostly cover pages, section dividers or stray
 # headings ("Contents", "2024 Sustainability Report"). They carry no facts and

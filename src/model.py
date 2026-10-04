@@ -20,7 +20,7 @@ import faiss
 import numpy as np
 from dotenv import load_dotenv
 
-from src.data import COMPANIES, build_index, embed_queries
+from src.data import CHUNK_OVERLAP, COMPANIES, build_index, embed_queries
 
 # Read ANTHROPIC_API_KEY from a local .env file if present (it is gitignored).
 # The key is only ever passed to the Anthropic client; it is never printed or logged.
@@ -33,6 +33,9 @@ MAX_ANSWER_TOKENS = 600                   # enough for a cited paragraph or shor
 PRICE_PER_MTOK_INPUT = 1.00
 PRICE_PER_MTOK_OUTPUT = 5.00
 DEFAULT_TOP_K = 5
+# Each match is sent to the model with surrounding text from the same page, up to
+# about this many characters (see ReportIndex.add_neighbours).
+CONTEXT_CHARS = 2000
 
 
 @dataclass
@@ -83,7 +86,8 @@ def prepare_query(question: str) -> str:
     are mostly the company name: page headers and footers such as
     "About HCLTech / HCLTech Sustainability Report 2024 / 92". Those boilerplate
     chunks then crowd out the passages that hold the actual answer. In our eval
-    this one change raised Hit@5 from 0.56 to 0.94 (see eval/results.md).
+    this one change raised Hit@5 from 0.56 to 0.94 with the original settings,
+    and from 0.70 to 0.93 with the tuned ones (see eval/results.md).
     Only the search query is changed; Claude still sees the original question.
     """
     query = re.sub(_COMPANY_NAME + r"(?:'s|’s)", "the company's", question, flags=re.IGNORECASE)
@@ -93,10 +97,10 @@ def prepare_query(question: str) -> str:
 def _join_overlapping(first: str, second: str) -> str:
     """Join two consecutive chunks, dropping the text they share.
 
-    Consecutive chunks overlap by up to CHUNK_OVERLAP (150) characters: the end
+    Consecutive chunks overlap by up to CHUNK_OVERLAP characters: the end
     of one is repeated at the start of the next. Keep that shared part once.
     """
-    for size in range(min(len(first), len(second), 300), 0, -1):
+    for size in range(min(len(first), len(second), CHUNK_OVERLAP + 50), 0, -1):
         if first.endswith(second[:size]):
             return first + second[size:]
     return first + "\n" + second
@@ -184,33 +188,47 @@ class ReportIndex:
         return results
 
     def add_neighbours(self, results: List[RetrievedChunk], company: str) -> None:
-        """Widen each result with the chunk before and after it on the same page.
+        """Widen each result with the text around it on the same page ("small-to-big").
 
-        Why: the search matches small chunks, but the sentence that explains a
-        number is often in the next chunk. Example (Wipro p.67): one chunk holds
-        the chart text "84% 2025 Performance / 59% 2030 Target", while the
-        sentence "55% reduction in Scope 3 from 2020 baseline" sits in the chunk
-        before it. Seeing only the chart fragment, the model attached 59% (the
-        Scope 1 and 2 target) to Scope 3. Sending the neighbours too gives it the
-        surrounding explanation. Neighbours are taken from the same page only,
-        so every citation [Company, p.X] stays correct.
+        Search works best with SMALL chunks (precise matches, see
+        eval/tuning_results.md), but the model answers best with MORE context:
+        the sentence that explains a number is often next to it. Example (Wipro
+        p.67): one chunk held the chart text "84% 2025 Performance / 59% 2030
+        Target", while "55% reduction in Scope 3 from 2020 baseline" sat in the
+        chunk before it; seeing only the fragment, the model reported 59% (the
+        Scope 1 and 2 target) as the Scope 3 target.
 
-        Results are processed best-first; chunks already sent with a better
-        result are not repeated (that result's context becomes "").
+        So each match is grown with neighbouring chunks, alternately after and
+        before it, until it holds about CONTEXT_CHARS characters. Growth stops at
+        the page boundary, so every citation [Company, p.X] stays correct, and at
+        text already sent with a better-ranked match, so nothing is repeated
+        (a match that is fully covered already gets context "").
         """
         chunks = self.chunks[company]
+
+        def usable(i: int, page: int) -> bool:
+            return 0 <= i < len(chunks) and chunks[i]["metadata"]["page"] == page and i not in already_sent
+
         already_sent = set()
         for result in results:
-            window = [
-                i for i in (result.chunk_index - 1, result.chunk_index, result.chunk_index + 1)
-                if 0 <= i < len(chunks)
-                and chunks[i]["metadata"]["page"] == result.page
-                and i not in already_sent
-            ]
-            already_sent.update(window)
-            context = ""
-            for i in window:
-                context = _join_overlapping(context, chunks[i]["text"]) if context else chunks[i]["text"]
+            if result.chunk_index in already_sent:
+                result.context = ""
+                continue
+            first = last = result.chunk_index
+            context = chunks[first]["text"]
+            while len(context) < CONTEXT_CHARS:
+                grew = False
+                if usable(last + 1, result.page):
+                    last += 1
+                    context = _join_overlapping(context, chunks[last]["text"])
+                    grew = True
+                if len(context) < CONTEXT_CHARS and usable(first - 1, result.page):
+                    first -= 1
+                    context = _join_overlapping(chunks[first]["text"], context)
+                    grew = True
+                if not grew:
+                    break
+            already_sent.update(range(first, last + 1))
             result.context = context
 
     def explain(self, question: str, results: List[RetrievedChunk], company: str) -> None:
@@ -289,8 +307,8 @@ Rules:
 knowledge, even if you believe you know the answer.
 2. Cite every factual claim with its source in the form [Company, p.X], using the company \
 and page shown in the excerpt header.
-3. Keep numbers, units, percentages and years exactly as written in the excerpts. Do not \
-convert, round or calculate new figures.
+3. Keep numbers, units, percentages, years and ratings (e.g. "A-", "BBB+") exactly as written \
+in the excerpts. Do not convert, round, add up or calculate new figures.
 4. If the excerpts do not contain the answer, say: "This is not disclosed in the retrieved \
 text." You may mention closely related information that IS in the excerpts, with citations.
 5. Excerpts may contain text extracted from charts and tables, where numbers can appear \
