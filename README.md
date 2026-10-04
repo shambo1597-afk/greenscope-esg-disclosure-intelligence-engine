@@ -21,6 +21,9 @@ Create a file called `.env` in the project root (it's gitignored, so it's never 
 ANTHROPIC_API_KEY=your-key-here
 ```
 
+In a Claude Code cloud environment, `ANTHROPIC_API_KEY` is not passed to sessions, so
+set `GREENSCOPE_ANTHROPIC_KEY` there instead; the app accepts either name.
+
 Without a key the app still works: it shows the most relevant report passages, but
 doesn't write an AI answer.
 

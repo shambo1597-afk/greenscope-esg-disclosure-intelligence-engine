@@ -151,9 +151,19 @@ text." You may mention closely related information that IS in the excerpts, with
 5. Be concise: a short paragraph or a few bullet points."""
 
 
+def get_api_key() -> str:
+    """The configured key. Cloud environments don't pass ANTHROPIC_API_KEY through
+    (Claude Code reserves it), so GREENSCOPE_ANTHROPIC_KEY is accepted as a fallback."""
+    for name in ("ANTHROPIC_API_KEY", "GREENSCOPE_ANTHROPIC_KEY"):
+        value = os.environ.get(name, "").strip()
+        if value:
+            return value
+    return ""
+
+
 def has_api_key() -> bool:
     """True if an Anthropic API key is configured (env var or .env file)."""
-    return bool(os.environ.get("ANTHROPIC_API_KEY", "").strip())
+    return bool(get_api_key())
 
 
 def format_context(chunks: List[RetrievedChunk]) -> str:
@@ -188,7 +198,7 @@ def generate_answer(question: str, chunks: List[RetrievedChunk]) -> Answer:
         f"Question: {question}"
     )
     try:
-        client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from the environment
+        client = anthropic.Anthropic(api_key=get_api_key())
         response = client.messages.create(
             model=LLM_MODEL,
             max_tokens=MAX_ANSWER_TOKENS,
