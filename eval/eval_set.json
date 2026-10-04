@@ -1,0 +1,195 @@
+[
+  {
+    "id": "wipro-01",
+    "company": "Wipro",
+    "question": "What is Wipro's target for reducing Scope 3 emissions?",
+    "gold_pages": [
+      46,
+      63,
+      67,
+      88
+    ],
+    "expected_answer": "55% reduction in Scope 3 by 2030 from a 2020 baseline",
+    "verified": false
+  },
+  {
+    "id": "wipro-02",
+    "company": "Wipro",
+    "question": "By what year does Wipro aim to reach net-zero emissions?",
+    "gold_pages": [
+      9,
+      43,
+      67,
+      88
+    ],
+    "expected_answer": "Net-Zero on Scope 1, 2 and 3 by 2040",
+    "verified": false
+  },
+  {
+    "id": "wipro-03",
+    "company": "Wipro",
+    "question": "What share of Wipro's electricity comes from renewable sources?",
+    "gold_pages": [
+      4,
+      7,
+      65,
+      66,
+      88
+    ],
+    "expected_answer": "84% renewable; target 100% by 2030",
+    "verified": false
+  },
+  {
+    "id": "wipro-04",
+    "company": "Wipro",
+    "question": "What percentage of Wipro's workforce are women?",
+    "gold_pages": [
+      4,
+      7,
+      114
+    ],
+    "expected_answer": "37.1% women employees",
+    "verified": false,
+    "notes": "p.114 added after manual inspection: 'Gender-wise FY25 % Female 83,666 37.1' (missed by the first keyword search)."
+  },
+  {
+    "id": "wipro-05",
+    "company": "Wipro",
+    "question": "What are Wipro's water management targets?",
+    "gold_pages": [
+      47,
+      63,
+      73,
+      74
+    ],
+    "expected_answer": "reduce freshwater consumption 3% year-on-year; Zero Liquid Discharge; recycled water 45% of use by 2030",
+    "verified": false
+  },
+  {
+    "id": "wipro-06",
+    "company": "Wipro",
+    "question": "How much of Wipro's waste is recycled or kept out of landfill?",
+    "gold_pages": [
+      7,
+      63,
+      79,
+      81
+    ],
+    "expected_answer": "97.61% recycled, 0.73% landfill (FY25 table); highlights show 85% waste recycled",
+    "verified": false
+  },
+  {
+    "id": "wipro-07",
+    "company": "Wipro",
+    "question": "What CDP rating did Wipro receive?",
+    "gold_pages": [
+      11
+    ],
+    "expected_answer": "A- in CDP Climate Change and Water, A in CDP Supply Chain",
+    "verified": false
+  },
+  {
+    "id": "wipro-08",
+    "company": "Wipro",
+    "question": "What was Wipro's voluntary attrition rate?",
+    "gold_pages": [
+      115
+    ],
+    "expected_answer": "region-wise and age-wise voluntary attrition percentages for FY25",
+    "verified": false
+  },
+  {
+    "id": "hcltech-01",
+    "company": "HCLTech",
+    "question": "What is HCLTech's target for reducing Scope 3 emissions?",
+    "gold_pages": [
+      54,
+      56
+    ],
+    "expected_answer": "42% reduction in absolute Scope 3 emissions by FY30",
+    "verified": false
+  },
+  {
+    "id": "hcltech-02",
+    "company": "HCLTech",
+    "question": "By what year does HCLTech aim to reach net zero?",
+    "gold_pages": [
+      5,
+      10,
+      55,
+      65
+    ],
+    "expected_answer": "net zero by 2040",
+    "verified": false
+  },
+  {
+    "id": "hcltech-03",
+    "company": "HCLTech",
+    "question": "What is HCLTech's renewable electricity target?",
+    "gold_pages": [
+      5,
+      54
+    ],
+    "expected_answer": "80% of electricity from renewable sources by 2030",
+    "verified": false
+  },
+  {
+    "id": "hcltech-04",
+    "company": "HCLTech",
+    "question": "What percentage of HCLTech's employees are women?",
+    "gold_pages": [
+      39,
+      40,
+      41
+    ],
+    "expected_answer": "29.1% women in FY23-24; target 40% by 2030",
+    "verified": false
+  },
+  {
+    "id": "hcltech-05",
+    "company": "HCLTech",
+    "question": "How has HCLTech reduced its water usage?",
+    "gold_pages": [
+      3,
+      6,
+      57
+    ],
+    "expected_answer": "40% reduction in water usage in India since 2020; recharged 32x more water than consumed",
+    "verified": false
+  },
+  {
+    "id": "hcltech-06",
+    "company": "HCLTech",
+    "question": "What is HCLTech's goal for waste sent to landfill?",
+    "gold_pages": [
+      5,
+      54
+    ],
+    "expected_answer": "zero waste to landfill at all owned facilities by 2025 (FY25)",
+    "verified": false
+  },
+  {
+    "id": "hcltech-07",
+    "company": "HCLTech",
+    "question": "What CDP rating did HCLTech receive?",
+    "gold_pages": [
+      6,
+      97
+    ],
+    "expected_answer": "A- rating for climate change disclosures",
+    "verified": false
+  },
+  {
+    "id": "hcltech-08",
+    "company": "HCLTech",
+    "question": "How much have HCLTech's Scope 1 and 2 emissions fallen since FY20?",
+    "gold_pages": [
+      3,
+      6,
+      31,
+      56
+    ],
+    "expected_answer": "25% reduction against the FY20 baseline",
+    "verified": false
+  }
+]
