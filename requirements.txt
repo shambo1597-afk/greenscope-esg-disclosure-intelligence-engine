@@ -1,10 +1,14 @@
-streamlit
-langchain-community
-langchain-core
-langchain-text-splitters
-pypdf
-sentence-transformers
-faiss-cpu
-numpy
-anthropic
-python-dotenv
+# Exact versions GreenScope was built and tested with (Python 3.11).
+# App
+streamlit==1.65.0
+anthropic==1.11.0
+python-dotenv==1.2.3
+# Ingestion and retrieval
+langchain-community==0.4.2
+langchain-core==1.6.5
+langchain-text-splitters==1.1.2
+pypdf==6.19.0
+sentence-transformers==6.1.0
+faiss-cpu==1.15.1
+numpy==2.4.6
+# Optional, only for eval/compare_pdf_parsers.py:  pip install docling
