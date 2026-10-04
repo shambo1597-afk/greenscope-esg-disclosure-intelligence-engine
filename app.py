@@ -34,6 +34,11 @@ EXAMPLE_QUESTIONS = [
     "What are the company's water and waste management goals?",
 ]
 
+# Business-case assumption (see docs/BUSINESS_CASE.md): finding, checking and
+# recording one metric for one company by hand takes ~10 minutes; with GreenScope,
+# reading the cited answer and checking the passage takes ~2. Saving: 8 minutes.
+MINUTES_SAVED_PER_LOOKUP = 8
+
 st.set_page_config(page_title="GreenScope", page_icon="🌱", layout="wide")
 
 
@@ -88,6 +93,25 @@ def show_sources(chunks: List[RetrievedChunk], expanded: bool = False) -> None:
                 st.divider()
 
 
+def record_usage(answers: List[Answer]) -> None:
+    """Add this question's answers to the session's running business metrics."""
+    usage = st.session_state.setdefault("usage", {"questions": 0, "lookups": 0, "cost": 0.0})
+    usage["questions"] += 1
+    usage["lookups"] += sum(1 for a in answers if not a.error)
+    usage["cost"] += sum(a.cost_usd for a in answers)
+
+
+def show_usage(panel) -> None:
+    usage = st.session_state.get("usage", {"questions": 0, "lookups": 0, "cost": 0.0})
+    with panel.container():
+        st.subheader("This session")
+        st.metric("Questions asked", usage["questions"])
+        st.metric("Analyst time saved (est.)", f"{usage['lookups'] * MINUTES_SAVED_PER_LOOKUP} min",
+                  help=f"{MINUTES_SAVED_PER_LOOKUP} minutes per company answer, compared with finding and "
+                       "checking the figure in the PDF by hand. Assumption explained in docs/BUSINESS_CASE.md.")
+        st.metric("AI cost", f"US$ {usage['cost']:.3f}")
+
+
 def show_answer(answer: Answer) -> None:
     if answer.error:
         st.info(answer.error)
@@ -117,6 +141,8 @@ with st.sidebar:
     )
     if not has_api_key():
         st.warning("No ANTHROPIC_API_KEY found: search works, but AI answers are disabled.")
+    st.divider()
+    usage_panel = st.empty()  # filled at the end of the script, after this run's answers
 
 # --- Question input --------------------------------------------------------------
 st.session_state.setdefault("question", "")
@@ -139,6 +165,7 @@ if (ask or run_now) and question.strip():
             chunks = index.retrieve(question, companies[0], top_k)
             index.explain(question, chunks, companies[0])
             answer = generate_answer(question, chunks)
+        record_usage([answer])
         st.subheader(companies[0])
         show_answer(answer)
     else:
@@ -147,6 +174,7 @@ if (ask or run_now) and question.strip():
             for company, chunks in per_company.items():
                 index.explain(question, chunks, company)
             answers = {c: generate_answer(question, chunks) for c, chunks in per_company.items()}
+        record_usage(list(answers.values()))
         columns = st.columns(len(answers))
         for col, (company, answer) in zip(columns, answers.items()):
             with col:
@@ -163,3 +191,5 @@ st.caption(
     "page of the PDF file, which may differ from the number printed on the page. "
     "AI answers can still contain mistakes, so verify important figures in the cited passages."
 )
+
+show_usage(usage_panel)
