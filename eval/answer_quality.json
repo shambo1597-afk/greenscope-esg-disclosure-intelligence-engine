@@ -1,0 +1,1202 @@
+[
+ {
+  "id": "wipro-01",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What is Wipro's target for reducing Scope 3 emissions?",
+  "answer": "According to the excerpts, Wipro's target for reducing Scope 3 emissions is:\n\n- **By 2030:** 55% reduction in Scope 3 absolute emissions from the 2020 baseline [Wipro, p.63]\n\nThis means reducing from 421,527 tCO2e to 188,224 tCO2e [Wipro, p.67]\n\n- **By 2040:** Net-Zero emissions across the value chain [Wipro, p.63]",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The 55% reduction by 2030 from the 2020 baseline matches the reference. The tCO2e figures (421,527 to 188,224) appear on p.67, and the 2040 net-zero value chain goal appears on p.63. All citations support their claims."
+ },
+ {
+  "id": "wipro-01",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What is Wipro's target for reducing Scope 3 emissions?",
+  "answer": "According to the excerpts, Wipro's target for reducing Scope 3 emissions is:\n\n**By 2030: 55% reduction in Scope 3 absolute emissions from the 2020 baseline** [Wipro, p.63]\n\nMore specifically, this represents a reduction of 233,303 tCO2e from 421,527 tCO2e to 188,224 tCO2e [Wipro, p.67]\n\nAdditionally, Wipro has a long-term goal to achieve **Net-Zero on Scope 3 emissions by 2040** [Wipro, p.67]",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "States 55% Scope 3 reduction by 2030 from 2020 baseline, matching the reference. The tCO2e figures and the 2040 Net-Zero goal are supported by p.67, and the p.63 citation supports the main target."
+ },
+ {
+  "id": "wipro-01",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What is Wipro's target for reducing Scope 3 emissions?",
+  "answer": "Wipro's target for reducing Scope 3 emissions is a **55% reduction from the 2020 baseline by 2030** [Wipro, p.63]. \n\nAdditionally, Wipro has a longer-term commitment to achieve **Net-Zero on Scope 3 by 2040** [Wipro, p.67].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The 55% Scope 3 reduction by 2030 from a 2020 baseline matches the reference and p.63. The added Net-Zero by 2040 claim is supported by p.67, which states a Net-Zero target on Scopes 1, 2 and 3 by 2040."
+ },
+ {
+  "id": "wipro-02",
+  "run": 1,
+  "company": "Wipro",
+  "question": "By what year does Wipro aim to reach net-zero emissions?",
+  "answer": "According to the report, Wipro aims to achieve Net-Zero carbon emissions by 2040 [Wipro, p.9]. The company also has an intermediate target to reduce combined Scope 1 and Scope 2 emissions by 59% from the 2017 baseline by 2030, and to cut Scope 3 absolute emissions by 55% from the 2020 baseline by 2030 [Wipro, p.63].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "States Net-Zero by 2040, matching the reference. The 2030 intermediate targets (59% Scope 1+2 from 2017, 55% Scope 3 from 2020) are supported by p.63, and both citations match their claims."
+ },
+ {
+  "id": "wipro-02",
+  "run": 2,
+  "company": "Wipro",
+  "question": "By what year does Wipro aim to reach net-zero emissions?",
+  "answer": "Wipro aims to achieve Net-Zero carbon emissions by 2040 [Wipro, p.9]. This target was set in 2021 with SBTi approval and includes intermediate targets for 2030 [Wipro, p.63].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 2040 as the net-zero year, matching the reference. The 2021 SBTi-approved target and the 2030 intermediate targets are supported by p.63, and the 2040 aim is supported by p.9."
+ },
+ {
+  "id": "wipro-02",
+  "run": 3,
+  "company": "Wipro",
+  "question": "By what year does Wipro aim to reach net-zero emissions?",
+  "answer": "According to the report, Wipro aims to achieve Net-Zero carbon emissions by 2040 [Wipro, p.9]. The company also has intermediate targets for 2030, which include reducing combined Scope 1 and Scope 2 emissions by 59% from the 2017 baseline and cutting Scope 3 absolute emissions by 55% from the 2020 baseline [Wipro, p.63].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 2040 for Net-Zero, matching the reference. The 2030 intermediate targets (59% Scope 1+2 from 2017, 55% Scope 3 from 2020) are supported by p.63, and both citations match their claims."
+ },
+ {
+  "id": "wipro-03",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What share of Wipro's electricity comes from renewable sources?",
+  "answer": "According to Wipro's 2025 performance, **84% of its purchased electricity comes from renewable sources** [Wipro, p.65].\n\nThis includes 586 trillion Joules of purchased renewable electricity and 10 trillion Joules self-generated through solar PV [Wipro, p.65]. Wipro has set a target to reach 100% renewable energy by 2030 [Wipro, p.65].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 84% renewable and the 100% by 2030 target, both matching the reference and page 65. The 586 and 10 trillion Joule figures are also stated on p.65."
+ },
+ {
+  "id": "wipro-03",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What share of Wipro's electricity comes from renewable sources?",
+  "answer": "According to Wipro's 2025 performance, **84% of its purchased electricity comes from renewable sources** [Wipro, p.65].\n\nThis renewable electricity includes 586 trillion Joules of purchased renewable electricity and 10 trillion Joules of self-generated solar PV [Wipro, p.65]. Wipro has set a target to achieve 100% renewable energy by 2030 [Wipro, p.65].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The 84% renewable share and the 100% by 2030 target match the reference and p.65. The 586 and 10 trillion Joule figures are also supported by p.65, and all citations point to the right page."
+ },
+ {
+  "id": "wipro-03",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What share of Wipro's electricity comes from renewable sources?",
+  "answer": "According to Wipro's 2025 performance, **84% of purchased electricity comes from renewable sources** [Wipro, p.65].\n\nThis includes 586 trillion Joules of purchased renewable electricity and 10 trillion Joules of self-generated renewable electricity through solar PV [Wipro, p.65]. Wipro has set a target to achieve 100% renewable energy by 2030 [Wipro, p.65].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "States 84% renewable electricity and the 100% by 2030 target, matching the reference. The 586 and 10 trillion Joules figures and all citations are supported by p.65."
+ },
+ {
+  "id": "wipro-04",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What percentage of Wipro's workforce are women?",
+  "answer": "According to the report, women make up **37.1% of Wipro's workforce** [Wipro, p.7]. \n\nThe report also notes that nearly one in five senior leaders is a woman [Wipro, p.4].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 37.1% women, matching the reference and p.7 highlights. The extra claim about nearly one in five senior leaders being women is supported by p.4. Both citations match their excerpts."
+ },
+ {
+  "id": "wipro-04",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What percentage of Wipro's workforce are women?",
+  "answer": "According to the report, women make up **37.1% of Wipro's workforce** [Wipro, p.7].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 37.1%, matching the reference. Page 7 lists 37.1% Women Employees, so the citation supports the claim."
+ },
+ {
+  "id": "wipro-04",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What percentage of Wipro's workforce are women?",
+  "answer": "According to the report, women make up **37.1% of Wipro's workforce** [Wipro, p.7].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 37.1%, matching the reference. The p.7 excerpt lists 37.1% Women Employees, so the citation supports the claim."
+ },
+ {
+  "id": "wipro-05",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What are Wipro's water management targets?",
+  "answer": "# Wipro's Water Management Targets\n\n**Long-term Goal (by 2030):** [Wipro, p.74]\n- Achieve 60% improvement in freshwater efficiency (reducing usage from 150 to 60 Lpcd)\n\n**Revised Water Targets from FY26 onwards:** [Wipro, p.74]\n- Reduce absolute freshwater consumption year-on-year by 3% in all operationally-controlled facilities\n- Increase utilization of treated water to constitute 45% of total water use by 2030\n- Continue to treat 100% of all used water as per safe standards\n- Maintain Zero Liquid Discharge of untreated wastewater across all owned facilities\n\n**Current Performance (FY25):** [Wipro, p.74]\n- Freshwater efficiency: 50% improvement already achieved (down to 75 Lpcd)\n- Wastewater treatment: 100% of wastewater treated\n- Recycled water usage: 31% of total water requirement met from treated wastewater",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer covers the 3% annual freshwater reduction, Zero Liquid Discharge, and 45% treated water by 2030, all supported by p.74. The extra 60% efficiency target and FY25 performance figures are also in the excerpt."
+ },
+ {
+  "id": "wipro-05",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What are Wipro's water management targets?",
+  "answer": "# Wipro's Water Management Targets\n\n**FY25 Performance Targets (completed):**\n- **Freshwater Efficiency**: Target 60% improvement by 2030 (from 150 to 60 Lpcd); achieved 50% improvement to 75 Lpcd as of 2025 [Wipro, p.74]\n- **Wastewater Treatment**: 100% of wastewater treated [Wipro, p.74]\n- **Recycled Water Usage**: 31% of total water requirement met from treated wastewater [Wipro, p.74]\n- **Zero Untreated Wastewater Discharge**: Maintained across operations [Wipro, p.74]\n\n**Revised Targets from FY26 onwards:**\n- Reduce absolute freshwater consumption year-on-year by 3% in all operationally-controlled facilities [Wipro, p.74]\n- Increase utilization of treated water to constitute 45% of total water use by 2030 [Wipro, p.74]\n- Continue to treat 100% of all used water as per safe standards [Wipro, p.74]\n- Maintain Zero Liquid Discharge of untreated wastewater across all owned facilities [Wipro, p.74]\n\nProgress on these targets is reviewed quarterly by the Wipro Board [Wipro, p.73].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer includes all three reference targets (3% annual freshwater reduction, Zero Liquid Discharge, 45% treated water by 2030), all supported by p.74. The FY25 labeling is slightly loose but not contradicted; the quarterly Board review is supported by p.73."
+ },
+ {
+  "id": "wipro-05",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What are Wipro's water management targets?",
+  "answer": "# Wipro's Water Management Targets\n\n**FY26 Revised Targets** [Wipro, p.74]:\n\n- Reduce absolute freshwater consumption year-on-year by 3% in all operationally-controlled facilities\n- Increase utilization of treated water to constitute 45% of total water use by 2030\n- Continue to treat 100% of all used water as per safe standards\n- Maintain Zero Liquid Discharge of untreated wastewater across all owned facilities\n\n**Long-term Goal** [Wipro, p.74]:\n- Target a 60% improvement in freshwater efficiency by 2030 (from 150 to 60 Lpcd)\n\n**Current Progress** [Wipro, p.74]:\n- Already achieved 50% improvement in freshwater efficiency, bringing usage down to 75 Lpcd\n- 31% of total water requirement met from treated wastewater\n- 100% of wastewater treated\n\nNote: Wipro modified its FY26 targets based on assessment of current infrastructure capabilities and future feasibility [Wipro, p.73].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer covers the 3% annual freshwater reduction, Zero Liquid Discharge, and 45% treated water by 2030. The extra claims on freshwater efficiency, progress and target revision are supported by pages 73 and 74, and the citations match."
+ },
+ {
+  "id": "wipro-06",
+  "run": 1,
+  "company": "Wipro",
+  "question": "How much of Wipro's waste is recycled or kept out of landfill?",
+  "answer": "Based on the reporting year data provided:\n\n• **97% recycling rate**: Wipro achieved a recycling rate of 97%, excluding C&D waste [Wipro, p.79]\n\n• **Waste kept out of landfill**: The waste disposal table shows that 97.61% was recycled, 1.60% was incinerated, and 0.73% went to landfill (excluding C&D waste) [Wipro, p.79]\n\n• **Organic waste**: Wipro processed 100% of its organic waste, with 90% being composted and 10% sent for co-processing or recycling [Wipro, p.81]\n\n• **Specific waste streams**: More than 90% of plastic and packaging waste is recycled [Wipro, p.79], and approximately 70% of inorganic waste is recycled through approved partners [Wipro, p.79]",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 97.61% recycled and 0.73% landfill, matching the reference and the p.79 table. Other claims (97% rate, 1.60% incineration, organic waste, plastic and inorganic figures) are supported by the cited pages. It omits the 85% highlight, which is not required."
+ },
+ {
+  "id": "wipro-06",
+  "run": 2,
+  "company": "Wipro",
+  "question": "How much of Wipro's waste is recycled or kept out of landfill?",
+  "answer": "Based on the reporting year data provided:\n\n• **97% recycling rate**: Wipro achieved a recycling rate of 97%, excluding C&D waste [Wipro, p.79]\n\n• **Waste directed to disposal**: Of waste directed to disposal, 97.61% was recycled, 1.60% was incinerated, and 0.73% went to landfill (excluding C&D) [Wipro, p.79]\n\n• **Organic waste**: 100% of organic waste was processed, with 90% being composted and 10% sent for co-processing or recycling [Wipro, p.81]\n\n• **Plastic and packaging waste**: More than 90% of plastic and packaging waste gets recycled [Wipro, p.79]",
+  "verdict": "contains_error",
+  "citations_supported": true,
+  "explanation": "The figures 97.61% recycled and 0.73% landfill match the reference. But the answer says these percentages are of waste \"directed to disposal\", which the excerpts do not support. The table gives them as shares of total off-site waste, excluding C&D, and recycled waste is diverted from disposal."
+ },
+ {
+  "id": "wipro-06",
+  "run": 3,
+  "company": "Wipro",
+  "question": "How much of Wipro's waste is recycled or kept out of landfill?",
+  "answer": "Based on the excerpts provided:\n\n**Overall recycling rate:**\nWipro achieved a recycling rate of 97% for the reporting year, excluding C&D waste [Wipro, p.79].\n\n**Waste diversion from landfill:**\n- ~70% of inorganic waste is recycled through approved partners [Wipro, p.79]\n- More than 90% of plastic and packaging waste is recycled [Wipro, p.79]\n- 100% of organic waste is processed, with 90% being composted and 10% sent for co-processing or recycling [Wipro, p.81]\n- 3,802.99 kilograms of sanitary waste was diverted from incineration and landfills through recycling into functional products [Wipro, p.81]\n\n**Waste directed to landfill:**\nOnly 0.73% of waste (36 tons) was sent to landfill, excluding C&D waste [Wipro, p.79]. Additionally, C&D waste is sent to landfill [Wipro, p.79].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "Gives 97% recycling rate (matching 97.61%) and 0.73% landfill (36 tons), both supported by p.79. Supporting details on organic, plastic and sanitary waste match the excerpts and are cited to the right pages."
+ },
+ {
+  "id": "wipro-07",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What CDP rating did Wipro receive?",
+  "answer": "According to the report, Wipro received the following CDP ratings [Wipro, p.11]:\n\n- **A-** in CDP Climate Change and Water Disclosure\n- **A** in CDP Supply Chain",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer matches the reference: A- in CDP Climate Change and Water, A in CDP Supply Chain. The p.11 excerpt supports the citation."
+ },
+ {
+  "id": "wipro-07",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What CDP rating did Wipro receive?",
+  "answer": "According to the report, Wipro received the following CDP ratings [Wipro, p.11]:\n\n- **A-** in CDP Climate Change and Water Disclosure\n- **A** in CDP Supply Chain",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer matches the reference: A- in CDP Climate Change and Water, and A in CDP Supply Chain. The citation to p.11 supports these ratings."
+ },
+ {
+  "id": "wipro-07",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What CDP rating did Wipro receive?",
+  "answer": "According to the report, Wipro received the following CDP ratings [Wipro, p.11]:\n\n- **A-** in CDP Climate Change and Water Disclosure\n- **A** in CDP Supply Chain",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer matches the reference (A- in CDP Climate Change and Water, A in CDP Supply Chain), and the p.11 excerpt supports the citation."
+ },
+ {
+  "id": "wipro-08",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What was Wipro's voluntary attrition rate?",
+  "answer": "According to Wipro's report, voluntary attrition rates in FY25 varied by category [Wipro, p.115]:\n\n**By Region:**\n- APMEA: 15.5%\n- Europe: 12.3%\n- India: 15.2%\n- The Americas: 12%\n\n**By Age:**\n- <30: 14.4%\n- 30-50: 15.7%\n- >50: 8.3%\n\n**By Gender:**\n- Female: 13.5%\n- Male: 15.4%\n\nNote: The report specifies that only voluntary attrition within IT Services has been considered [Wipro, p.115].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives the region-wise and age-wise FY25 voluntary attrition figures exactly as in the excerpt, plus accurate gender data and the IT Services note. Citations to p.115 are supported."
+ },
+ {
+  "id": "wipro-08",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What was Wipro's voluntary attrition rate?",
+  "answer": "Wipro's voluntary attrition rates varied by region, age group, and gender in FY25 [Wipro, p.115]:\n\n**Region-wise:**\n- APMEA: 15.5%\n- Europe: 12.3%\n- India: 15.2%\n- The Americas: 12%\n\n**Age-wise:**\n- <30: 14.4%\n- 30-50: 15.7%\n- >50: 8.3%\n\n**Gender-wise:**\n- Female: 13.5%\n- Male: 15.4%\n\nNote: Only voluntary attrition within IT Services has been considered [Wipro, p.115].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives the region-wise and age-wise FY25 voluntary attrition figures, which match the excerpt exactly. The gender-wise figures and the IT Services note are also supported, and all citations point to p.115."
+ },
+ {
+  "id": "wipro-08",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What was Wipro's voluntary attrition rate?",
+  "answer": "According to the report, Wipro's voluntary attrition rates in FY25 varied by category [Wipro, p.115]:\n\n**By Region:**\n- APMEA: 15.5%\n- Europe: 12.3%\n- India: 15.2%\n- The Americas: 12%\n\n**By Age:**\n- <30: 14.4%\n- 30-50: 15.7%\n- >50: 8.3%\n\n**By Gender:**\n- Female: 13.5%\n- Male: 15.4%\n\nNote: The report specifies that \"only voluntary attrition within IT Services has been considered\" [Wipro, p.115].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The assistant gives the region-wise and age-wise FY25 voluntary attrition figures, all matching the excerpt on p.115. The extra gender data and the IT Services note are also supported, and the citations are accurate."
+ },
+ {
+  "id": "wipro-09",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What is Wipro's 2030 target for Scope 1 and 2 emissions?",
+  "answer": "According to the excerpts, Wipro's 2030 target for Scope 1 and 2 emissions is to reduce them by 59% from the 2017 baseline [Wipro, p.63].\n\nMore specifically, this represents a reduction from 195,453 tCO2e to 31,462 tCO2e, which equals an 84% reduction [Wipro, p.67].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The 59% target from the 2017 baseline is right, but the answer says the 195,453 to 31,462 tCO2e (84%) reduction 'represents' that target. Page 67 shows this is the FY25 performance (84%), not the 59% target, so the claim is unsupported.}"
+ },
+ {
+  "id": "wipro-09",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What is Wipro's 2030 target for Scope 1 and 2 emissions?",
+  "answer": "Wipro's 2030 target for Scope 1 and 2 emissions is to reduce them by 59% from the 2017 baseline [Wipro, p.63]. \n\nMore specifically, this represents a reduction of 163,991 tCO2e from a baseline of 195,453 tCO2e down to 31,462 tCO2e [Wipro, p.67].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The 59% target is correct, but the answer attributes the 163,991 tCO2e reduction (195,453 to 31,462) to the target. Page 67 shows that is the 84% FY25 performance, not the 59% target. Citation to p.67 does not support the claim."
+ },
+ {
+  "id": "wipro-09",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What is Wipro's 2030 target for Scope 1 and 2 emissions?",
+  "answer": "Wipro's 2030 target for Scope 1 and 2 emissions is a **59% reduction from the 2017 baseline** [Wipro, p.63].\n\nMore specifically, this represents a reduction from 195,453 tCO2e to 31,462 tCO2e [Wipro, p.67].\n\nAs of FY25, Wipro has achieved an **84% reduction** in Scope 1 and 2 emissions from the 2017 baseline [Wipro, p.67].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The 59% target is right, but the assistant says the 195,453 to 31,462 tCO2e reduction represents the 59% target. The excerpt shows that is the 84% FY25 performance (footnote), so the claim and its p.67 citation are unsupported."
+ },
+ {
+  "id": "wipro-10",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What were Wipro's total GHG emissions in FY25, and what share was Scope 3?",
+  "answer": "According to Wipro's report, in FY25, total GHG emissions amounted to approximately 219,683 tCO2e, of which Scope 3 emissions accounted for around 86% [Wipro, p.67].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states approximately 219,683 tCO2e total and around 86% Scope 3, matching the reference and the p.67 excerpt, which the citation correctly points to."
+ },
+ {
+  "id": "wipro-10",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What were Wipro's total GHG emissions in FY25, and what share was Scope 3?",
+  "answer": "According to Wipro's FY25 GHG emissions profile, total GHG emissions amounted to approximately 219,683 tCO2e, with Scope 3 emissions accounting for around 86% [Wipro, p.67].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "Both figures, approximately 219,683 tCO2e total and around 86% Scope 3, match the reference and appear on p.67, which the citation points to."
+ },
+ {
+  "id": "wipro-10",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What were Wipro's total GHG emissions in FY25, and what share was Scope 3?",
+  "answer": "According to the report, Wipro's total GHG emissions in FY25 amounted to approximately 219,683 tCO2e, with Scope 3 emissions accounting for around 86% of this total [Wipro, p.67]. \n\nFor context, the report also provides a detailed breakdown showing Scope 1 emissions of 8,046 tCO2e and Scope 2 emissions of 23,416 tCO2e in FY25 [Wipro, p.68].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "Total of approximately 219,683 tCO2e and Scope 3 share of around 86% match the reference and p.67. Scope 1 (8,046) and Scope 2 (23,416) figures are supported by p.68."
+ },
+ {
+  "id": "wipro-11",
+  "run": 1,
+  "company": "Wipro",
+  "question": "By when does Wipro aim to use 100% renewable energy?",
+  "answer": "According to the report, Wipro targets 100% renewable energy by 2030 [Wipro, p.65].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 100% renewable energy by 2030, matching the reference. The p.65 excerpt explicitly says 'Wipro targets 100% renewable energy by 2030', so the citation is supported."
+ },
+ {
+  "id": "wipro-11",
+  "run": 2,
+  "company": "Wipro",
+  "question": "By when does Wipro aim to use 100% renewable energy?",
+  "answer": "Wipro targets 100% renewable energy by 2030 [Wipro, p.65].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 100% renewable energy by 2030, matching the reference. Page 65 explicitly says 'Wipro targets 100% renewable energy by 2030', so the citation supports the claim."
+ },
+ {
+  "id": "wipro-11",
+  "run": 3,
+  "company": "Wipro",
+  "question": "By when does Wipro aim to use 100% renewable energy?",
+  "answer": "Wipro targets 100% renewable energy by 2030 [Wipro, p.65].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 100% renewable energy by 2030, matching the reference, and the p.65 excerpt explicitly says 'Wipro targets 100% renewable energy by 2030'."
+ },
+ {
+  "id": "wipro-12",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What share of Wipro's spend goes to diverse suppliers?",
+  "answer": "This is not disclosed in the retrieved text. \n\nThe excerpts describe Wipro's commitment to sourcing from diverse businesses and detail several programs supporting supplier diversity (WISDOM, WEW, and WISE) [Wipro, p.127], but they do not provide the specific percentage or share of Wipro's procurement spend that goes to diverse suppliers.",
+  "verdict": "missed",
+  "citations_supported": true,
+  "explanation": "The assistant says the share of spend on diverse suppliers is not disclosed, but the reference gives 13.5%. The cited p.127 does describe the programs accurately, so the citation is supported."
+ },
+ {
+  "id": "wipro-12",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What share of Wipro's spend goes to diverse suppliers?",
+  "answer": "This is not disclosed in the retrieved text. \n\nThe excerpts describe Wipro's commitment to sourcing from diverse businesses and detail several supplier diversity programs (WISDOM, WEW, and WISE), but they do not provide specific figures or percentages regarding what share of Wipro's total spend goes to diverse suppliers [Wipro, p.127].",
+  "verdict": "missed",
+  "citations_supported": true,
+  "explanation": "The assistant says the share is not disclosed, but the reference shows 13.5% supplier diversity spend. The excerpts given lack the figure, yet the answer still fails to provide it. The p.127 citation does support the program descriptions."
+ },
+ {
+  "id": "wipro-12",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What share of Wipro's spend goes to diverse suppliers?",
+  "answer": "This is not disclosed in the retrieved text.\n\nThe excerpts describe Wipro's commitment to sourcing from certified diverse businesses \"to the extent possible\" [Wipro, p.127] and detail programs like WISDOM and WEW that support diverse suppliers, but they do not provide specific figures or percentages for the share of Wipro's procurement spend allocated to diverse suppliers.",
+  "verdict": "missed",
+  "citations_supported": true,
+  "explanation": "The assistant says the share of spend on diverse suppliers is not disclosed, but the reference shows 13.5% supplier diversity spend. The citation for the program descriptions on p.127 is accurate."
+ },
+ {
+  "id": "wipro-13",
+  "run": 1,
+  "company": "Wipro",
+  "question": "How many nationalities are represented in Wipro's workforce?",
+  "answer": "According to the ESG Highlights, Wipro's workforce includes **146 nationalities** [Wipro, p.7].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 146 nationalities, matching the reference, and the cited page 7 ESG Highlights lists '146 Nationalities in Workforce'."
+ },
+ {
+  "id": "wipro-13",
+  "run": 2,
+  "company": "Wipro",
+  "question": "How many nationalities are represented in Wipro's workforce?",
+  "answer": "According to the ESG highlights, Wipro's workforce includes **146 nationalities** [Wipro, p.7].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 146 nationalities, matching the reference, and the p.7 ESG Highlights excerpt lists '146 Nationalities in Workforce', so the citation supports the claim."
+ },
+ {
+  "id": "wipro-13",
+  "run": 3,
+  "company": "Wipro",
+  "question": "How many nationalities are represented in Wipro's workforce?",
+  "answer": "According to Wipro's ESG report, **146 nationalities are represented in the workforce** [Wipro, p.7].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 146 nationalities, matching the reference, and the cited page 7 excerpt lists '146 Nationalities in Workforce'."
+ },
+ {
+  "id": "wipro-14",
+  "run": 1,
+  "company": "Wipro",
+  "question": "How many persons with disabilities work at Wipro?",
+  "answer": "According to Wipro's ESG report, **2,080 persons with disabilities** work at Wipro, based on voluntary self-declaration [Wipro, p.7].\n\nAdditionally, the report notes that Wipro has \"tripled representation\" of persons with disabilities in the last two years [Wipro, p.4].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 2,080 persons with disabilities based on voluntary self-declaration, matching the reference and p.7. The 'tripled representation in the last two years' claim is supported by p.4."
+ },
+ {
+  "id": "wipro-14",
+  "run": 2,
+  "company": "Wipro",
+  "question": "How many persons with disabilities work at Wipro?",
+  "answer": "According to the ESG Highlights table, Wipro has 2,080 persons with disabilities in its workforce [Wipro, p.7]. This figure is based on voluntary self-declaration.",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 2,080 persons with disabilities, based on voluntary self-declaration, matching the reference. The p.7 excerpt supports the figure and the self-declaration basis."
+ },
+ {
+  "id": "wipro-14",
+  "run": 3,
+  "company": "Wipro",
+  "question": "How many persons with disabilities work at Wipro?",
+  "answer": "According to the ESG Highlights, Wipro has 2,080 persons with disabilities in its workforce [Wipro, p.7], based on voluntary self-declaration.",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 2,080 persons with disabilities, noting voluntary self-declaration, matching the reference and the p.7 excerpt, which supports the citation."
+ },
+ {
+  "id": "wipro-15",
+  "run": 1,
+  "company": "Wipro",
+  "question": "How much paid maternity leave does Wipro offer?",
+  "answer": "Wipro offers **12 weeks of paid maternity leave** to female employees globally [Wipro, p.104, p.106]. This benefit is applicable within 6 months of childbirth, and if an employee is entitled to any state welfare during these 12 weeks, Wipro supplements the applicable payout to ensure 100% pay [Wipro, p.106].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 12 weeks of paid maternity leave, matching the reference. The extra details (applies within 6 months of childbirth, top-up to 100% pay) are supported by p.106, and both citations match the excerpts."
+ },
+ {
+  "id": "wipro-15",
+  "run": 2,
+  "company": "Wipro",
+  "question": "How much paid maternity leave does Wipro offer?",
+  "answer": "According to Wipro's report, the company offers **12 weeks of paid maternity leave to female employees globally** [Wipro, p.104]. This benefit is applicable within 6 months of childbirth, and if an employee is entitled to state welfare during this period, Wipro supplements the payout to ensure 100% pay [Wipro, p.106]. If local legislative standards are more beneficial, those standards would apply [Wipro, p.104].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "States 12 weeks of paid maternity leave, matching the reference. The 6-month window, 100% pay supplement (p.106), and local-standards clause (p.104) are all supported by the cited excerpts."
+ },
+ {
+  "id": "wipro-15",
+  "run": 3,
+  "company": "Wipro",
+  "question": "How much paid maternity leave does Wipro offer?",
+  "answer": "According to Wipro's policy, the company offers **12 weeks of paid maternity leave to female employees globally** [Wipro, p.104]. This benefit is applicable within 6 months of childbirth, and if an employee is entitled to state welfare during these 12 weeks, Wipro supplements the payout to ensure 100% pay [Wipro, p.106].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "States 12 weeks of paid maternity leave, matching the reference. The extra details (within 6 months of childbirth, supplement to 100% pay) are supported by p.106, and the 12-week global claim by p.104."
+ },
+ {
+  "id": "wipro-16",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What EcoVadis rating did Wipro receive?",
+  "answer": "According to the report, Wipro received a **Silver Rating in EcoVadis** [Wipro, p.11].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states a Silver rating in EcoVadis, matching the reference. The p.11 excerpt lists 'Silver Rating in EcoVadis', so the citation is supported."
+ },
+ {
+  "id": "wipro-16",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What EcoVadis rating did Wipro receive?",
+  "answer": "According to the report, Wipro received a **Silver Rating in EcoVadis** [Wipro, p.11].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states Silver rating in EcoVadis, matching the reference, and the p.11 excerpt lists 'Silver Rating in EcoVadis', so the citation supports it."
+ },
+ {
+  "id": "wipro-16",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What EcoVadis rating did Wipro receive?",
+  "answer": "According to the report, Wipro received a **Silver Rating in EcoVadis** [Wipro, p.11].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states Silver rating in EcoVadis, matching the reference, and the p.11 excerpt lists 'Silver Rating in EcoVadis', supporting the citation."
+ },
+ {
+  "id": "wipro-17",
+  "run": 1,
+  "company": "Wipro",
+  "question": "How many of Wipro's independent directors are women?",
+  "answer": "According to the excerpt, [Wipro, p.15] states: \"Two of the six independent directors are women.\"",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states two of six independent directors are women, matching the reference, and the quoted sentence appears on Wipro p.15."
+ },
+ {
+  "id": "wipro-17",
+  "run": 2,
+  "company": "Wipro",
+  "question": "How many of Wipro's independent directors are women?",
+  "answer": "According to the report, two of Wipro's six independent directors are women [Wipro, p.15].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states two of six independent directors are women, matching the reference. The cited Wipro p.15 excerpt contains this exact statement."
+ },
+ {
+  "id": "wipro-17",
+  "run": 3,
+  "company": "Wipro",
+  "question": "How many of Wipro's independent directors are women?",
+  "answer": "According to the report, [Wipro, p.15] states: \"Two of the six independent directors are women.\"",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states two of six independent directors are women, matching the reference and the quoted sentence on p.15 of the excerpt."
+ },
+ {
+  "id": "wipro-18",
+  "run": 1,
+  "company": "Wipro",
+  "question": "What share of Wipro's facilities hold ISO 14001 certification?",
+  "answer": "According to the report, 89% of Wipro's facilities underwent assessment and have received ISO 14001 and ISO 45001 certification [Wipro, p.64].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 89% of facilities were assessed and received ISO 14001 and ISO 45001 certification, matching the reference, and the p.64 excerpt supports it."
+ },
+ {
+  "id": "wipro-18",
+  "run": 2,
+  "company": "Wipro",
+  "question": "What share of Wipro's facilities hold ISO 14001 certification?",
+  "answer": "According to the report, [Wipro, p.64] states that \"89% of our facilities underwent assessment and have received ISO 14001 and ISO 45001 certification.\"\n\nSo **89% of Wipro's facilities hold ISO 14001 certification** (along with ISO 45001).",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 89% of facilities with ISO 14001 and ISO 45001, matching the reference, and the p.64 citation supports the quoted statement."
+ },
+ {
+  "id": "wipro-18",
+  "run": 3,
+  "company": "Wipro",
+  "question": "What share of Wipro's facilities hold ISO 14001 certification?",
+  "answer": "According to the report, [Wipro, p.64] states that \"This year, 89% of our facilities underwent assessment and have received ISO 14001 and ISO 45001 certification.\"\n\nSo **89% of Wipro's facilities hold ISO 14001 certification** (along with ISO 45001).",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 89% of facilities hold ISO 14001 (and ISO 45001) certification, matching the reference and the cited page 64 excerpt."
+ },
+ {
+  "id": "wipro-19",
+  "run": 1,
+  "company": "Wipro",
+  "question": "Which Wipro campus received LEED Platinum certification, and when?",
+  "answer": "According to the report, Wipro's green building initiative in **Gurgaon received LEED Platinum certification in 2006** [Wipro, p.4].\n\nAdditionally, the report mentions that Wipro's **Kodathi campus in Bengaluru and Gopanapally campus in Hyderabad are designed to be LEED Platinum certified**, though specific certification dates for these campuses are not provided in the excerpts [Wipro, p.66].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The main answer (Gurgaon green building, 2006, LEED Platinum) matches the reference and p.4. The p.66 claim is a fair reading: new buildings are designed to be IGBC/LEED Platinum certified, with Kodathi and Gopanapally cited for EPI."
+ },
+ {
+  "id": "wipro-19",
+  "run": 2,
+  "company": "Wipro",
+  "question": "Which Wipro campus received LEED Platinum certification, and when?",
+  "answer": "According to the report, Wipro's green building initiative in **Gurgaon received LEED Platinum certification in 2006** [Wipro, p.4].\n\nAdditionally, the report mentions that Wipro's **Kodathi campus in Bengaluru and Gopanapally campus in Hyderabad are LEED Platinum certified** as part of the company's newer facilities designed with energy efficiency optimization [Wipro, p.66], though specific certification dates for these campuses are not provided in the excerpts.",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The Gurgaon 2006 claim is correct. But the claim that Kodathi and Gopanapally are LEED Platinum certified is unsupported: p.66 only says new buildings are designed to be IGBC/LEED Platinum certified and that these campuses have an EPI of 65. It never states they are certified.}"
+ },
+ {
+  "id": "wipro-19",
+  "run": 3,
+  "company": "Wipro",
+  "question": "Which Wipro campus received LEED Platinum certification, and when?",
+  "answer": "According to the report, Wipro's green building initiative in **Gurgaon in 2006** received LEED Platinum certification [Wipro, p.4].\n\nAdditionally, the report mentions that Wipro's **Kodathi campus in Bengaluru** and **Gopanapally campus in Hyderabad** are designed to be LEED Platinum certified [Wipro, p.66], though specific certification dates for these facilities are not provided in the excerpts.",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer correctly gives the Gurgaon green building, 2006, LEED Platinum, matching the reference and p.4. The extra Kodathi/Gopanapally claim is a reasonable reading of p.66, which says new buildings are designed to be LEED Platinum certified, and it is hedged on dates."
+ },
+ {
+  "id": "wipro-20",
+  "run": 1,
+  "company": "Wipro",
+  "question": "How much did Wipro's customer Net Promoter Score increase?",
+  "answer": "Wipro's customer Net Promoter Score (NPS) increased by 640 bps [Wipro, p.7].\n\nThe report also provides additional context that this year the NPS score increased by 640 bps, with the CSAT score increasing by 3.5% to 87% [Wipro, p.119].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states a 640 bps NPS increase, matching the reference. Page 7 shows the 640 bps figure and page 119 confirms it, along with the CSAT rise of 3.5% to 87%. Both citations support their claims."
+ },
+ {
+  "id": "wipro-20",
+  "run": 2,
+  "company": "Wipro",
+  "question": "How much did Wipro's customer Net Promoter Score increase?",
+  "answer": "Wipro's customer Net Promoter Score (NPS) increased by 640 bps [Wipro, p.7]. \n\nThis increase is also confirmed on page 119, which states: \"our NPS score have increased by 640 bps\" [Wipro, p.119].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states a 640 bps increase in customer NPS, matching the reference. Both citations (p.7 highlights and p.119 quote) support the claim."
+ },
+ {
+  "id": "wipro-20",
+  "run": 3,
+  "company": "Wipro",
+  "question": "How much did Wipro's customer Net Promoter Score increase?",
+  "answer": "According to the ESG Highlights on page 7, Wipro's customer Net Promoter Score increased by 640 bps [Wipro, p.7]. \n\nThis is also confirmed on page 119, where it states that \"our NPS score have increased by 640 bps\" [Wipro, p.119].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states a 640 bps increase in customer NPS, matching the reference. Both citations (p.7 highlights and p.119 quote) are supported by the excerpts."
+ },
+ {
+  "id": "hcltech-01",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What is HCLTech's target for reducing Scope 3 emissions?",
+  "answer": "HCLTech's target for reducing Scope 3 emissions is **a 42% reduction in absolute Scope 3 emissions by FY30**, measured against a baseline year of FY20 [HCLTech, p.54].\n\nAdditionally, the report notes that the company has an SBTI-approved 2030 target that required a linear reduction of 16.8% for Scope 3 emissions compared to the FY20 baseline [HCLTech, p.56].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives the 42% absolute Scope 3 reduction by FY30, matching the reference. The FY20 baseline is stated for the Scope 1 and 2 target on p.54 and for Scope 3 on p.56, so it is supported. The 16.8% linear figure is supported on p.56."
+ },
+ {
+  "id": "hcltech-01",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What is HCLTech's target for reducing Scope 3 emissions?",
+  "answer": "According to HCLTech's SBTI-approved Net Zero roadmap, the target is **a 42% reduction in absolute Scope 3 emissions by FY30**, measured against a baseline year of FY20 [HCLTech, p.54].\n\nAdditionally, HCLTech had an interim SBTI-approved target for 2030 requiring a **16.8% reduction for Scope 3 emissions** compared to the FY20 baseline [HCLTech, p.56].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The 42% by FY30 target is correct. But the answer says the baseline year is FY20 for Scope 3 in the p.54 citation, which only states it for Scope 1 and 2. It also calls 16.8% an 'interim target for 2030', but p.56 describes it as the linear reduction required by now, not a separate target."
+ },
+ {
+  "id": "hcltech-01",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What is HCLTech's target for reducing Scope 3 emissions?",
+  "answer": "HCLTech's target for reducing Scope 3 emissions is **a 42% reduction in absolute Scope 3 emissions by FY30**, measured against a baseline year of FY20 [HCLTech, p.54].\n\nAdditionally, their SBTI-approved 2030 target required **a 16.8% reduction for Scope 3 emissions compared to the FY20 baseline** [HCLTech, p.56].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The 42% by FY30 target is right, but the answer calls 16.8% a separate 2030 target. Page 56 describes it as the linear reduction required by now (FY24) against the FY20 baseline. Also, p.54 gives the FY20 baseline only for Scope 1 and 2, so attaching it to Scope 3 is unsupported."
+ },
+ {
+  "id": "hcltech-02",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "By what year does HCLTech aim to reach net zero?",
+  "answer": "According to the report, HCLTech has committed to net zero by 2040 [HCLTech, p.65]. As part of this commitment, the company has established immediate targets for 2030 that were validated by the Science Based Targets initiative (SBTi) to align with the 1.5°C pathway [HCLTech, p.65].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states net zero by 2040, matching the reference, and the 2030 SBTi-validated 1.5°C targets are supported by p.65. Both citations point to the correct page."
+ },
+ {
+  "id": "hcltech-02",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "By what year does HCLTech aim to reach net zero?",
+  "answer": "HCLTech has committed to net zero by 2040 [HCLTech, p.65]. On this path, the immediate targets of 2030 were validated by the Science Based Targets initiative (SBTi) to align with the 1.5°C pathway [HCLTech, p.65].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states net zero by 2040, matching the reference. The 2030 SBTi-validated 1.5°C alignment detail is supported by the p.65 excerpt, and both citations point to that page correctly."
+ },
+ {
+  "id": "hcltech-02",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "By what year does HCLTech aim to reach net zero?",
+  "answer": "HCLTech has committed to net zero by 2040 [HCLTech, p.65]. On this path, the company has set immediate targets for 2030, which were validated by the Science Based Targets initiative (SBTi) to align with the 1.5°C pathway [HCLTech, p.65].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states net zero by 2040, matching the reference. The 2030 SBTi-validated 1.5°C targets are supported by the p.65 excerpt, and both citations point to the correct page."
+ },
+ {
+  "id": "hcltech-03",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What is HCLTech's renewable electricity target?",
+  "answer": "HCLTech's renewable electricity target is to source **80% of electricity from renewable energy sources by 2030** [HCLTech, p.54]. This is also stated as transitioning 80% of electricity usage to renewable energy by 2030 [HCLTech, p.5].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 80% renewable electricity by 2030, matching the reference. Both citations (p.54 and p.5) contain the supporting statements."
+ },
+ {
+  "id": "hcltech-03",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What is HCLTech's renewable electricity target?",
+  "answer": "HCLTech's renewable electricity target is to source **80% of electricity from renewable energy sources by 2030** [HCLTech, p.54]. This is also stated as transitioning 80% of electricity usage to renewable energy by 2030 [HCLTech, p.5].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 80% renewable electricity by 2030, matching the reference. Both citations (p.54 and p.5) contain the supporting statements."
+ },
+ {
+  "id": "hcltech-03",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What is HCLTech's renewable electricity target?",
+  "answer": "HCLTech's renewable electricity target is to source **80% of electricity from renewable energy sources by 2030** [HCLTech, p.54]. This is also stated as transitioning \"80% of electricity usage to renewable energy by 2030\" [HCLTech, p.5].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 80% renewable electricity by 2030, matching the reference. Both citations (p.54 and p.5) contain the cited wording and support the claims."
+ },
+ {
+  "id": "hcltech-04",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What percentage of HCLTech's employees are women?",
+  "answer": "In FY23-24, women represent 29.1% of HCLTech's overall employees [HCLTech, p.40].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The 29.1% women figure for FY23-24 matches the reference and is stated on p.40. The 2030 target is omitted but not required to answer the question."
+ },
+ {
+  "id": "hcltech-04",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What percentage of HCLTech's employees are women?",
+  "answer": "According to the report, women represent **29.1% of overall employees** at HCLTech in FY23-24 [HCLTech, p.40].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "States 29.1% women in FY23-24, matching the reference. The p.40 excerpt contains this exact statement. The 2030 target is omitted but not required to answer the question."
+ },
+ {
+  "id": "hcltech-04",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What percentage of HCLTech's employees are women?",
+  "answer": "According to the report, women represent **29.1% of overall employees** at HCLTech in FY23-24 [HCLTech, p.40].\n\nThe company is committed to increasing this to 40% women in the workforce by 2030 [HCLTech, p.40].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 29.1% women in FY23-24 and the 40% by 2030 target, matching the reference. Both claims are supported by the p.40 excerpt, which cites them correctly."
+ },
+ {
+  "id": "hcltech-05",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "How has HCLTech reduced its water usage?",
+  "answer": "Based on the excerpts, HCLTech has reduced its water usage through the following measures [HCLTech, p.57]:\n\n- **Water recycling plants** and reusing AHU condensate and rainwater\n- **Rainwater harvesting** and community water management projects\n- **Water-efficient measures** such as water aerators in all wash basin taps\n- **Automated irrigation systems** consisting of sprinkler and drip irrigation\n- **Sewage Treatment Plants (STP)** that treat wastewater, which is then further treated by UV rays or anti-infection dosing and repurposed\n\n**Results achieved:**\n- Since 2020, HCLTech has achieved a **40% reduction in water usage in India**, where the majority of its operations are based [HCLTech, p.3]\n- The company has set a target of **5% year-on-year water consumption reduction** for all owned facilities and fixed **recycled water utilization at 45%** for all owned facilities [HCLTech, p.57]",
+  "verdict": "partly_correct",
+  "citations_supported": true,
+  "explanation": "The 40% reduction in India since 2020 is correct and supported, along with the measures and targets. It omits the reference's second key fact: community work replenished 32 times more water than consumed (p.3). No false statements."
+ },
+ {
+  "id": "hcltech-05",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "How has HCLTech reduced its water usage?",
+  "answer": "# HCLTech's Water Usage Reduction\n\nHCLTech has reduced water usage through several key initiatives [HCLTech, p.57]:\n\n**Technical interventions:**\n- Water recycling plants\n- Reusing AHU condensate and rainwater\n- Water-efficient measures including aerators in all wash basin taps\n- Automated irrigation systems with sprinkler and drip irrigation\n\n**Water treatment and reuse:**\n- Sewage Treatment Plants (STP) that treat wastewater with UV rays or anti-infection dosing, then repurpose the treated water [HCLTech, p.57]\n\n**Results:**\nSince 2020, HCLTech has achieved a **40% reduction in water usage in India**, where the majority of their operations are based [HCLTech, p.57]. Additionally, community water management projects and rainwater harvesting have contributed to minimizing their water footprint [HCLTech, p.57].\n\nThe company has set a target of **5% year-on-year water consumption reduction for all owned facilities** and fixed **recycled water utilization at 45%** for all owned facilities [HCLTech, p.57].",
+  "verdict": "partly_correct",
+  "citations_supported": true,
+  "explanation": "Accurately gives the 40% reduction in India since 2020 and the methods, all supported by p.57. It omits the reference's second key fact: communities replenished 32 times more water than consumed (p.3). No false statements."
+ },
+ {
+  "id": "hcltech-05",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "How has HCLTech reduced its water usage?",
+  "answer": "# HCLTech's Water Usage Reduction\n\nHCLTech has reduced water usage through several initiatives:\n\n**Technical Interventions:**\n- Water recycling plants and reusing AHU condensate and rainwater [HCLTech, p.57]\n- Water-efficient measures including water aerators in all wash basin taps [HCLTech, p.57]\n- Automated irrigation systems with sprinkler and drip irrigation [HCLTech, p.57]\n- Sewage Treatment Plants (STP) with treated water further processed by ultraviolet rays or anti-infection dosing for repurposing [HCLTech, p.57]\n\n**Community and Strategic Programs:**\n- Rainwater harvesting and community water management projects [HCLTech, p.57]\n- Joining the Water Resilience Coalition and endorsing the CEO Water Mandate [HCLTech, p.57]\n\n**Results:**\nSince 2020, HCLTech has achieved a 40% reduction in water usage in India, where the majority of their operations are located [HCLTech, p.3; p.57].\n\n**Future Targets:**\n- 5% year-on-year water consumption reduction for all owned facilities [HCLTech, p.57]\n- 45% recycled water utilization target for all owned facilities [HCLTech, p.57]",
+  "verdict": "partly_correct",
+  "citations_supported": true,
+  "explanation": "All claims are accurate and cited correctly, including the 40% reduction in India since 2020. It omits the second key fact: community work replenished 32 times more water than consumed (p.3)."
+ },
+ {
+  "id": "hcltech-06",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What is HCLTech's goal for waste sent to landfill?",
+  "answer": "HCLTech's goal is to eliminate waste to landfill at all owned facilities by FY25 (fiscal year 2025) [HCLTech, p.54]. This is also stated as achieving \"zero waste to landfill at all owned facilities by 2025\" [HCLTech, p.5].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states zero waste to landfill at all owned facilities by FY25/2025, matching the reference. Both citations (p.54 and p.5) contain the supporting text."
+ },
+ {
+  "id": "hcltech-06",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What is HCLTech's goal for waste sent to landfill?",
+  "answer": "HCLTech's goal is to eliminate waste to landfill at all owned facilities by FY25 (2025) [HCLTech, p.54]. This is also stated as achieving \"zero waste to landfill at all owned facilities by 2025\" [HCLTech, p.5].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states zero waste to landfill at all owned facilities by FY25/2025, matching the reference. Both citations (p.54 and p.5) contain the supporting statements."
+ },
+ {
+  "id": "hcltech-06",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What is HCLTech's goal for waste sent to landfill?",
+  "answer": "HCLTech's goal is to eliminate waste to landfill at all owned facilities by FY25 (fiscal year 2025) [HCLTech, p.54]. This is also stated as \"zero waste to landfill at all owned facilities by 2025\" [HCLTech, p.5].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states zero waste to landfill at all owned facilities by FY25/2025, matching the reference. Both citations (p.54 and p.5) contain the supporting statements."
+ },
+ {
+  "id": "hcltech-07",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What CDP rating did HCLTech receive?",
+  "answer": "HCLTech received an 'A-' rating from CDP for Climate change disclosures [HCLTech, p.6]. Additionally, HCLTech received the highest 'A' rating from CDP for Supplier Engagement on Climate Change [HCLTech, p.7].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The A- rating for climate change disclosures matches the reference and p.6. The additional A rating for Supplier Engagement is supported by p.7 (and p.87), so the extra claim is fine."
+ },
+ {
+  "id": "hcltech-07",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What CDP rating did HCLTech receive?",
+  "answer": "HCLTech received an 'A-' rating from CDP for Climate Change disclosures [HCLTech, p.6]. Additionally, HCLTech received the highest 'A' rating from CDP for Supplier Engagement on Climate Change [HCLTech, p.7].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The 'A-' CDP climate change rating matches the reference and p.6. The extra 'A' for Supplier Engagement is supported by p.7 (also p.87), and both citations point to supporting excerpts."
+ },
+ {
+  "id": "hcltech-07",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What CDP rating did HCLTech receive?",
+  "answer": "HCLTech received an 'A-' rating from CDP for Climate change disclosures [HCLTech, p.6]. Additionally, HCLTech received the highest 'A' rating from CDP for Supplier Engagement on Climate Change [HCLTech, p.7].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The A- rating for climate change disclosures matches the reference and p.6. The extra claim of an 'A' for Supplier Engagement is supported by p.7 (also p.87), so the citations hold."
+ },
+ {
+  "id": "hcltech-08",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "How much have HCLTech's Scope 1 and 2 emissions fallen since FY20?",
+  "answer": "According to HCLTech, Scope 1 and 2 emissions have fallen by **25% since FY20** [HCLTech, p.56]. The report also notes that in terms of emission intensity (relative to turnover), Scope 1 and 2 emission intensity has reduced by **52% compared to FY20** [HCLTech, p.56].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The 25% reduction since FY20 matches the reference and page 56. The added 52% intensity reduction is also stated on page 56, so both citations are supported."
+ },
+ {
+  "id": "hcltech-08",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "How much have HCLTech's Scope 1 and 2 emissions fallen since FY20?",
+  "answer": "HCLTech's Scope 1 and 2 emissions have fallen by 25% since the FY20 baseline year [HCLTech, p.56]. In absolute terms, emissions decreased from 224,094 mtCO2 in FY20 to 173,743 mtCO2 in FY24 [HCLTech, p.56].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The 25% reduction matches the reference and p.56. The absolute figures (224,094 in FY20 to 173,743 in FY24) appear in the chart data and are consistent with a ~22.5% drop, close to the stated 25%; the assistant's added claim is plausibly supported."
+ },
+ {
+  "id": "hcltech-08",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "How much have HCLTech's Scope 1 and 2 emissions fallen since FY20?",
+  "answer": "According to the report, HCLTech's Scope 1 and 2 emissions have fallen by **25% since FY20** [HCLTech, p.56].\n\nThe report further notes that this achievement has exceeded their SBTI-approved 2030 target, which required a linear reduction of 20% for Scope 1 and 2 emissions compared to the FY20 baseline [HCLTech, p.56].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The 25% reduction against the FY20 baseline matches the reference. The additional claim about the SBTi-approved 2030 target requiring a 20% linear reduction is supported by the p.56 excerpt."
+ },
+ {
+  "id": "hcltech-09",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What is HCLTech's 2030 target for Scope 1 and 2 emissions?",
+  "answer": "According to HCLTech's SBTI-approved target, the 2030 target for Scope 1 and 2 emissions requires a linear reduction of 20% compared to the FY20 baseline [HCLTech, p.56].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The answer presents 20% as the 2030 target, but the excerpt says 20% was the linear reduction required by FY24 on the path to the 2030 target. The reference target is 50% by FY30, so the citation does not support the claim."
+ },
+ {
+  "id": "hcltech-09",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What is HCLTech's 2030 target for Scope 1 and 2 emissions?",
+  "answer": "According to the excerpts, HCLTech's SBTI-approved 2030 target for Scope 1 and 2 emissions requires a **linear reduction of 20%** compared to the FY20 baseline [HCLTech, p.56].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The 20% figure is the linear reduction required by FY24 on the pathway, not the 2030 target. The reference says 50% by FY30. The excerpt does not state a 2030 target, so the claim misreads it and the citation does not support it."
+ },
+ {
+  "id": "hcltech-09",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What is HCLTech's 2030 target for Scope 1 and 2 emissions?",
+  "answer": "According to HCLTech's SBTI-approved target, the 2030 goal for Scope 1 and 2 emissions requires a linear reduction of 20% compared to the FY20 baseline [HCLTech, p.56].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The answer gives 20% as the 2030 target, but that is the linear-pathway reduction required by FY24 per the excerpt. The actual 2030 target is a 50% absolute reduction from FY20. The citation does not support the claim as stated."
+ },
+ {
+  "id": "hcltech-10",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What is HCLTech's target for women in senior leadership?",
+  "answer": "This is not disclosed in the retrieved text.\n\nThe excerpts mention that HCLTech \"have mandated that each area of our business has a woman in a senior leadership or strategic decision-making position\" and that \"performance-linked bonus of business heads is linked to achieving gender leadership targets\" [HCLTech, p.43]. However, a specific numerical target for women in senior leadership is not provided.\n\nWhat is disclosed is that HCLTech aims for 40% women in the overall workforce by 2030 [HCLTech, p.41], and currently has 36% female representation on the Board of Directors [HCLTech, p.43].",
+  "verdict": "missed",
+  "citations_supported": true,
+  "explanation": "The assistant says no specific senior leadership target is disclosed, but the reference shows a 30% by 2030 target. The excerpts shown don't contain it, yet the answer is still marked missed. The cited claims are supported by the excerpts."
+ },
+ {
+  "id": "hcltech-10",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What is HCLTech's target for women in senior leadership?",
+  "answer": "This is not disclosed in the retrieved text.\n\nThe excerpts mention that HCLTech has \"mandated that each area of our business has a woman in a senior leadership or strategic decision-making position\" and that business heads' performance-linked bonuses are tied to achieving gender leadership targets [HCLTech, p.43]. However, a specific numeric target for women in senior leadership is not provided.\n\nHCLTech does disclose a broader target: \"aiming for 40% women in our workforce by 2030\" [HCLTech, p.41], with current representation at 29.1% of overall employees in FY23-24.",
+  "verdict": "missed",
+  "citations_supported": true,
+  "explanation": "The assistant says no specific numeric senior leadership target is disclosed, but the reference gives 30% by 2030. The excerpts shown lack it, yet the answer still misses the reference fact. Citations accurately support the claims made."
+ },
+ {
+  "id": "hcltech-10",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What is HCLTech's target for women in senior leadership?",
+  "answer": "This is not disclosed in the retrieved text.\n\nThe excerpts show that HCLTech has mandated that \"each area of our business has a woman in a senior leadership or strategic decision-making position\" and that \"the performance-linked bonus of business heads is linked to achieving gender leadership targets\" [HCLTech, p.43]. However, a specific numerical target for women in senior leadership is not stated.\n\nWhat is disclosed is HCLTech's overall workforce target: \"aiming for 40% women in our workforce by 2030\" [HCLTech, p.41], with women representing 29.1% of overall employees in FY23-24.",
+  "verdict": "missed",
+  "citations_supported": true,
+  "explanation": "The assistant says the senior leadership target is not disclosed, but the reference gives 30% by 2030. The excerpts lack it, but the answer still misses the reference fact. The citations it gives do support the claims they are attached to.}"
+ },
+ {
+  "id": "hcltech-11",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What share of HCLTech's fresher hires are women?",
+  "answer": "According to the report, [HCLTech, p.39] 44% of total fresher hires are women in FY23-24.",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 44% of fresher hires are women, matching the reference. The FY23-24 timing and the p.39 citation are both supported by the excerpt."
+ },
+ {
+  "id": "hcltech-11",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What share of HCLTech's fresher hires are women?",
+  "answer": "According to the report, **44% of total fresher hires are women** in FY23-24 [HCLTech, p.39].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 44% of fresher hires are women, matching the reference. The FY23-24 framing and the p.39 citation are supported by the excerpt."
+ },
+ {
+  "id": "hcltech-11",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What share of HCLTech's fresher hires are women?",
+  "answer": "According to the report, [HCLTech, p.39] **44% of total fresher hires are women** in FY23-24.",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 44% of fresher hires are women in FY23-24, matching the reference and the p.39 excerpt, which the citation correctly supports."
+ },
+ {
+  "id": "hcltech-12",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "How much have HCLTech's Scope 3 emissions fallen since FY20?",
+  "answer": "HCLTech's Scope 3 emissions have fallen by 29% since FY20 (baseline year) to FY24 [HCLTech, p.3]. \n\nIn absolute terms, Scope 3 emissions decreased from 347,638 mtCO2 in FY20 to 247,460 mtCO2 in FY24 [HCLTech, p.56]. Additionally, Scope 3 emission intensity has reduced by 54% compared to FY20 [HCLTech, p.56].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The 29% reduction matches the reference and is supported on p.3. The absolute figures (347,638 to 247,460, about 28.8% drop) and the 54% intensity reduction are supported on p.56."
+ },
+ {
+  "id": "hcltech-12",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "How much have HCLTech's Scope 3 emissions fallen since FY20?",
+  "answer": "According to HCLTech, Scope 3 emissions have fallen by 29% since FY20 [HCLTech, p.56]. In absolute terms, Scope 3 emissions decreased from 347,638 mtCO2 in FY20 to 202,921 mtCO2 in FY24 [HCLTech, p.56].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The 29% figure is correct, but the absolute numbers are misattributed. 202,921 is not FY24 Scope 3; the table gives 247,460 as the total Scope 3, and the chart is ambiguous. 347,638→202,921 is about a 42% fall, contradicting 29%. The 29% figure is also supported by p.56, but the absolute claim is not."
+ },
+ {
+  "id": "hcltech-12",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "How much have HCLTech's Scope 3 emissions fallen since FY20?",
+  "answer": "According to the report, HCLTech's Scope 3 emissions have fallen by 29% in FY24 compared to the FY20 baseline year [HCLTech, p.3]. Additionally, the report notes that this 29% reduction is nearly 12% more than the SBTI target of 16.8% reduction set for 2030 [HCLTech, p.56].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The 29% figure is correct. But the claim that the reduction is 'nearly 12% more than the SBTI target of 16.8% set for 2030' misreads the report: 16.8% is the linear pathway target for FY24, not a 2030 target. The p.56 citation does not support that framing.}"
+ },
+ {
+  "id": "hcltech-13",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "By how much has HCLTech reduced its total energy consumption?",
+  "answer": "According to HCLTech, total energy consumption has decreased by 26% in comparison to the baseline year of FY20 [HCLTech, p.60]. \n\nAdditionally, the report notes a 31% reduction in non-renewable energy usage during the same period, while renewable energy utilization increased by 6% [HCLTech, p.60].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives the 26% reduction versus the FY20 baseline, matching the reference. The extra claims (31% non-renewable reduction, 6% renewable increase) are supported by p.60, and citations match."
+ },
+ {
+  "id": "hcltech-13",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "By how much has HCLTech reduced its total energy consumption?",
+  "answer": "According to the report, HCLTech has reduced its total energy consumption by 26% compared to its FY20 baseline year [HCLTech, p.3, p.60].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states a 26% reduction versus the FY20 baseline, matching the reference. Both cited pages (p.3 and p.60) contain this figure."
+ },
+ {
+  "id": "hcltech-13",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "By how much has HCLTech reduced its total energy consumption?",
+  "answer": "According to the report, HCLTech has reduced its total energy consumption by **26% in comparison to its baseline year of FY 20** [HCLTech, p.60].\n\nAdditionally, the report notes a **31% reduction in non-renewable energy usage** during the same period, while renewable energy utilization increased by **6%** [HCLTech, p.60].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states a 26% reduction versus the FY20 baseline, matching the reference. The extra claims (31% non-renewable reduction, 6% renewable increase) are supported by p.60, and the citations match."
+ },
+ {
+  "id": "hcltech-14",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What share of HCLTech's owned buildings are Platinum certified?",
+  "answer": "According to the excerpt, **98% of HCLTech's owned buildings hold 'Platinum' certification from Green Building Councils** [HCLTech, p.60].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 98% of owned buildings hold Platinum certification from Green Building Councils, matching the reference and the p.60 excerpt, which the citation supports."
+ },
+ {
+  "id": "hcltech-14",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What share of HCLTech's owned buildings are Platinum certified?",
+  "answer": "According to the report, **98% of HCLTech's owned buildings hold 'Platinum' certification from Green Building Councils** [HCLTech, p.60].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 98% of owned buildings hold Platinum certification from Green Building Councils, matching the reference and the p.60 excerpt, which the citation correctly supports."
+ },
+ {
+  "id": "hcltech-14",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What share of HCLTech's owned buildings are Platinum certified?",
+  "answer": "According to the report, **98% of HCLTech's owned buildings hold 'Platinum' certification from Green Building Councils** [HCLTech, p.60].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 98% of owned buildings hold Platinum certification from Green Building Councils, matching the reference and the p.60 excerpt, which the citation correctly points to."
+ },
+ {
+  "id": "hcltech-15",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What EcoVadis rating did HCLTech receive?",
+  "answer": "HCLTech received a **Gold rating from EcoVadis**, a globally renowned ESG rating platform [HCLTech, p.97].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states a Gold rating from EcoVadis, matching the reference. The p.97 excerpt supports this claim and the description of EcoVadis as an ESG rating platform."
+ },
+ {
+  "id": "hcltech-15",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What EcoVadis rating did HCLTech receive?",
+  "answer": "HCLTech received a **Gold rating from EcoVadis**, a globally renowned ESG rating platform [HCLTech, p.97].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states a Gold rating from EcoVadis, matching the reference. The p.97 excerpt supports this claim and the description of EcoVadis as an ESG rating platform."
+ },
+ {
+  "id": "hcltech-15",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What EcoVadis rating did HCLTech receive?",
+  "answer": "HCLTech received a **Gold rating from EcoVadis**, a globally renowned ESG rating platform [HCLTech, p.97].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states a Gold rating from EcoVadis, matching the reference. The p.97 excerpt supports it, including the description of EcoVadis as an ESG rating platform."
+ },
+ {
+  "id": "hcltech-16",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "How many hours of sustainability training did HCLTech employees complete?",
+  "answer": "According to the report, HCLTech employees completed over 15,700 hours of sustainability training through the Company's Sustainability School [HCLTech, p.31]. This training was delivered through the HCLTech Sustainability School program, which includes a climate change learning series as part of its curriculum [HCLTech, p.71].",
+  "verdict": "correct",
+  "citations_supported": false,
+  "explanation": "The figure of over 15,700 hours matches the reference. However, p.31 says 'over 15740 hours', not 15,700, so that citation is imprecise; the 15,700 figure is on pp.6 and 71. The p.71 citation for the climate series is supported.}"
+ },
+ {
+  "id": "hcltech-16",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "How many hours of sustainability training did HCLTech employees complete?",
+  "answer": "According to the report, HCLTech employees completed over 15,700 hours of sustainability training through the Company's Sustainability School [HCLTech, p.31]. This figure is also referenced as \"15,700+ hours\" in another section [HCLTech, p.6].",
+  "verdict": "contains_error",
+  "citations_supported": false,
+  "explanation": "The 15,700+ figure matches the reference and p.6. But p.31 says 'over 15740 hours', not 15,700, so the claim cited to p.31 is not exactly supported there. The answer also misstates the p.31 wording."
+ },
+ {
+  "id": "hcltech-16",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "How many hours of sustainability training did HCLTech employees complete?",
+  "answer": "HCLTech employees completed over 15,700 hours of sustainability training [HCLTech, p.71]. This training was delivered through the HCLTech Sustainability School, which includes a climate change learning series covering topics such as biodiversity conservation and responsible resource extraction [HCLTech, p.71].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states over 15,700 hours via the Sustainability School, matching the reference. The p.71 excerpt supports both the figure and the climate change learning series and topics described."
+ },
+ {
+  "id": "hcltech-17",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What share of HCLTech's water withdrawals come from high water-stress areas?",
+  "answer": "Based on the water risk assessment data in FY 2022-23 [HCLTech, p.59]:\n\n- **Extremely High water stress (>80%)**: 53% of total water withdrawals (444 million liters)\n- **High water stress (40-80%)**: 11% of total water withdrawals (94 million liters)\n\n**Combined, 64% of HCLTech's water withdrawals in FY 2022-23 came from areas with high or extremely high water stress.**",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 53% from Extremely High stress areas, matching the reference, and adds the 11% High category and a 64% combined figure, all supported by the p.59 table (53%+11%). The citation is supported."
+ },
+ {
+  "id": "hcltech-17",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What share of HCLTech's water withdrawals come from high water-stress areas?",
+  "answer": "Based on HCLTech's water risk assessment, the share of water withdrawals from high water-stress areas in FY 2022-23 was:\n\n- **\"Extremely High\" stress areas (>80%):** 53% of total water withdrawals (444 million liters) [HCLTech, p.59]\n- **\"High\" stress areas (40-80%):** 11% of total water withdrawals (94 million liters) [HCLTech, p.59]\n\nCombined, **64% of HCLTech's total water withdrawals came from areas classified as \"High\" or \"Extremely High\" water stress** in FY 2022-23.",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives the 53% Extremely High figure matching the reference, and adds the 11% High share (94 ML) and the 64% combined total, which the p.59 table supports. Citations point to the right page."
+ },
+ {
+  "id": "hcltech-17",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What share of HCLTech's water withdrawals come from high water-stress areas?",
+  "answer": "Based on HCLTech's water risk assessment for FY 2022-23 [HCLTech, p.59]:\n\n- **Extremely High water stress (>80%)**: 53% of total water withdrawals (444 million liters)\n- **High water stress (40-80%)**: 11% of total water withdrawals (94 million liters)\n\n**Combined, 64% of HCLTech's water withdrawals come from areas with high or extremely high water stress.**",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 53% from Extremely High stress areas in FY2022-23, matching the reference, and adds the 11% High category (94 ML), which p.59 supports. The 64% combined figure is correct arithmetic."
+ },
+ {
+  "id": "hcltech-18",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "What was HCLTech's total headcount in FY24?",
+  "answer": "HCLTech's total headcount in FY24 was 227,481 [HCLTech, p.95].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer of 227,481 matches the reference and the FY24 headcount figure in the p.95 excerpt, which supports the citation."
+ },
+ {
+  "id": "hcltech-18",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "What was HCLTech's total headcount in FY24?",
+  "answer": "HCLTech's total headcount in FY24 was 227,481 [HCLTech, p.95].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer of 227,481 matches the reference and the p.95 excerpt, which lists FY24 headcount as 227,481. The citation supports the claim."
+ },
+ {
+  "id": "hcltech-18",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "What was HCLTech's total headcount in FY24?",
+  "answer": "According to the report, HCLTech's total headcount in FY24 was 227,481 [HCLTech, p.95].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 227,481, matching the reference, and the p.95 excerpt lists this as the FY24 headcount in the employee metrics."
+ },
+ {
+  "id": "hcltech-19",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "How many lives has the HCLFoundation impacted?",
+  "answer": "According to the report, the HCLFoundation has impacted **6.5 million lives** [HCLTech, p.6]. Of these beneficiaries, **54% were female** [HCLTech, p.6].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 6.5 million lives, matching the reference. The 54% female beneficiaries figure is also supported by the p.6 excerpt, and both citations point to that page."
+ },
+ {
+  "id": "hcltech-19",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "How many lives has the HCLFoundation impacted?",
+  "answer": "The HCLFoundation has impacted 6.5 million lives [HCLTech, p.6]. Of these, 54% were female beneficiaries [HCLTech, p.6].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states 6.5 million lives, matching the reference. The 54% female beneficiaries figure is supported by the p.6 excerpt, and both citations point to that page correctly."
+ },
+ {
+  "id": "hcltech-19",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "How many lives has the HCLFoundation impacted?",
+  "answer": "The HCLFoundation has impacted 6.5 million lives [HCLTech, p.6]. Of these, 54% were female beneficiaries [HCLTech, p.6].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer gives 6.5 million lives, matching the reference. The 54% female beneficiaries detail is supported by the p.6 excerpt, and both citations point to that page correctly."
+ },
+ {
+  "id": "hcltech-20",
+  "run": 1,
+  "company": "HCLTech",
+  "question": "Was HCLTech recognised as one of the World's Most Ethical Companies?",
+  "answer": "Yes, HCLTech was recognized as one of the World's Most Ethical Companies in 2024. Specifically, HCLTech was \"recognized by Ethisphere as one of the World's Most Ethical Companies 2024\" [HCLTech, p.97]. This recognition is also mentioned in the CEO's message, which notes that the company \"have been ranked as one of the World's Most Ethical Companies® in 2024\" [HCLTech, p.3].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer states yes, by Ethisphere in 2024, matching the reference. Both citations (p.97 for Ethisphere recognition, p.3 for the CEO message ranking) are supported by the excerpts."
+ },
+ {
+  "id": "hcltech-20",
+  "run": 2,
+  "company": "HCLTech",
+  "question": "Was HCLTech recognised as one of the World's Most Ethical Companies?",
+  "answer": "Yes, HCLTech was recognized as one of the World's Most Ethical Companies. Specifically, HCLTech was \"recognized as one of the World's Most Ethical Companies® in 2024\" [HCLTech, p.3], and the report further notes that HCLTech was \"recognized by Ethisphere as one of the World's Most Ethical Companies 2024\" [HCLTech, p.97].",
+  "verdict": "correct",
+  "citations_supported": false,
+  "explanation": "The answer is correct: yes, Ethisphere, 2024. The p.97 quote is accurate, but the p.3 quote is altered. The excerpt says \"ranked as one of the World's Most Ethical Companies® in 2024\", not \"recognized as\", so the p.3 citation is not fully supported."
+ },
+ {
+  "id": "hcltech-20",
+  "run": 3,
+  "company": "HCLTech",
+  "question": "Was HCLTech recognised as one of the World's Most Ethical Companies?",
+  "answer": "Yes, HCLTech was recognized as one of the World's Most Ethical Companies. Specifically, HCLTech was \"recognized by Ethisphere as one of the World's Most Ethical Companies 2024\" [HCLTech, p.97]. This recognition is also mentioned in the CEO message, which notes that HCLTech has been \"ranked as one of the World's Most Ethical Companies® in 2024\" [HCLTech, p.3].",
+  "verdict": "correct",
+  "citations_supported": true,
+  "explanation": "The answer correctly says yes, by Ethisphere in 2024. Both citations (p.97 for Ethisphere recognition, p.3 for the CEO message ranking) match their excerpts and support the claims."
+ }
+]
