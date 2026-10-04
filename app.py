@@ -19,6 +19,7 @@ from src.model import (
     RetrievedChunk,
     generate_answer,
     has_api_key,
+    split_question,
 )
 
 MODES = {
@@ -77,14 +78,22 @@ def show_sources(chunks: List[RetrievedChunk], expanded: bool = False) -> None:
     """Expandable list of the passages the answer was based on."""
     with st.expander(f"Retrieved passages ({len(chunks)})", expanded=expanded):
         st.caption(
-            "Each match is shown with its neighbouring text on the same page, exactly as sent to the AI. "
-            "**Why it matched:** each word of your question is coloured by how much it raised (green) or "
-            "lowered (red) the similarity score, measured with Shapley values."
+            "Passages are ranked by combining two searches: by **meaning** (similarity of the text's "
+            "meaning to your question) and by **keywords** (exact words in common). Each is shown with its "
+            "neighbouring text on the same page, exactly as sent to the AI. **Why it matched:** each word of "
+            "your question is coloured by how much it raised (green) or lowered (red) the meaning similarity "
+            "(Shapley values); keyword matches are listed below it."
         )
         for rank, c in enumerate(chunks, start=1):
-            st.markdown(f"**#{rank} · {c.company}, page {c.page}** · similarity {c.score:.3f}")
+            ranks = f" · meaning rank {c.meaning_rank} · keyword rank {c.keyword_rank}" if c.keyword_rank else ""
+            if c.sub_query:
+                ranks += f" · found for *{c.sub_query}*"
+            st.markdown(f"**#{rank} · {c.company}, page {c.page}** · similarity {c.score:.3f}{ranks}")
             if c.word_contributions:
                 st.markdown(word_contributions_html(c), unsafe_allow_html=True)
+            if c.keyword_matches is not None:
+                matches = ", ".join(f"{w} (+{v:.1f})" for w, v in c.keyword_matches) or "none"
+                st.caption(f"Keyword matches: {matches}")
             if c.context == "":
                 st.caption("Already included in a higher-ranked passage above.")
             else:
@@ -93,12 +102,12 @@ def show_sources(chunks: List[RetrievedChunk], expanded: bool = False) -> None:
                 st.divider()
 
 
-def record_usage(answers: List[Answer]) -> None:
+def record_usage(answers: List[Answer], extra_cost: float = 0.0) -> None:
     """Add this question's answers to the session's running business metrics."""
     usage = st.session_state.setdefault("usage", {"questions": 0, "lookups": 0, "cost": 0.0})
     usage["questions"] += 1
     usage["lookups"] += sum(1 for a in answers if not a.error)
-    usage["cost"] += sum(a.cost_usd for a in answers)
+    usage["cost"] += sum(a.cost_usd for a in answers) + extra_cost
 
 
 def show_usage(panel) -> None:
@@ -159,22 +168,27 @@ run_now = st.session_state.pop("run_now", False)
 if (ask or run_now) and question.strip():
     index = load_index()
     companies = MODES[mode]
+    # Questions about two topics ("water and waste goals") are searched once per
+    # topic, so both are represented in the passages (see split_question).
+    split = split_question(question)
+    if len(split.queries) > 1:
+        st.caption("Searched separately for: " + " · ".join(f"*{q}*" for q in split.queries))
 
     if len(companies) == 1:
         with st.spinner(f"Searching the {companies[0]} report and writing an answer..."):
-            chunks = index.retrieve(question, companies[0], top_k)
+            chunks = index.retrieve_multi(question, companies[0], top_k, split.queries)
             index.explain(question, chunks, companies[0])
             answer = generate_answer(question, chunks)
-        record_usage([answer])
+        record_usage([answer], split.cost_usd)
         st.subheader(companies[0])
         show_answer(answer)
     else:
         with st.spinner("Searching both reports and writing two answers..."):
-            per_company = index.retrieve_comparison(question, top_k)
+            per_company = index.retrieve_comparison(question, top_k, split.queries)
             for company, chunks in per_company.items():
                 index.explain(question, chunks, company)
             answers = {c: generate_answer(question, chunks) for c, chunks in per_company.items()}
-        record_usage(list(answers.values()))
+        record_usage(list(answers.values()), split.cost_usd)
         columns = st.columns(len(answers))
         for col, (company, answer) in zip(columns, answers.items()):
             with col:

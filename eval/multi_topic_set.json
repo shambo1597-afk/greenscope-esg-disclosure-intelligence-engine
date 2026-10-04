@@ -1,0 +1,190 @@
+[
+  {
+    "id": "multi-01",
+    "company": "Wipro",
+    "question": "What are Wipro's water and waste management goals?",
+    "topics": [
+      {
+        "topic": "water goals",
+        "gold_pages": [
+          47,
+          63,
+          73,
+          74
+        ]
+      },
+      {
+        "topic": "waste goals",
+        "gold_pages": [
+          7,
+          63,
+          77,
+          79,
+          81
+        ]
+      }
+    ],
+    "verified": false
+  },
+  {
+    "id": "multi-02",
+    "company": "Wipro",
+    "question": "What is Wipro's Scope 3 target and what share of its electricity is renewable?",
+    "topics": [
+      {
+        "topic": "Scope 3 target",
+        "gold_pages": [
+          46,
+          63,
+          67,
+          88
+        ]
+      },
+      {
+        "topic": "renewable share",
+        "gold_pages": [
+          4,
+          7,
+          65,
+          66,
+          88
+        ]
+      }
+    ],
+    "verified": false
+  },
+  {
+    "id": "multi-03",
+    "company": "Wipro",
+    "question": "What percentage of Wipro's workforce are women, and how much maternity leave does it offer?",
+    "topics": [
+      {
+        "topic": "women share",
+        "gold_pages": [
+          4,
+          7,
+          114
+        ]
+      },
+      {
+        "topic": "maternity leave",
+        "gold_pages": [
+          104,
+          106
+        ]
+      }
+    ],
+    "verified": false
+  },
+  {
+    "id": "multi-04",
+    "company": "Wipro",
+    "question": "What CDP rating did Wipro receive and what was its voluntary attrition rate?",
+    "topics": [
+      {
+        "topic": "CDP rating",
+        "gold_pages": [
+          11
+        ]
+      },
+      {
+        "topic": "attrition",
+        "gold_pages": [
+          115
+        ]
+      }
+    ],
+    "verified": false
+  },
+  {
+    "id": "multi-05",
+    "company": "HCLTech",
+    "question": "What are HCLTech's water and waste goals?",
+    "topics": [
+      {
+        "topic": "water",
+        "gold_pages": [
+          3,
+          6,
+          57
+        ]
+      },
+      {
+        "topic": "landfill goal",
+        "gold_pages": [
+          5,
+          54
+        ]
+      }
+    ],
+    "verified": false
+  },
+  {
+    "id": "multi-06",
+    "company": "HCLTech",
+    "question": "What is HCLTech's Scope 3 target and what share of its employees are women?",
+    "topics": [
+      {
+        "topic": "Scope 3 target",
+        "gold_pages": [
+          54,
+          56
+        ]
+      },
+      {
+        "topic": "women share",
+        "gold_pages": [
+          39,
+          40,
+          41
+        ]
+      }
+    ],
+    "verified": false
+  },
+  {
+    "id": "multi-07",
+    "company": "HCLTech",
+    "question": "What EcoVadis rating did HCLTech receive, and how many lives has the HCLFoundation impacted?",
+    "topics": [
+      {
+        "topic": "EcoVadis",
+        "gold_pages": [
+          97
+        ]
+      },
+      {
+        "topic": "HCLFoundation lives",
+        "gold_pages": [
+          3,
+          6,
+          31
+        ]
+      }
+    ],
+    "verified": false
+  },
+  {
+    "id": "multi-08",
+    "company": "HCLTech",
+    "question": "What was HCLTech's FY24 headcount and what share of fresher hires were women?",
+    "topics": [
+      {
+        "topic": "headcount",
+        "gold_pages": [
+          36,
+          40,
+          49,
+          95
+        ]
+      },
+      {
+        "topic": "women fresher hires",
+        "gold_pages": [
+          39
+        ]
+      }
+    ],
+    "verified": false
+  }
+]
