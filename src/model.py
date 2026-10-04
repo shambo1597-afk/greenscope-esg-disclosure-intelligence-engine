@@ -27,6 +27,10 @@ load_dotenv()
 
 LLM_MODEL = "claude-haiku-4-5-20251001"  # cheapest current Claude model
 MAX_ANSWER_TOKENS = 600                   # enough for a cited paragraph or short list
+# Claude Haiku 4.5 list prices in US dollars per million tokens, used only to show
+# an approximate cost per answer in the app.
+PRICE_PER_MTOK_INPUT = 1.00
+PRICE_PER_MTOK_OUTPUT = 5.00
 DEFAULT_TOP_K = 5
 
 
@@ -51,6 +55,14 @@ class Answer:
     text: str
     error: Optional[str] = None
     chunks: List[RetrievedChunk] = field(default_factory=list)
+    input_tokens: int = 0
+    output_tokens: int = 0
+
+    @property
+    def cost_usd(self) -> float:
+        """Approximate cost of this answer at Haiku 4.5 list prices."""
+        return (self.input_tokens * PRICE_PER_MTOK_INPUT
+                + self.output_tokens * PRICE_PER_MTOK_OUTPUT) / 1_000_000
 
 
 # --- Retrieval -----------------------------------------------------------------
@@ -198,7 +210,13 @@ and page shown in the excerpt header.
 convert, round or calculate new figures.
 4. If the excerpts do not contain the answer, say: "This is not disclosed in the retrieved \
 text." You may mention closely related information that IS in the excerpts, with citations.
-5. Be concise: a short paragraph or a few bullet points."""
+5. Excerpts may contain text extracted from charts and tables, where numbers can appear \
+separated from their labels or out of order. Only state that a figure belongs to a category \
+(e.g. Scope 1 and 2 vs Scope 3, target vs achieved, a specific year) when the text explicitly \
+connects them, ideally in a full sentence. If the connection is unclear, say so instead of guessing.
+6. Do not draw conclusions the excerpts do not state, such as whether a target has been met, \
+exceeded or missed, or how two figures compare. Report the figures and let the reader compare.
+7. Be concise: a short paragraph or a few bullet points."""
 
 
 def get_api_key() -> str:
@@ -275,7 +293,12 @@ def generate_answer(question: str, chunks: List[RetrievedChunk]) -> Answer:
     text = "".join(block.text for block in response.content if block.type == "text").strip()
     if response.stop_reason == "max_tokens":
         text += "\n\n_(Answer cut short at the length limit.)_"
-    return Answer(text=text, chunks=chunks)
+    return Answer(
+        text=text,
+        chunks=chunks,
+        input_tokens=response.usage.input_tokens,
+        output_tokens=response.usage.output_tokens,
+    )
 
 
 if __name__ == "__main__":

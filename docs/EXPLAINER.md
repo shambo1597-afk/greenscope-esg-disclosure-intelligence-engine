@@ -131,6 +131,13 @@ adds nothing. Worse, it made the question look similar to useless page footers l
 share of questions with a correct page in the top 5 from **0.56 to 0.94** (see
 `eval/results.md`). Claude still sees your original question.
 
+**Neighbouring text.** The search matches 800-character chunks, but the sentence
+that explains a number is often in the chunk right next to it. So each match is
+sent to Claude together with the chunk before and after it **on the same page**
+(overlaps merged, repeats removed). Staying on the same page keeps every
+citation correct. The *Retrieved passages* panel shows exactly this widened text.
+See section 5 for the real error that led to this.
+
 ### 3.5 Prompt grounding: making the model stick to the evidence
 
 The retrieved passages are sent to **Claude Haiku 4.5**, each labelled with its
@@ -141,7 +148,11 @@ source, e.g. `[Wipro, p.67]`. The **system prompt** (standing instructions) sets
 3. keep numbers, units and years **exactly as written**;
 4. if the passages don't contain the answer, say **"This is not disclosed in the
    retrieved text"**;
-5. be concise.
+5. text from charts and tables can be scrambled, so only link a figure to a
+   category (Scope 1 and 2 vs Scope 3, target vs achieved, a year) when the text
+   explicitly connects them; otherwise say it's unclear;
+6. don't draw conclusions the text doesn't state (e.g. "the target has been met");
+7. be concise.
 
 This is called **grounding**: the answer is tied to evidence you can inspect. The
 app shows the passages under every answer (*Retrieved passages*), with their
@@ -158,7 +169,7 @@ similarity score and page, so you can check each claim yourself.
 | Similarity | Cosine (normalized + inner product) | Compares meaning regardless of passage length |
 | Index | FAISS IndexFlatIP, one per company | Exact search is instant at this size; per-company keeps sources and comparisons fair |
 | top_k | 5 (slider 3 to 8) | Eval: the right page is in the top 5 for 15 of 16 questions but only in the top 1 for 9. Five passages (~1,000 words) give enough evidence without drowning the answer in noise or cost |
-| LLM | Claude Haiku 4.5, max 600 tokens | Cheapest current Claude model; the job is reading supplied text and citing it, not deep reasoning. About $0.005 per answer (≈1,500 input + up to 600 output tokens at $1 / $5 per million tokens). Compare mode makes two calls |
+| LLM | Claude Haiku 4.5, max 600 tokens | Cheapest current Claude model; the job is reading supplied text and citing it, not deep reasoning. Measured cost: about $0.002 to $0.0035 per answer (≈1,500 to 2,500 input + 100 to 300 output tokens at $1 / $5 per million tokens). Compare mode makes two calls. $5 of credit covers well over 1,000 answers. The app shows the cost under every answer |
 
 ## 5. Where hallucination (made-up content) can still happen
 
@@ -178,6 +189,42 @@ Grounding reduces the risk a lot, but doesn't remove it:
 - **Paraphrase drift.** Despite the instruction, the model may round or reword a figure.
 - **Model knowledge leaking in.** Claude may know facts about these companies from
   training. The prompt forbids using them, but that can't be guaranteed 100%.
+
+- **Questions about two topics at once.** "What are the water **and** waste goals?"
+  is turned into one search, which returned only water passages, so the answer said
+  waste goals weren't disclosed (both reports do state them). Ask about one topic at a time.
+
+### A real example we found and fixed
+
+Asked for Wipro's Scope 3 target, the first version answered **"2030 Target: 59%"**.
+The report says **55% by 2030** (59% is the Scope 1 and 2 target). Page 67 has a
+"Targets Vs Performance" chart that the PDF reader turned into loose fragments:
+
+```
+Targets Vs Performance
+84%2025 Performance
+59%2030 Target
+2025 Performance 55%**
+```
+
+The retrieved chunk held these fragments and the words "Scope 3", but not the
+heading that says which chart is which. Two fixes, both in `src/model.py`:
+1. **neighbouring chunks** are now sent too, so the clear sentence "55% reduction in
+   Scope 3 from 2020 baseline" from the adjacent chunk reaches the model;
+2. **two prompt rules** (5 and 6 above): don't pair figures with labels the text
+   doesn't connect, and don't draw conclusions such as "target exceeded". The second
+   rule fixed a separate HCLTech answer that wrongly said its 42% Scope 3 target was
+   "already exceeded" (29% was achieved; the report says it beat an *interim* pathway).
+
+After the fixes the answer gives 55% by 2030 correctly. One small slip remained:
+it describes the 233,303 tCO2e reduction (already achieved) as "the 2030 target".
+This is why the evidence panel matters.
+
+We also tried a different PDF reader (PyMuPDF) to fix the extraction at the source.
+Its default mode gave the same problem; its position-sorted mode mixed the left
+column of the page into the chart line by line, and overall retrieval Hit@5 fell
+from 0.94 to 0.88. A proper fix needs layout analysis (detecting columns) or a vision
+model reading page images, which is left as future work.
 
 The safeguard is the **Retrieved passages** panel: every figure can be checked
 against the exact text and page in seconds.
@@ -255,7 +302,15 @@ matching page footers like "About HCLTech ... 92". Since each search is already
 restricted to one company, we replace the name with "the company" before searching.
 Hit@5 rose to 94%. The eval report keeps both numbers so the effect can be reproduced.
 
-**10. What are the main limitations, and what would you improve next?**
+**10. Did you find any wrong answers? What did you do?**
+Yes. The Wipro Scope 3 target came out as 59% instead of 55% because a chart on
+page 67 was extracted as loose numbers and labels. We traced it to the exact
+passage, then sent neighbouring chunks along with each match and added prompt rules
+against pairing unconnected figures and against unstated conclusions. The answer is
+now correct; section 5 has the details, including a fix we tried and rejected
+(a different PDF reader) and the evidence for rejecting it.
+
+**11. What are the main limitations, and what would you improve next?**
 Charts and images aren't read, and tables are extracted poorly. The eval set is small
 and not yet human-verified. Page numbers are PDF file pages, not printed pages. Next
 steps: table-aware PDF parsing, hybrid search (meaning plus keyword matching, which helps

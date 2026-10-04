@@ -25,7 +25,8 @@ In a Claude Code cloud environment, `ANTHROPIC_API_KEY` is not passed to session
 set `GREENSCOPE_ANTHROPIC_KEY` there instead; the app accepts either name.
 
 Without a key the app still works: it shows the most relevant report passages, but
-doesn't write an AI answer.
+doesn't write an AI answer. Each answer costs about $0.002 to $0.0035 with Claude Haiku 4.5
+(shown under every answer; Compare mode makes two calls).
 
 ## Run
 

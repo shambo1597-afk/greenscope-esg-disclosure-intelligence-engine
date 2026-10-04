@@ -67,6 +67,7 @@ def show_answer(answer: Answer) -> None:
         st.info(answer.error)
     else:
         st.markdown(answer.text)
+        st.caption(f"{answer.input_tokens:,} input + {answer.output_tokens:,} output tokens · about US\$ {answer.cost_usd:.4f}")
     # With no generated answer the passages are the result, so open them.
     show_sources(answer.chunks, expanded=bool(answer.error))
 
