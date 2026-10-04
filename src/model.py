@@ -39,6 +39,10 @@ class RetrievedChunk:
     chunk_index: int
     source: str
     score: float  # cosine similarity: 1.0 = same meaning, ~0 = unrelated
+    # The text actually sent to Claude: this chunk plus its neighbours on the same
+    # page (see add_neighbours). "" = already sent as part of a better result;
+    # None = not widened, so the chunk text itself is sent.
+    context: Optional[str] = None
 
 
 @dataclass
@@ -69,6 +73,18 @@ def prepare_query(question: str) -> str:
     return re.sub(_COMPANY_NAME + r"\b", "the company", query, flags=re.IGNORECASE)
 
 
+def _join_overlapping(first: str, second: str) -> str:
+    """Join two consecutive chunks, dropping the text they share.
+
+    Consecutive chunks overlap by up to CHUNK_OVERLAP (150) characters: the end
+    of one is repeated at the start of the next. Keep that shared part once.
+    """
+    for size in range(min(len(first), len(second), 300), 0, -1):
+        if first.endswith(second[:size]):
+            return first + second[size:]
+    return first + "\n" + second
+
+
 class ReportIndex:
     """Holds one FAISS index + chunk list per company.
 
@@ -96,11 +112,13 @@ class ReportIndex:
         company: str,
         top_k: int = DEFAULT_TOP_K,
         neutralize_names: bool = True,
+        neighbours: bool = True,
     ) -> List[RetrievedChunk]:
         """Return the top_k chunks from one company's report, most similar first.
 
         neutralize_names=False searches with the question exactly as typed
         (only used by the evaluation to measure the effect of prepare_query).
+        neighbours=False sends only the matching chunks themselves to Claude.
         """
         if company not in self.indexes:
             raise ValueError(f"Unknown company '{company}'. Choose from {list(COMPANIES)}.")
@@ -123,7 +141,39 @@ class ReportIndex:
                 source=meta["source"],
                 score=float(score),
             ))
+        if neighbours:
+            self.add_neighbours(results, company)
         return results
+
+    def add_neighbours(self, results: List[RetrievedChunk], company: str) -> None:
+        """Widen each result with the chunk before and after it on the same page.
+
+        Why: the search matches small chunks, but the sentence that explains a
+        number is often in the next chunk. Example (Wipro p.67): one chunk holds
+        the chart text "84% 2025 Performance / 59% 2030 Target", while the
+        sentence "55% reduction in Scope 3 from 2020 baseline" sits in the chunk
+        before it. Seeing only the chart fragment, the model attached 59% (the
+        Scope 1 and 2 target) to Scope 3. Sending the neighbours too gives it the
+        surrounding explanation. Neighbours are taken from the same page only,
+        so every citation [Company, p.X] stays correct.
+
+        Results are processed best-first; chunks already sent with a better
+        result are not repeated (that result's context becomes "").
+        """
+        chunks = self.chunks[company]
+        already_sent = set()
+        for result in results:
+            window = [
+                i for i in (result.chunk_index - 1, result.chunk_index, result.chunk_index + 1)
+                if 0 <= i < len(chunks)
+                and chunks[i]["metadata"]["page"] == result.page
+                and i not in already_sent
+            ]
+            already_sent.update(window)
+            context = ""
+            for i in window:
+                context = _join_overlapping(context, chunks[i]["text"]) if context else chunks[i]["text"]
+            result.context = context
 
     def retrieve_comparison(self, question: str, top_k: int = DEFAULT_TOP_K) -> Dict[str, List[RetrievedChunk]]:
         """Search each report separately so both companies are always represented.
@@ -167,8 +217,16 @@ def has_api_key() -> bool:
 
 
 def format_context(chunks: List[RetrievedChunk]) -> str:
-    """Label each excerpt with its citation so the model can copy it exactly."""
-    blocks = [f"[{c.company}, p.{c.page}]\n{c.text}" for c in chunks]
+    """Label each excerpt with its citation so the model can copy it exactly.
+
+    Uses each result's widened `context`; results whose text was already sent
+    as part of a better result's context (context == "") are skipped.
+    """
+    blocks = [
+        f"[{c.company}, p.{c.page}]\n{c.text if c.context is None else c.context}"
+        for c in chunks
+        if c.context != ""
+    ]
     return "\n\n---\n\n".join(blocks)
 
 

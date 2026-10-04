@@ -51,9 +51,13 @@ def use_example(question: str) -> None:
 def show_sources(chunks: List[RetrievedChunk], expanded: bool = False) -> None:
     """Expandable list of the passages the answer was based on."""
     with st.expander(f"Retrieved passages ({len(chunks)})", expanded=expanded):
+        st.caption("Each match is shown with its neighbouring text on the same page, exactly as sent to the AI.")
         for rank, c in enumerate(chunks, start=1):
             st.markdown(f"**#{rank} · {c.company}, page {c.page}** · similarity {c.score:.3f}")
-            st.text(c.text)
+            if c.context == "":
+                st.caption("Already included in a higher-ranked passage above.")
+            else:
+                st.text(c.text if c.context is None else c.context)
             if rank < len(chunks):
                 st.divider()
 
