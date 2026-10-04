@@ -11,6 +11,7 @@ Two steps, the classic RAG (Retrieval-Augmented Generation) pattern:
 """
 
 import os
+import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
@@ -49,6 +50,25 @@ class Answer:
 
 
 # --- Retrieval -----------------------------------------------------------------
+# Company names as people might type them ("Wipro's", "HCL Tech", "HCLTech Ltd").
+_COMPANY_NAME = r"\b(?:Wipro|HCL ?Tech(?:nologies)?|HCL)(?: Limited| Ltd\.?)?"
+
+
+def prepare_query(question: str) -> str:
+    """Replace company names in the question with "the company" before searching.
+
+    Each search already runs inside ONE company's report, so the name tells the
+    search nothing new. Worse, it makes the question look similar to chunks that
+    are mostly the company name: page headers and footers such as
+    "About HCLTech / HCLTech Sustainability Report 2024 / 92". Those boilerplate
+    chunks then crowd out the passages that hold the actual answer. In our eval
+    this one change raised Hit@5 from 0.56 to 0.94 (see eval/results.md).
+    Only the search query is changed; Claude still sees the original question.
+    """
+    query = re.sub(_COMPANY_NAME + r"(?:'s|’s)", "the company's", question, flags=re.IGNORECASE)
+    return re.sub(_COMPANY_NAME + r"\b", "the company", query, flags=re.IGNORECASE)
+
+
 class ReportIndex:
     """Holds one FAISS index + chunk list per company.
 
@@ -70,12 +90,23 @@ class ReportIndex:
             self.indexes[company] = index
             self.chunks[company] = entry["chunks"]
 
-    def retrieve(self, question: str, company: str, top_k: int = DEFAULT_TOP_K) -> List[RetrievedChunk]:
-        """Return the top_k chunks from one company's report, most similar first."""
+    def retrieve(
+        self,
+        question: str,
+        company: str,
+        top_k: int = DEFAULT_TOP_K,
+        neutralize_names: bool = True,
+    ) -> List[RetrievedChunk]:
+        """Return the top_k chunks from one company's report, most similar first.
+
+        neutralize_names=False searches with the question exactly as typed
+        (only used by the evaluation to measure the effect of prepare_query).
+        """
         if company not in self.indexes:
             raise ValueError(f"Unknown company '{company}'. Choose from {list(COMPANIES)}.")
 
-        query_vector = embed_texts([question])
+        query = prepare_query(question) if neutralize_names else question
+        query_vector = embed_texts([query])
         scores, positions = self.indexes[company].search(query_vector, top_k)
 
         results = []
