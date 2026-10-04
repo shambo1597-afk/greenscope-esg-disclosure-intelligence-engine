@@ -161,7 +161,6 @@ def generate_answer(question: str, chunks: List[RetrievedChunk]) -> Answer:
         response = client.messages.create(
             model=LLM_MODEL,
             max_tokens=MAX_ANSWER_TOKENS,
-            temperature=0,  # same question -> same answer; no creative paraphrasing
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": user_message}],
         )
