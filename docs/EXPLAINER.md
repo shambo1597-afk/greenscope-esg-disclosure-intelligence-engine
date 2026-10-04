@@ -220,11 +220,25 @@ After the fixes the answer gives 55% by 2030 correctly. One small slip remained:
 it describes the 233,303 tCO2e reduction (already achieved) as "the 2030 target".
 This is why the evidence panel matters.
 
-We also tried a different PDF reader (PyMuPDF) to fix the extraction at the source.
-Its default mode gave the same problem; its position-sorted mode mixed the left
-column of the page into the chart line by line, and overall retrieval Hit@5 fell
-from 0.94 to 0.88. A proper fix needs layout analysis (detecting columns) or a vision
-model reading page images, which is left as future work.
+We also tried fixing the extraction at the source with two other PDF readers:
+- **PyMuPDF:** its default mode had the same problem; its position-sorted mode mixed
+  the page's left column into the chart line by line, and retrieval Hit@5 fell from
+  0.94 to 0.88. Rejected.
+- **Docling**, a layout-analysis library that uses machine-learning models to find
+  headings, columns and tables. Its text for page 67 is genuinely clean (Scope 3 figures
+  in their own table under a "Scope 3 emissions" heading). But when we answered all 16
+  eval questions with both readers and graded every answer, PyPDF scored 13 correct,
+  2 partly correct, 1 with an error; Docling 12 correct, 1 partly correct, 1 with an
+  error and 2 misses. Retrieval Hit@5 was the same (0.94). Docling also needs a large
+  install and about 8 minutes of conversion. We kept PyPDF. Full results:
+  `eval/pdf_parser_comparison.md`.
+
+That answer-quality test also found an error that is still there: asked how much
+HCLTech's Scope 1 and 2 emissions fell, the answer correctly says 25% but adds
+"173,743 mtCO2 in FY24". The chart's values were extracted as an unordered list
+(`167,426 162,407 158,810 224,094 173,743`) and the model picked the wrong one; FY24 is
+167,426. Prompt rule 5 reduces this kind of error but cannot prevent it, because the
+labels needed to pair the numbers are simply not in the extracted text.
 
 The safeguard is the **Retrieved passages** panel: every figure can be checked
 against the exact text and page in seconds.
@@ -308,11 +322,13 @@ page 67 was extracted as loose numbers and labels. We traced it to the exact
 passage, then sent neighbouring chunks along with each match and added prompt rules
 against pairing unconnected figures and against unstated conclusions. The answer is
 now correct; section 5 has the details, including a fix we tried and rejected
-(a different PDF reader) and the evidence for rejecting it.
+(two other PDF readers) and the evidence for rejecting them.
 
 **11. What are the main limitations, and what would you improve next?**
 Charts and images aren't read, and tables are extracted poorly. The eval set is small
-and not yet human-verified. Page numbers are PDF file pages, not printed pages. Next
-steps: table-aware PDF parsing, hybrid search (meaning plus keyword matching, which helps
+and not yet human-verified. Page numbers are PDF file pages, not printed pages. We tested a
+layout-aware parser (Docling): cleaner tables, but no better answers on our test, so
+we kept the simpler one (see `eval/pdf_parser_comparison.md`). Next steps: using
+layout-aware text only for chart and table pages, hybrid search (meaning plus keyword matching, which helps
 with exact terms like "CDP" or "Scope 3"), a re-ranking step, a larger human-verified
 eval set, and an evaluation of answer faithfulness.

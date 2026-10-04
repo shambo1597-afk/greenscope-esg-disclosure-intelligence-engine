@@ -69,6 +69,7 @@ The first run reads and embeds both PDFs (about a minute) and saves the result i
 | `src/model.py` | FAISS retrieval (single + comparison) and grounded generation with Claude |
 | `eval/eval_set.json` | 16 test questions (8 per company) with the PDF pages holding the answer |
 | `eval/run_eval.py` | Retrieval evaluation, writes `eval/results.md` |
+| `eval/compare_pdf_parsers.py` | Experiment: PyPDF vs Docling (results in `eval/pdf_parser_comparison.md`) |
 | `docs/EXPLAINER.md` | Plain-language explanation and likely examiner questions |
 
 ## Evaluation
@@ -87,7 +88,12 @@ Current results (top 5 passages per question):
 | Overall (16) | 0.56 | 0.81 | 0.94 | 0.72 | 0.45 |
 
 Searching with the company name left in the question gives overall Hit@5 = 0.56; see
-the results file for why the app removes it. The eval set is small, matches by page
+the results file for why the app removes it.
+
+A second experiment compares the app's PDF reader (PyPDF) with the layout-aware parser
+Docling, on retrieval and on graded answers to all 16 questions; PyPDF was kept. See
+[`eval/pdf_parser_comparison.md`](eval/pdf_parser_comparison.md) (reproduce with
+`python eval/compare_pdf_parsers.py --answers`; needs `pip install docling`). The eval set is small, matches by page
 only, and its gold pages are not yet human-verified (`"verified": false`).
 
 ## Notes
