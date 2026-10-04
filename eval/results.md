@@ -8,9 +8,9 @@ Settings: `BAAI/bge-small-en-v1.5`, chunk_size=400, chunk_overlap=250, FAISS Ind
 
 | Group | n | Hit@1 | Hit@3 | Hit@5 | MRR@5 | Precision@5 |
 |---|---|---|---|---|---|---|
-| HCLTech | 20 | 0.85 | 0.90 | 0.90 | 0.87 | 0.60 |
-| Wipro | 20 | 0.70 | 0.85 | 0.95 | 0.77 | 0.57 |
-| Overall | 40 | 0.78 | 0.88 | 0.93 | 0.82 | 0.58 |
+| HCLTech | 20 | 0.90 | 0.90 | 0.90 | 0.90 | 0.64 |
+| Wipro | 20 | 0.80 | 0.95 | 0.95 | 0.85 | 0.67 |
+| Overall | 40 | 0.85 | 0.93 | 0.93 | 0.88 | 0.66 |
 
 ## Effect of removing company names from the search query
 
@@ -18,9 +18,9 @@ The app replaces "Wipro" / "HCLTech" in the question with "the company" before s
 
 | Group | Hit@5 as typed | Hit@5 names removed (used by the app) | MRR@5 as typed | MRR@5 names removed |
 |---|---|---|---|---|
-| HCLTech | 0.65 | 0.90 | 0.47 | 0.87 |
-| Wipro | 0.75 | 0.95 | 0.68 | 0.77 |
-| Overall | 0.70 | 0.93 | 0.57 | 0.82 |
+| HCLTech | 0.85 | 0.90 | 0.71 | 0.90 |
+| Wipro | 0.85 | 0.95 | 0.69 | 0.85 |
+| Overall | 0.85 | 0.93 | 0.70 | 0.88 |
 
 ## Per question
 
@@ -28,46 +28,46 @@ Retrieved pages are listed in rank order; **bold** = a gold page.
 
 | ID | Question | Gold pages | Retrieved pages (top 5) | First hit rank |
 |---|---|---|---|---|
-| wipro-01 | What is Wipro's target for reducing Scope 3 emissions? | 46, 63, 67, 88 | **88**, **63**, 70, 72, **88** | 1 |
-| wipro-02 | By what year does Wipro aim to reach net-zero emissions? | 9, 43, 67, 88 | **9**, 63, 63, **9**, 46 | 1 |
-| wipro-03 | What share of Wipro's electricity comes from renewable sources? | 4, 7, 65, 66, 88 | **65**, **65**, **65**, **66**, **65** | 1 |
-| wipro-04 | What percentage of Wipro's workforce are women? | 4, 7, 114 | **4**, 115, 115, 115, **4** | 1 |
-| wipro-05 | What are Wipro's water management targets? | 47, 63, 73, 74 | **73**, **74**, **74**, 75, **73** | 1 |
-| wipro-06 | How much of Wipro's waste is recycled or kept out of landfill? | 7, 63, 79, 81 | **79**, **81**, **79**, **79**, **79** | 1 |
-| wipro-07 | What CDP rating did Wipro receive? | 11 | 128, 128, 128, 128, **11** | 5 |
+| wipro-01 | What is Wipro's target for reducing Scope 3 emissions? | 46, 63, 67, 88 | **63**, 72, **67**, **67**, 70 | 1 |
+| wipro-02 | By what year does Wipro aim to reach net-zero emissions? | 9, 43, 67, 88 | **9**, **9**, 63, 63, 63 | 1 |
+| wipro-03 | What share of Wipro's electricity comes from renewable sources? | 4, 7, 65, 66, 88 | **65**, **65**, 64, **65**, **65** | 1 |
+| wipro-04 | What percentage of Wipro's workforce are women? | 4, 7, 114 | **4**, 115, **4**, **7**, 94 | 1 |
+| wipro-05 | What are Wipro's water management targets? | 47, 63, 73, 74 | **73**, **74**, **73**, **73**, **74** | 1 |
+| wipro-06 | How much of Wipro's waste is recycled or kept out of landfill? | 7, 63, 79, 81 | **79**, **81**, **81**, **79**, **79** | 1 |
+| wipro-07 | What CDP rating did Wipro receive? | 11 | 128, 128, **11**, **11**, **11** | 3 |
 | wipro-08 | What was Wipro's voluntary attrition rate? | 115 | **115**, **115**, **115**, **115**, **115** | 1 |
-| wipro-09 | What is Wipro's 2030 target for Scope 1 and 2 emissions? | 46, 63, 67, 88 | **63**, **46**, **67**, 121, **67** | 1 |
-| wipro-10 | What were Wipro's total GHG emissions in FY25, and what share was Scope 3? | 67 | **67**, **67**, 68, **67**, 68 | 1 |
-| wipro-11 | By when does Wipro aim to use 100% renewable energy? | 4, 65 | 71, 71, **65**, 88, **65** | 3 |
-| wipro-12 | What share of Wipro's spend goes to diverse suppliers? | 7 | 127, 127, 127, 127, 38 | miss |
-| wipro-13 | How many nationalities are represented in Wipro's workforce? | 7 | **7**, **7**, 115, 115, 16 | 1 |
-| wipro-14 | How many persons with disabilities work at Wipro? | 7 | 4, 4, **7**, 131, 95 | 3 |
-| wipro-15 | How much paid maternity leave does Wipro offer? | 104, 106 | **104**, **104**, **104**, **104**, **106** | 1 |
-| wipro-16 | What EcoVadis rating did Wipro receive? | 11 | 125, 125, 5, 125, **11** | 5 |
+| wipro-09 | What is Wipro's 2030 target for Scope 1 and 2 emissions? | 46, 63, 67, 88 | **63**, **67**, 121, **46**, **46** | 1 |
+| wipro-10 | What were Wipro's total GHG emissions in FY25, and what share was Scope 3? | 67 | **67**, 68, 68, **67**, **67** | 1 |
+| wipro-11 | By when does Wipro aim to use 100% renewable energy? | 4, 65 | **65**, **65**, **65**, 71, 71 | 1 |
+| wipro-12 | What share of Wipro's spend goes to diverse suppliers? | 7 | 127, 38, 38, 127, 127 | miss |
+| wipro-13 | How many nationalities are represented in Wipro's workforce? | 7 | **7**, **7**, 111, **7**, 4 | 1 |
+| wipro-14 | How many persons with disabilities work at Wipro? | 7 | 4, 4, **7**, **7**, 95 | 3 |
+| wipro-15 | How much paid maternity leave does Wipro offer? | 104, 106 | **104**, **104**, **104**, **106**, **104** | 1 |
+| wipro-16 | What EcoVadis rating did Wipro receive? | 11 | 125, 125, **11**, 125, **11** | 3 |
 | wipro-17 | How many of Wipro's independent directors are women? | 15 | **15**, **15**, **15**, **15**, **15** | 1 |
-| wipro-18 | What share of Wipro's facilities hold ISO 14001 certification? | 64 | **64**, **64**, 20, 145, 108 | 1 |
-| wipro-19 | Which Wipro campus received LEED Platinum certification, and when? | 4, 66 | **4**, **4**, **66**, 80, **66** | 1 |
-| wipro-20 | How much did Wipro's customer Net Promoter Score increase? | 7 | 101, 101, **7**, 101, 101 | 3 |
-| hcltech-01 | What is HCLTech's target for reducing Scope 3 emissions? | 54, 56 | **56**, **56**, **54**, 3, 31 | 1 |
-| hcltech-02 | By what year does HCLTech aim to reach net zero? | 5, 10, 55, 65 | **65**, **10**, 70, **10**, **10** | 1 |
-| hcltech-03 | What is HCLTech's renewable electricity target? | 5, 54 | **54**, 71, **54**, 55, 65 | 1 |
-| hcltech-04 | What percentage of HCLTech's employees are women? | 39, 40, 41 | 38, 44, **41**, **39**, **40** | 3 |
-| hcltech-05 | How has HCLTech reduced its water usage? | 3, 6, 57 | **57**, **57**, **57**, **57**, **3** | 1 |
-| hcltech-06 | What is HCLTech's goal for waste sent to landfill? | 5, 54 | **54**, **54**, 71, 71, **5** | 1 |
-| hcltech-07 | What CDP rating did HCLTech receive? | 6, 97 | **6**, 87, 3, 7, 87 | 1 |
-| hcltech-08 | How much have HCLTech's Scope 1 and 2 emissions fallen since FY20? | 3, 6, 31, 56 | **56**, **56**, **3**, **56**, **56** | 1 |
-| hcltech-09 | What is HCLTech's 2030 target for Scope 1 and 2 emissions? | 5, 54 | 56, 56, 56, 31, 56 | miss |
-| hcltech-10 | What is HCLTech's target for women in senior leadership? | 5 | 43, 43, 43, 41, 41 | miss |
-| hcltech-11 | What share of HCLTech's fresher hires are women? | 39 | **39**, **39**, 44, 20, 41 | 1 |
-| hcltech-12 | How much have HCLTech's Scope 3 emissions fallen since FY20? | 3, 6, 31, 56 | **56**, **3**, **56**, **56**, **56** | 1 |
-| hcltech-13 | By how much has HCLTech reduced its total energy consumption? | 3, 6, 60 | **60**, **3**, **60**, **3**, 56 | 1 |
-| hcltech-14 | What share of HCLTech's owned buildings are Platinum certified? | 6, 60 | **60**, **60**, **60**, 69, 69 | 1 |
-| hcltech-15 | What EcoVadis rating did HCLTech receive? | 97 | **97**, **97**, 100, 3, 99 | 1 |
-| hcltech-16 | How many hours of sustainability training did HCLTech employees complete? | 6, 31, 71 | **6**, **71**, **71**, **31**, **6** | 1 |
-| hcltech-17 | What share of HCLTech's water withdrawals come from high water-stress areas? | 59 | **59**, **59**, 111, **59**, 57 | 1 |
-| hcltech-18 | What was HCLTech's total headcount in FY24? | 36, 40, 49, 95 | **95**, 56, 56, 56, **95** | 1 |
-| hcltech-19 | How many lives has the HCLFoundation impacted? | 3, 6, 31 | **6**, **3**, **3**, 79, 93 | 1 |
-| hcltech-20 | Was HCLTech recognised as one of the World's Most Ethical Companies? | 3, 97 | **97**, **3**, **97**, **3**, **97** | 1 |
+| wipro-18 | What share of Wipro's facilities hold ISO 14001 certification? | 64 | **64**, **64**, 145, **64**, 108 | 1 |
+| wipro-19 | Which Wipro campus received LEED Platinum certification, and when? | 4, 66 | **4**, **4**, **66**, **66**, 145 | 1 |
+| wipro-20 | How much did Wipro's customer Net Promoter Score increase? | 7 | **7**, 119, **7**, **7**, 120 | 1 |
+| hcltech-01 | What is HCLTech's target for reducing Scope 3 emissions? | 54, 56 | **56**, **56**, **54**, **56**, **56** | 1 |
+| hcltech-02 | By what year does HCLTech aim to reach net zero? | 5, 10, 55, 65 | **65**, 87, 3, **10**, 7 | 1 |
+| hcltech-03 | What is HCLTech's renewable electricity target? | 5, 54 | **54**, **54**, **5**, 71, 71 | 1 |
+| hcltech-04 | What percentage of HCLTech's employees are women? | 39, 40, 41 | **41**, **39**, **39**, **40**, **40** | 1 |
+| hcltech-05 | How has HCLTech reduced its water usage? | 3, 6, 57 | **57**, **3**, **57**, **3**, 56 | 1 |
+| hcltech-06 | What is HCLTech's goal for waste sent to landfill? | 5, 54 | **54**, 71, **54**, 71, **5** | 1 |
+| hcltech-07 | What CDP rating did HCLTech receive? | 6, 97 | **6**, 87, 7, **6**, **97** | 1 |
+| hcltech-08 | How much have HCLTech's Scope 1 and 2 emissions fallen since FY20? | 3, 6, 31, 56 | **56**, **56**, **56**, **56**, **31** | 1 |
+| hcltech-09 | What is HCLTech's 2030 target for Scope 1 and 2 emissions? | 5, 54 | 56, 56, 56, 56, 3 | miss |
+| hcltech-10 | What is HCLTech's target for women in senior leadership? | 5 | 43, 41, 41, 43, 41 | miss |
+| hcltech-11 | What share of HCLTech's fresher hires are women? | 39 | **39**, **39**, 41, 41, 41 | 1 |
+| hcltech-12 | How much have HCLTech's Scope 3 emissions fallen since FY20? | 3, 6, 31, 56 | **56**, **56**, **3**, **56**, **31** | 1 |
+| hcltech-13 | By how much has HCLTech reduced its total energy consumption? | 3, 6, 60 | **3**, **3**, 59, **60**, **60** | 1 |
+| hcltech-14 | What share of HCLTech's owned buildings are Platinum certified? | 6, 60 | **60**, 69, **60**, **60**, 69 | 1 |
+| hcltech-15 | What EcoVadis rating did HCLTech receive? | 97 | **97**, **97**, 7, 6, 87 | 1 |
+| hcltech-16 | How many hours of sustainability training did HCLTech employees complete? | 6, 31, 71 | **71**, **71**, **31**, **6**, 65 | 1 |
+| hcltech-17 | What share of HCLTech's water withdrawals come from high water-stress areas? | 59 | **59**, **59**, **59**, 69, 69 | 1 |
+| hcltech-18 | What was HCLTech's total headcount in FY24? | 36, 40, 49, 95 | **95**, 39, 56, **95**, 59 | 1 |
+| hcltech-19 | How many lives has the HCLFoundation impacted? | 3, 6, 31 | **6**, **3**, **3**, **6**, 93 | 1 |
+| hcltech-20 | Was HCLTech recognised as one of the World's Most Ethical Companies? | 3, 97 | **3**, **97**, **97**, **97**, **3** | 1 |
 
 ## Metric definitions
 

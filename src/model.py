@@ -12,6 +12,8 @@ Two steps, the classic RAG (Retrieval-Augmented Generation) pattern:
 
 import os
 import re
+from collections import Counter, defaultdict
+from math import log
 from dataclasses import dataclass, field
 from math import factorial
 from typing import Dict, List, Optional, Tuple
@@ -33,6 +35,8 @@ MAX_ANSWER_TOKENS = 600                   # enough for a cited paragraph or shor
 PRICE_PER_MTOK_INPUT = 1.00
 PRICE_PER_MTOK_OUTPUT = 5.00
 DEFAULT_TOP_K = 5
+# Reciprocal Rank Fusion constant (the standard value from the original RRF paper).
+RRF_K = 60
 # Each match is sent to the model with surrounding text from the same page, up to
 # about this many characters (see ReportIndex.add_neighbours).
 CONTEXT_CHARS = 2000
@@ -55,6 +59,13 @@ class RetrievedChunk:
     # question; contribution is None for words that were not scored ("the", "of").
     word_contributions: Optional[List[Tuple[str, Optional[float]]]] = None
     explanation_method: str = ""
+    # Hybrid search: this passage's rank by meaning (vectors) and by keywords
+    # (BM25), and the question words it matched with their BM25 contribution.
+    meaning_rank: int = 0
+    keyword_rank: int = 0
+    # For two-topic questions: the sub-question this passage was found for.
+    sub_query: str = ""
+    keyword_matches: Optional[List[Tuple[str, float]]] = None
 
 
 @dataclass
@@ -125,6 +136,69 @@ def _normalise_word(word: str) -> str:
     return word.lower().strip("?.,!:;\"'()").replace("’", "'")
 
 
+# --- Keyword search (BM25) --------------------------------------------------------
+def _tokens(text: str) -> List[str]:
+    """Lower-case words and numbers ("14001", "1,23,456", "37.1")."""
+    return re.findall(r"[a-z0-9]+(?:[.,][0-9]+)*", text.lower())
+
+
+class BM25:
+    """Okapi BM25, the classic keyword-search score.
+
+    For each word of the question that appears in a passage:
+        idf(word) * tf * (k1 + 1) / (tf + k1 * (1 - b + b * length / average_length))
+    - idf: rare words count more ("nationalities" beats "company");
+    - tf: how often the word appears, with diminishing returns (k1 = 1.5);
+    - b = 0.75: long passages are penalised a little, so they don't win just by
+      containing more words.
+    """
+
+    def __init__(self, texts: List[str], k1: float = 1.5, b: float = 0.75):
+        self.k1, self.b = k1, b
+        docs = [Counter(_tokens(t)) for t in texts]
+        self.n_docs = len(docs)
+        self.lengths = np.array([sum(d.values()) for d in docs], dtype=np.float32)
+        self.avg_length = float(self.lengths.mean()) if self.n_docs else 0.0
+        self.postings = defaultdict(list)  # word -> [(passage position, count), ...]
+        for i, doc in enumerate(docs):
+            for word, count in doc.items():
+                self.postings[word].append((i, count))
+        self.idf = {
+            w: log((self.n_docs - len(p) + 0.5) / (len(p) + 0.5) + 1) for w, p in self.postings.items()
+        }
+
+    @staticmethod
+    def query_words(query: str) -> List[str]:
+        """The words of a query that are scored (filler words ignored), in order."""
+        seen, words = set(), []
+        for w in _tokens(query):
+            if w not in _FILLER_WORDS and w != "s" and w not in seen:
+                seen.add(w)
+                words.append(w)
+        return words
+
+    def _term(self, word: str, i: int, count: int) -> float:
+        norm = 1 - self.b + self.b * self.lengths[i] / self.avg_length
+        return self.idf[word] * count * (self.k1 + 1) / (count + self.k1 * norm)
+
+    def scores(self, query: str) -> np.ndarray:
+        """BM25 score of every passage for the query."""
+        result = np.zeros(self.n_docs, dtype=np.float32)
+        for word in self.query_words(query):
+            for i, count in self.postings.get(word, []):
+                result[i] += self._term(word, i, count)
+        return result
+
+    def word_scores(self, query: str, i: int) -> List[Tuple[str, float]]:
+        """Each query word's contribution to passage i's score (they add up to it)."""
+        out = []
+        for word in self.query_words(query):
+            count = next((c for j, c in self.postings.get(word, []) if j == i), 0)
+            if count:
+                out.append((word, float(self._term(word, i, count))))
+        return out
+
+
 class ReportIndex:
     """Holds one FAISS index + chunk list per company.
 
@@ -140,6 +214,7 @@ class ReportIndex:
         self.indexes: Dict[str, faiss.IndexFlatIP] = {}
         self.chunks: Dict[str, List[dict]] = {}
         self.vectors: Dict[str, np.ndarray] = {}
+        self.bm25: Dict[str, BM25] = {}
         for company, entry in data.items():
             vectors = np.ascontiguousarray(entry["vectors"], dtype=np.float32)
             index = faiss.IndexFlatIP(vectors.shape[1])
@@ -147,6 +222,7 @@ class ReportIndex:
             self.indexes[company] = index
             self.chunks[company] = entry["chunks"]
             self.vectors[company] = vectors
+            self.bm25[company] = BM25([record["text"] for record in entry["chunks"]])
 
     def retrieve(
         self,
@@ -155,11 +231,22 @@ class ReportIndex:
         top_k: int = DEFAULT_TOP_K,
         neutralize_names: bool = True,
         neighbours: bool = True,
+        hybrid: bool = True,
     ) -> List[RetrievedChunk]:
-        """Return the top_k chunks from one company's report, most similar first.
+        """Return the top_k chunks from one company's report, best first.
 
-        neutralize_names=False searches with the question exactly as typed
-        (only used by the evaluation to measure the effect of prepare_query).
+        Hybrid search (default): passages are ranked twice, by meaning (cosine
+        similarity of BGE vectors, via FAISS) and by keywords (BM25), and the two
+        rankings are combined with Reciprocal Rank Fusion:
+            score = 1 / (RRF_K + meaning rank) + 1 / (RRF_K + keyword rank)
+        A passage near the top of either list rises; one near the top of both wins.
+        Meaning search finds paraphrases ("green power" ~ "renewable electricity");
+        keyword search catches exact terms the vectors blur ("CDP", "14001",
+        "nationalities"). RRF needs no weight to tune. On the 40-question set it
+        raised MRR@5 from 0.82 to 0.86 (eval/retrieval_methods.md).
+
+        neutralize_names=False searches with the question exactly as typed, and
+        hybrid=False uses meaning search only (both used by the evaluations).
         neighbours=False sends only the matching chunks themselves to Claude.
         """
         if company not in self.indexes:
@@ -167,12 +254,23 @@ class ReportIndex:
 
         query = prepare_query(question) if neutralize_names else question
         query_vector = embed_queries([query])
-        scores, positions = self.indexes[company].search(query_vector, top_k)
+        n_chunks = self.indexes[company].ntotal
+        cosine, order = self.indexes[company].search(query_vector, n_chunks if hybrid else top_k)
+        cosine, order = cosine[0], order[0]
+        similarity = {int(pos): float(s) for s, pos in zip(cosine, order) if pos >= 0}
+
+        meaning_rank = {int(pos): rank for rank, pos in enumerate(order) if pos >= 0}
+        keyword_rank = {}
+        if hybrid:
+            keyword_order = np.argsort(-self.bm25[company].scores(query))
+            keyword_rank = {int(pos): rank for rank, pos in enumerate(keyword_order)}
+            fused = {pos: 1 / (RRF_K + meaning_rank[pos]) + 1 / (RRF_K + keyword_rank[pos]) for pos in meaning_rank}
+            top = sorted(fused, key=lambda pos: -fused[pos])[:top_k]
+        else:
+            top = [int(pos) for pos in order[:top_k] if pos >= 0]
 
         results = []
-        for score, pos in zip(scores[0], positions[0]):
-            if pos < 0:  # FAISS pads with -1 when there are fewer than top_k chunks
-                continue
+        for pos in top:
             record = self.chunks[company][pos]
             meta = record["metadata"]
             results.append(RetrievedChunk(
@@ -181,7 +279,9 @@ class ReportIndex:
                 page=meta["page"],
                 chunk_index=meta["chunk_index"],
                 source=meta["source"],
-                score=float(score),
+                score=similarity[pos],
+                meaning_rank=meaning_rank[pos] + 1,
+                keyword_rank=keyword_rank.get(pos, -1) + 1,
             ))
         if neighbours:
             self.add_neighbours(results, company)
@@ -251,7 +351,10 @@ class ReportIndex:
         """
         if not results:
             return
-        words = prepare_query(question).split()
+        query = prepare_query(question)
+        for result in results:
+            result.keyword_matches = self.bm25[company].word_scores(query, result.chunk_index)
+        words = query.split()
         players = [i for i, w in enumerate(words) if _normalise_word(w) not in _FILLER_WORDS]
         n = len(players)
         if n == 0:
@@ -288,14 +391,42 @@ class ReportIndex:
             result.word_contributions = [(w, by_word.get(i)) for i, w in enumerate(words)]
             result.explanation_method = "Shapley values" if exact else "leave-one-out"
 
-    def retrieve_comparison(self, question: str, top_k: int = DEFAULT_TOP_K) -> Dict[str, List[RetrievedChunk]]:
+    def retrieve_multi(
+        self, question: str, company: str, top_k: int = DEFAULT_TOP_K, sub_queries: Optional[List[str]] = None
+    ) -> List[RetrievedChunk]:
+        """Retrieve for a question that may cover several topics.
+
+        With one (sub-)query this is plain retrieve(). With several (from
+        split_question), each sub-query gets its own top_k, and the lists are
+        interleaved (1st of each, then 2nd of each, ...) without duplicates, so
+        every topic is represented. Example: "water and waste goals" searched as
+        one question returned only water passages; searched as two, both appear.
+        """
+        if not sub_queries or len(sub_queries) < 2:
+            return self.retrieve(question, company, top_k)
+        lists = [self.retrieve(q, company, top_k, neighbours=False) for q in sub_queries]
+        for q, found in zip(sub_queries, lists):
+            for result in found:
+                result.sub_query = q
+        merged, seen = [], set()
+        for position in range(top_k):
+            for found in lists:
+                if position < len(found) and found[position].chunk_index not in seen:
+                    seen.add(found[position].chunk_index)
+                    merged.append(found[position])
+        self.add_neighbours(merged, company)
+        return merged
+
+    def retrieve_comparison(
+        self, question: str, top_k: int = DEFAULT_TOP_K, sub_queries: Optional[List[str]] = None
+    ) -> Dict[str, List[RetrievedChunk]]:
         """Search each report separately so both companies are always represented.
 
         A single combined search could return 5 Wipro chunks and 0 HCLTech
         chunks if Wipro happens to phrase things closer to the question, which
         would make a fair comparison impossible.
         """
-        return {company: self.retrieve(question, company, top_k) for company in self.indexes}
+        return {company: self.retrieve_multi(question, company, top_k, sub_queries) for company in self.indexes}
 
 
 # --- Generation ----------------------------------------------------------------
@@ -347,6 +478,65 @@ def format_context(chunks: List[RetrievedChunk]) -> str:
         if c.context != ""
     ]
     return "\n\n---\n\n".join(blocks)
+
+
+# --- Splitting two-topic questions -----------------------------------------------
+# Only questions that could cover more than one topic are sent to the model to be
+# split; everything else is searched as typed, at no extra cost.
+_MAYBE_SEVERAL_TOPICS = re.compile(r"\band\b|&|\bas well as\b|;|\?.+\?", re.IGNORECASE)
+
+SPLIT_PROMPT = """You turn questions about company sustainability reports into search queries.
+If the question asks about one topic, return it unchanged.
+If it asks about several distinct topics, return one short, complete question per topic (at most 3).
+
+Examples:
+"What are the water and waste goals?" ->
+What are the water goals?
+What are the waste goals?
+
+"What is the Scope 1 and 2 target?" ->
+What is the Scope 1 and 2 target?
+
+"How many women work there and what is the attrition rate?" ->
+How many women work there?
+What is the attrition rate?
+
+Output only the questions, one per line, with no numbering or other text."""
+
+
+@dataclass
+class SplitQuestion:
+    queries: List[str]
+    cost_usd: float = 0.0
+
+
+def split_question(question: str) -> SplitQuestion:
+    """Split a multi-topic question into one search query per topic.
+
+    A free regular-expression check runs first; only questions containing
+    "and", "&", "as well as", ";" or two question marks are sent to Claude
+    Haiku (about US$0.0002). Any problem (no key, API error, odd output) falls
+    back to searching the question as typed.
+    """
+    if not _MAYBE_SEVERAL_TOPICS.search(question) or not has_api_key():
+        return SplitQuestion([question])
+    import anthropic
+
+    try:
+        response = anthropic.Anthropic(api_key=get_api_key()).messages.create(
+            model=LLM_MODEL,
+            max_tokens=150,
+            system=SPLIT_PROMPT,
+            messages=[{"role": "user", "content": question}],
+        )
+    except anthropic.APIError:
+        return SplitQuestion([question])
+    cost = (response.usage.input_tokens * PRICE_PER_MTOK_INPUT
+            + response.usage.output_tokens * PRICE_PER_MTOK_OUTPUT) / 1_000_000
+    text = "".join(b.text for b in response.content if b.type == "text")
+    queries = [re.sub(r"^\s*(?:[-*•]|\d+[.)])\s*", "", line).strip() for line in text.splitlines()]
+    queries = [q for q in queries if len(q) > 3][:3]
+    return SplitQuestion(queries or [question], cost)
 
 
 def generate_answer(question: str, chunks: List[RetrievedChunk]) -> Answer:
