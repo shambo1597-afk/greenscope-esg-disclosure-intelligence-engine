@@ -39,9 +39,20 @@ with Claude Haiku 4.5 and takes about 3 seconds (Compare mode makes two calls).
 streamlit run app.py
 ```
 
-The first run downloads the embedding model, reads and embeds both PDFs (about 2 minutes)
-and saves the result in `index/`. Later runs load it in seconds. To force a rebuild:
-`python -m src.data --rebuild`.
+The pre-built index is committed in `index/`, so the app starts in seconds; the first
+run only downloads the embedding model (~130 MB). If the PDFs or settings change, the
+index is rebuilt automatically (about 2 minutes); to force it: `python -m src.data --rebuild`.
+
+## Before a live demo
+
+1. On the presenting laptop, with internet: `pip install -r requirements.txt`, then
+   `python -m src.model --check --live`. Every line should say PASS. This downloads the
+   embedding model, so search keeps working later even if the Wi-Fi drops (only the AI
+   answer needs internet).
+2. Start the app (`streamlit run app.py`) 5 minutes early and ask one example question,
+   so everything is loaded.
+3. Have a fallback: if the API fails, the retrieved passages and their explanations are
+   still shown, and each one is a cited answer in itself.
 
 ## Architecture
 
@@ -57,11 +68,11 @@ and saves the result in `index/`. Later runs load it in seconds. To force a rebu
                                                                                      │
                          PER QUESTION  (src/model.py, app.py)                        ▼
  ┌──────────────┐   ┌───────────────────┐   ┌───────────────────────┐   ┌──────────────────────┐
- │ Question     │──►│ prepare_query:    │──►│ FAISS IndexFlatIP     │──►│ Small-to-big: widen  │
- │ mode, top_k  │   │ name -> "the      │   │ one index per company │   │ each match to ~2,000 │
- │ (Streamlit)  │   │ company"; embed   │   │ cosine, top 5 each    │   │ chars of its page    │
- └──────────────┘   │ with BGE + prefix │   └───────────┬───────────┘   └──────────┬───────────┘
-                    └───────────────────┘               │                          ▼
+ │ Question     │──►│ split_question:   │──►│ Hybrid search per     │──►│ Small-to-big: widen  │
+ │ mode, top_k  │   │ one query per     │   │ company: FAISS cosine │   │ each match to ~2,000 │
+ │ (Streamlit)  │   │ topic; name ->    │   │ + BM25 keywords,      │   │ chars of its page    │
+ └──────────────┘   │ "the company"     │   │ fused by RRF, top 5   │   └──────────┬───────────┘
+                    └───────────────────┘   └───────────┬───────────┘              ▼
                                                         ▼               ┌──────────────────────┐
                                         ┌──────────────────────────┐    │ Claude Haiku 4.5:    │
                                         │ explain(): exact Shapley │    │ answer ONLY from the │
@@ -77,12 +88,16 @@ and saves the result in `index/`. Later runs load it in seconds. To force a rebu
 |---|---|
 | `app.py` | Streamlit interface: mode, top_k slider, example questions, answers, passages, explanations, session metrics |
 | `src/data.py` | Load PDFs, chunk, embed, save/load the `index/` cache; the tuned parameters and why |
-| `src/model.py` | Query clean-up, FAISS retrieval, small-to-big context, Shapley explanations, grounded generation with Claude |
+| `src/model.py` | Query clean-up and splitting, hybrid retrieval (FAISS + BM25, RRF), small-to-big context, Shapley explanations, grounded generation with Claude, pre-demo check |
 | `eval/eval_set.json` | 40 test questions (20 per company) with the PDF pages holding the answer |
 | `eval/run_eval.py` | Retrieval evaluation (Hit@k, MRR, Precision@5), writes `eval/results.md` |
 | `eval/tune.py` | Grid search with 5-fold cross-validation, writes `eval/tuning_results.md` |
 | `eval/make_charts.py` | Charts of the tuning results, written to `docs/figures/` |
 | `eval/distance_metrics.py` | Cosine vs dot product vs Euclidean vs Manhattan |
+| `eval/retrieval_methods.py` | Dense vs BM25 vs hybrid vs re-ranking, cross-validated |
+| `eval/multi_topic_eval.py` | Two-topic questions: single vs split search |
+| `eval/answer_eval.py` | 40 questions x 3 runs, graded by an AI judge via the Batch API |
+| `tests/test_core.py` | 15 automated tests, run on every push by GitHub Actions |
 | `eval/compare_pdf_parsers.py` | Experiment: PyPDF vs Docling |
 
 ## Evaluation
@@ -94,15 +109,19 @@ python eval/run_eval.py          # main retrieval metrics       -> eval/results.
 python eval/tune.py              # tuning + cross-validation    -> eval/tuning_results.md (~1.5 h, cached)
 python eval/make_charts.py       # charts                       -> docs/figures/
 python eval/distance_metrics.py  # distance metrics             -> eval/distance_metrics.md
+python eval/retrieval_methods.py # hybrid search / re-ranking   -> eval/retrieval_methods.md
+python eval/multi_topic_eval.py  # two-topic questions (API, <1 cent) -> eval/multi_topic_results.md
+python eval/answer_eval.py       # answer quality (API, ~US$0.50)    -> eval/answer_quality.md
+pytest -q                        # automated tests
 ```
 
 Current retrieval results (40 questions, top 5 passages):
 
 | Group | Hit@1 | Hit@3 | Hit@5 | MRR@5 | Precision@5 |
 |---|---|---|---|---|---|
-| Wipro (20) | 0.70 | 0.85 | 0.95 | 0.77 | 0.57 |
-| HCLTech (20) | 0.85 | 0.90 | 0.90 | 0.87 | 0.60 |
-| Overall (40) | 0.78 | 0.88 | 0.93 | 0.82 | 0.58 |
+| Wipro (20) | 0.80 | 0.95 | 0.95 | 0.85 | 0.67 |
+| HCLTech (20) | 0.90 | 0.90 | 0.90 | 0.90 | 0.64 |
+| Overall (40) | 0.85 | 0.93 | 0.93 | 0.88 | 0.66 |
 
 **Tuning with cross-validation.** 36 settings (embedding model × chunk size × overlap);
 in each of 5 folds the best was chosen on 32 questions and scored on the 8 held out. The
@@ -110,18 +129,26 @@ same setting won every fold: held-out MRR@5 **0.82 ± 0.13** vs **0.67 ± 0.15**
 original setting (MiniLM, 800/150). Details:
 [`eval/tuning_results.md`](eval/tuning_results.md).
 
-**Answer quality** (graded by hand, costs a few cents):
-[`eval/answer_check_tuned.md`](eval/answer_check_tuned.md): 13 of 16 fully correct, with
-each error traced to its cause.
+**Hybrid search.** Keyword search (BM25) fused with vector search by Reciprocal Rank
+Fusion beat vector search alone (MRR@5 0.875 vs 0.818 on all 40; held-out 0.85 vs 0.82);
+re-rankers were tested and left out ([`eval/retrieval_methods.md`](eval/retrieval_methods.md)).
 
-**Other experiments:** removing company names from the query (Hit@5 0.70 to 0.93;
+**Answer quality.** 120 answers (40 questions × 3 runs) graded by Claude Sonnet 5.5 against
+reference answers and the source passages: **82% correct**, 2% partly correct, 11% with
+an error, 5% missed; citations supported in 88%
+([`eval/answer_quality.md`](eval/answer_quality.md)). A hand check of 14 judge verdicts
+agreed with all 14 ([`eval/answer_quality_judge_check.md`](eval/answer_quality_judge_check.md)).
+
+**Other experiments:** splitting two-topic questions
+([`eval/multi_topic_results.md`](eval/multi_topic_results.md)), removing company names
+from the query (Hit@5 0.85 to 0.93;
 `eval/results.md`), distance metrics ([`eval/distance_metrics.md`](eval/distance_metrics.md)),
 and PyPDF vs the layout-aware parser Docling, on retrieval and graded answers
 ([`eval/pdf_parser_comparison.md`](eval/pdf_parser_comparison.md); reproduce with
 `python eval/compare_pdf_parsers.py --answers`, needs `pip install docling`).
 
 Limitations: 40 questions is small; matching is by page, not passage; gold pages are not
-yet human-verified (`"verified": false`); answers were graded once per question.
+yet human-verified (`"verified": false`); the answer judge was checked on 14 verdicts.
 
 ## Notes
 

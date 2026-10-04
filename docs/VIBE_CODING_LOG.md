@@ -25,7 +25,7 @@
    if not, say so; don't fake it", no secrets staged). The agent reported each one,
    including what it could *not* verify.
 4. **Explicit budget and scope limits.** "I have US$5 of credits": the agent then
-   tracked the cost of every test call. Total API spend for development: about US$0.20.
+   tracked the cost of every test call. Total API spend for development: about US$0.75, most of it one graded evaluation of 120 answers.
 5. **Challenging the agent's recommendations.** When the agent dismissed a better PDF
    parser as "a bigger change", we asked *"why not?"*. It tested the idea instead of
    assuming, and that turned into two documented experiments (PyMuPDF, Docling).
@@ -49,6 +49,11 @@
 - **Human-in-the-loop on decisions, agent on execution.** We chose the domain, the
   documents, the model budget and which experiments to run; the agent wrote, ran and
   reported.
+- **Batch processing and an AI judge for evaluation.** 120 answers were generated and
+  graded by a stronger model through the Message Batches API (half price, US$0.52), and
+  the judge itself was checked by hand.
+- **Tests and CI as guard-rails for the agent.** 15 automated tests run on every push,
+  so later agent changes cannot silently break citations or retrieval quality.
 - **Small logical commits** (data, model, app, eval, docs), each with a message explaining
   the reason, so the history doubles as a design record.
 

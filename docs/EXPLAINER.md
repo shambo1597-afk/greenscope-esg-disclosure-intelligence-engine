@@ -38,9 +38,9 @@ relevant pages and told to answer from those alone.
  └────────────────────┘
       │
       ▼
- ┌────────────────────┐   compare with ~1,700-2,400 stored passage vectors per report
- │ 2. FAISS search    │──► top 5 most similar 400-character passages (+ page numbers)
- └────────────────────┘
+ ┌────────────────────┐   rank ~1,700-2,400 passages per report twice: by meaning
+ │ 2. Hybrid search   │   (FAISS, vectors) and by keywords (BM25); fuse the two
+ └────────────────────┘──► top 5 400-character passages (+ page numbers)
       │
       ▼
  ┌────────────────────┐   widen each match to ~2,000 characters of the same page
@@ -157,13 +157,44 @@ passage came from. In **Compare** mode it also guarantees both companies get the
 own top 5. A single combined search could return five Wipro passages and none from
 HCLTech, which would make the comparison unfair.
 
+**Hybrid search: meaning plus keywords.** Meaning search is good at paraphrases ("green
+power" finds "renewable electricity") but blurs exact terms: "CDP", "ISO 14001",
+"nationalities". So every passage is also ranked by **BM25**, the classic keyword
+score: a passage scores higher the more of the question's words it contains, rare words
+counting more ("nationalities" beats "company"), with a small penalty for long passages.
+The two rankings are combined with **Reciprocal Rank Fusion (RRF)**:
+
+> score = 1 / (60 + meaning rank) + 1 / (60 + keyword rank)
+
+A passage near the top of either list rises; near the top of both, it wins. RRF has no
+weight to tune (60 is the standard constant), which matters on a small test set
+(section 5). Results: MRR@5 0.82 -> 0.88, Hit@1 0.78 -> 0.85. Example: "How many
+nationalities are in Wipro's workforce?" was a miss with meaning search alone; with
+keywords, page 7 ("146 Nationalities") comes first. The app shows each passage's
+meaning rank, keyword rank and matched keywords.
+
+We also tested **re-ranking**: a cross-encoder model reads the question and each of the
+top 20 passages *together* and re-scores them. The BGE re-ranker put a gold page in the
+top 5 for all 40 questions, but ranked the best page first less often, added 1.8 s per
+company and needs a 1.1 GB model, so we left it out (`eval/retrieval_methods.md`). A
+smaller re-ranker trained on web searches made results worse.
+
+**Two-topic questions.** "What are the water **and** waste goals?" is really two
+searches. Questions that contain "and", "&", "as well as" or ";" (a free check) are sent
+to Claude Haiku (about US$0.0002), which returns one search query per topic, or the
+question unchanged ("Scope 1 **and** 2 emissions" is one topic). Each topic gets its own
+top 5. On 8 two-topic test questions, both topics reached the model in 8 of 8 vs 7 of 8
+with a single search; a single search with 10 passages also got 8 of 8, so the gain is
+"more passages, only where needed" rather than anything cleverer (`eval/multi_topic_results.md`).
+
 **Query clean-up.** Before searching, GreenScope replaces the company name in your
 question with "the company" (e.g. "HCLTech's water target" becomes "the company's
 water target"). Since we're already searching inside one company's report, the name
 adds nothing. Worse, it made the question look similar to useless page footers like
 "About HCLTech / HCLTech Sustainability Report 2024 / 92". With the final settings,
-this raises the share of questions with a correct page in the top 5 from **0.70 to
-0.93** (`eval/results.md`). Claude still sees your original question.
+this raises the share of questions with a correct page in the top 5 from **0.85 to
+0.93** (`eval/results.md`; with meaning search alone the effect was larger: 0.56 to 0.94
+on our first test set). Claude still sees your original question.
 
 **Small-to-big context.** Each match is widened with neighbouring chunks, alternately
 after and before it, until it holds about **2,000 characters**, but never beyond its
@@ -228,16 +259,28 @@ Final system:
 
 | Metric | Meaning | Score |
 |---|---|---|
-| Hit@1 | The very first passage is from a gold page | 0.78 |
-| Hit@3 | A gold page is in the top 3 | 0.88 |
+| Hit@1 | The very first passage is from a gold page | 0.85 |
+| Hit@3 | A gold page is in the top 3 | 0.93 |
 | Hit@5 | A gold page is in the top 5 (what the model sees) | 0.93 |
-| MRR@5 | Average of 1/rank of the first gold page (1 = always first) | 0.82 |
-| Precision@5 | Share of the 5 passages that are from gold pages | 0.58 |
+| MRR@5 | Average of 1/rank of the first gold page (1 = always first) | 0.88 |
+| Precision@5 | Share of the 5 passages that are from gold pages | 0.66 |
 
-**Answers** (graded by hand against the PDF, costs a few cents): the 16 original
-questions are answered and each answer marked correct, partly correct, contains an
-error, or missed. Final system: 13 correct, 1 partly correct, 2 with an error, 0 missed
-(`eval/answer_check_tuned.md`).
+**Answers** (`eval/answer_eval.py`, US$0.52): every one of the 40 questions is answered
+**3 times** through the app's exact pipeline (answers vary between runs), and each of
+the 120 answers is graded by a stronger model, **Claude Sonnet 5.5**, acting as a judge.
+It sees the question, the reference answer and the passages the answer was based on,
+and returns a verdict on the scale we use by hand (correct / partly correct / contains
+an error / missed) plus whether every citation supports its claim. Both steps ran
+through the **Message Batches API**, which costs half as much and returns within minutes.
+
+| Correct | Partly correct | Contains an error | Missed | Citations all supported | Correct in all 3 runs |
+|---|---|---|---|---|---|
+| **82%** | 2% | 11% | 5% | 88% | 30 of 40 questions |
+
+An AI judge can be wrong too, so we checked 14 of its verdicts by hand against the PDF:
+it agreed in all 14, and it is strict about exact figures (`eval/answer_quality_judge_check.md`).
+Most errors are figures paired with the wrong label from scrambled chart or table text;
+the misses are facts that only appear on infographic pages (section 6).
 
 ## 5. Tuning the settings, with cross-validation
 
@@ -279,15 +322,24 @@ sidebar slider allows 3 to 8).
 came out about the same (13 correct in both), with several answers more complete.
 Retrieval improved clearly, so we kept the tuned setting.
 
+**Retrieval method, also cross-validated** (`eval/retrieval_methods.py`): with the same 5
+folds we compared meaning search, keyword search (BM25), weighted blends of the two (7
+weights), RRF, and each of those followed by two re-rankers. Every blend beat meaning
+search alone on the full set; RRF was best (MRR@5 0.875 vs 0.818) and was picked in 3
+of 5 folds (held-out 0.85 vs 0.82). The "best" blend weight changed from fold to fold,
+a sign that tuning it would mostly fit noise, which is why we chose weight-free RRF.
+
 ## 6. Where hallucination (made-up content) can still happen
 
 Grounding reduces the risk a lot, but doesn't remove it:
 
 - **Retrieval misses.** If the right passage isn't in the top 5 (7% of test questions),
-  the model should say "not disclosed", but it may stretch a related passage into an
-  answer.
+  the model should say "not disclosed" (5% of graded answers), but it may stretch a
+  related passage into an answer. The misses are facts printed only on infographic
+  pages, such as Wipro's 13.5% supplier diversity spend on its highlights page.
 - **Garbled extraction.** Tables and infographics come out as jumbled text. The model
-  may pair a number with the wrong label (examples below).
+  may pair a number with the wrong label (examples below). This is the main source of
+  the 11% of answers with an error in the graded evaluation.
 - **Run-to-run variation.** The same question with the same passages can be answered
   slightly differently. Once in four runs, the model wrote Wipro's CDP rating as "A"
   although the passage says "A-".
@@ -297,9 +349,9 @@ Grounding reduces the risk a lot, but doesn't remove it:
   report and total energy in another; baselines differ (2017 vs FY20).
 - **Model knowledge leaking in.** Claude may know facts about these companies from
   training. The prompt forbids using them, but that can't be guaranteed 100%.
-- **Questions about two topics at once.** "What are the water **and** waste goals?"
-  is turned into one search, which can return only water passages. Ask about one topic
-  at a time.
+- **Questions about several topics.** Now split into one search per topic, but only
+  when the question contains a joining word like "and"; a two-topic question phrased
+  without one is still searched once.
 
 ### A real example we found and fixed
 
@@ -356,8 +408,10 @@ the exact text and page in seconds.
 | Embedding model | BAAI/bge-small-en-v1.5 | Trained for search; won the cross-validated comparison against MiniLM and MPNet |
 | Similarity | Cosine (unit vectors + inner product) | Matches how the model was trained; equals dot product and Euclidean ranking here |
 | Index | FAISS IndexFlatIP, one per company | Exact search in 0.03 s; per-company keeps sources and comparisons fair |
+| Ranking | Hybrid: meaning (FAISS) + keywords (BM25), fused with RRF (k = 60) | MRR@5 0.82 -> 0.88; no weight to tune; a re-ranker was tested and left out |
+| Two-topic questions | Split into one search per topic (free gate + Haiku) | Both topics found in 8/8 vs 7/8 two-topic questions |
 | top_k | 5 (slider 3 to 8) | Hit@k reaches 0.93 at 5, only 0.95 at 10 |
-| Query clean-up | company name -> "the company" | Hit@5 0.70 -> 0.93 |
+| Query clean-up | company name -> "the company" | Hit@5 0.85 -> 0.93 |
 | LLM | Claude Haiku 4.5, max 600 tokens | Cheapest current Claude model; the job is reading supplied text and citing it. Measured: about 3 seconds and US$0.002 to US$0.0035 per answer |
 
 ## 8. How this project maps to the course rubric
@@ -371,9 +425,11 @@ to a RAG system:
 | Scaling | Normalizing every vector to length 1, so cosine = inner product | `embed_texts` in `src/data.py`, `eval/distance_metrics.md` |
 | Feature selection | Which text represents a passage (chunk size and overlap) and which embedding model turns it into features | `eval/tune.py` |
 | Hyperparameter tuning | Grid search over 36 combinations of model x chunk size x overlap; top_k from the Hit@k curve | `eval/tuning_results.md` |
-| Cross-validation | 5-fold, company-balanced, choose on 32 questions, score on 8 | `eval/tuning_results.md`, `docs/figures/cross_validation.png` |
+| Model optimization | Hybrid search (BM25 + vectors, RRF) adopted; re-rankers tested and rejected; two-topic splitting | `eval/retrieval_methods.md`, `eval/multi_topic_results.md` |
+| Cross-validation | 5-fold, company-balanced, choose on 32 questions, score on 8 (for settings and for retrieval methods) | `eval/tuning_results.md`, `eval/retrieval_methods.md` |
 | Model explainability (SHAP/LIME) | Exact Shapley values per question word for every retrieved passage, plus page citations | `ReportIndex.explain`, the app's passage panel |
-| Error analysis | Inspected every retrieval miss; graded answers; traced errors to scrambled charts; tested and rejected two PDF readers | sections 5 and 6, `eval/` |
+| Error analysis | Inspected every retrieval miss; 120 answers graded by an AI judge checked by hand; errors traced to scrambled charts; two PDF readers tested and rejected | sections 4 to 6, `eval/` |
+| Production-grade pipeline | Automated tests (15) run on every push via GitHub Actions; pinned versions; committed index; pre-demo check | `tests/`, `.github/workflows/tests.yml`, `python -m src.model --check` |
 | Real-time inference | Each question is embedded and searched live (0.03 s), answered in about 3 s | the app |
 | Business metrics / ROI | Persona, ROI model, live "time saved" and cost in the app sidebar | `docs/BUSINESS_CASE.md` |
 
@@ -421,31 +477,46 @@ It finds the vectors most similar to the question. At this size plain numpy woul
 be fast. FAISS keeps the code standard and would scale to thousands of reports. We use
 its exact (flat) index, so no accuracy is traded for speed.
 
-**8. How do you know the answers are correct?**
-Three layers. Retrieval: a correct page is in the top 5 for 93% of 40 test questions,
-also 93% on held-out questions. Answers: 13 of 16 graded answers fully correct, with
-the errors traced and documented. And every answer shows its citations, the exact
-passages and the word explanation, so a reader can verify each claim.
+**8. Why combine vector search with keyword search?**
+Vectors capture meaning but blur exact terms such as "CDP", "ISO 14001" or
+"nationalities"; keyword search (BM25) catches exactly those. We merge the two rankings
+with Reciprocal Rank Fusion, which needs no weight to tune. Cross-validated, it raised
+MRR@5 from 0.82 to 0.85 on held-out questions (0.88 on the full set). We also tried a
+re-ranking model; it did not help enough to justify 1.8 extra seconds per company.
 
-**9. What happens when the answer isn't in the reports?**
+**9. How do you know the answers are correct?**
+Three layers. Retrieval: a correct page is in the top 5 for 93% of 40 test questions.
+Answers: we generated 120 answers (40 questions × 3 runs) and had a stronger model grade
+each against a reference answer and the source passages: 82% fully correct, 11% with an
+error, 5% missed. We checked the judge itself by hand on 14 verdicts (14 agreed). And
+every answer in the app shows its citations, the exact passages and the word
+explanation, so a reader can verify each claim.
+
+**10. How do you know the code works?**
+15 automated tests check the core logic: query clean-up, chunking, the BM25 formula,
+hybrid ranking, that context never crosses a page (which would break citations), that
+Shapley values add up exactly, and the behaviour without an API key. One test checks that
+retrieval quality on the real index hasn't dropped. GitHub runs them all on every push.
+
+**11. What happens when the answer isn't in the reports?**
 The model is told to say "This is not disclosed in the retrieved text". This can also
 happen when the information *is* in the report but retrieval missed it, which is why
 we show the passages. Raising top_k with the slider can help.
 
-**10. Why Claude Haiku rather than a bigger model?**
+**12. Why Claude Haiku rather than a bigger model?**
 The task is reading five supplied passages and quoting them with citations, which
 doesn't need deep reasoning. Haiku 4.5 is the cheapest current Claude model (about
 US$0.002 to US$0.0035 and 3 seconds per answer). Our tests show answer quality depends
 mostly on whether retrieval found the right passages and whether the PDF text is clean,
 which a bigger model doesn't fix.
 
-**11. Is the comparison between Wipro and HCLTech fair?**
+**13. Is the comparison between Wipro and HCLTech fair?**
 Partly. Retrieval is fair: each company gets its own top 5. But the reports cover
 different fiscal years (FY2024-25 vs FY2024), use different baselines (2017/2020 vs
 FY20) and sometimes different definitions. The app states the fiscal-year difference on
 every page, and the citations let users check definitions.
 
-**12. What was the biggest problem you found, and how did you fix it?**
+**14. What was the biggest problem you found, and how did you fix it?**
 Two. First, the company name in questions matched page footers ("About HCLTech ...
 92"); replacing it with "the company" raised Hit@5 from 0.56 to 0.94 on our first test
 set. Second, a chart on Wipro's page 67 made the model report 59% (the Scope 1 and 2
@@ -453,18 +524,18 @@ target) as the Scope 3 target; we traced it to scrambled chart text and fixed it
 context around each match and two prompt rules. Section 6 has the details, including
 two PDF readers we tested and rejected.
 
-**13. What is the business value?**
+**15. What is the business value?**
 For an ESG analyst, a lookup that takes about 10 minutes by hand takes about 2 with
 GreenScope, including checking the cited passage. For a team doing 2,400 lookups a year
 that is 320 hours. The ROI is 153% at Indian analyst rates and 213% at global
 consultancy rates, after hosting and maintenance. The 10 and 2 minutes are assumptions;
 `docs/BUSINESS_CASE.md` describes a time trial to measure them.
 
-**14. What are the main limitations, and what would you improve next?**
-Charts and images aren't read, and tables are extracted poorly. The evaluation set
-(40 questions) is small and its gold pages are not yet human-verified; answers were
-graded once per question, and answers vary slightly between runs. Page numbers are PDF
-file pages, not printed pages. Next steps: layout-aware text only for chart and table
-pages, hybrid search (meaning plus keyword matching, which helps with exact terms like
-"CDP" or "Scope 3"), a re-ranking step, a larger human-verified evaluation set, and
-repeated answer grading.
+**16. What are the main limitations, and what would you improve next?**
+Charts and images aren't read, and tables are extracted poorly: that causes most of
+the 11% of answers with an error and the 5% misses. The evaluation set (40 questions) is
+small, its gold pages are not yet human-verified, and the answer judge was checked on
+only 14 verdicts. Page numbers are PDF file pages, not printed pages. Next steps:
+layout-aware text for chart and table pages only (or a vision model reading those
+pages), the BGE re-ranker as an optional "precise mode", a larger human-verified
+evaluation set, and the time trial to measure the business case.
