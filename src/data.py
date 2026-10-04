@@ -42,6 +42,9 @@ COMPANIES: Dict[str, str] = {
 }
 
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+# Some embedding models are trained to expect an instruction in front of search
+# questions (not in front of the passages). MiniLM is not, so this is empty.
+QUERY_PREFIX = ""
 
 # --- Chunking parameters -----------------------------------------------------
 # CHUNK_SIZE = 800 characters (~130-160 words, ~180-200 tokens).
@@ -158,6 +161,11 @@ def embed_texts(texts: List[str], show_progress: bool = False) -> np.ndarray:
     return vectors.astype(np.float32)  # FAISS requires float32
 
 
+def embed_queries(questions: List[str]) -> np.ndarray:
+    """Embed search questions (adds QUERY_PREFIX if the model needs one)."""
+    return embed_texts([QUERY_PREFIX + q for q in questions])
+
+
 def embed_chunks(chunks: List[Document]) -> Tuple[np.ndarray, List[str], List[dict]]:
     """Embed chunks; return (embeddings, texts, metadatas) in matching order."""
     texts = [c.page_content for c in chunks]
@@ -180,6 +188,7 @@ def _manifest() -> dict:
         pdfs[company] = {"file": filename, "bytes": path.stat().st_size if path.exists() else None}
     return {
         "embedding_model": EMBEDDING_MODEL_NAME,
+        "query_prefix": QUERY_PREFIX,
         "chunk_size": CHUNK_SIZE,
         "chunk_overlap": CHUNK_OVERLAP,
         "min_chunk_chars": MIN_CHUNK_CHARS,

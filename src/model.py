@@ -13,13 +13,14 @@ Two steps, the classic RAG (Retrieval-Augmented Generation) pattern:
 import os
 import re
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from math import factorial
+from typing import Dict, List, Optional, Tuple
 
 import faiss
 import numpy as np
 from dotenv import load_dotenv
 
-from src.data import COMPANIES, build_index, embed_texts
+from src.data import COMPANIES, build_index, embed_queries
 
 # Read ANTHROPIC_API_KEY from a local .env file if present (it is gitignored).
 # The key is only ever passed to the Anthropic client; it is never printed or logged.
@@ -47,6 +48,10 @@ class RetrievedChunk:
     # page (see add_neighbours). "" = already sent as part of a better result;
     # None = not widened, so the chunk text itself is sent.
     context: Optional[str] = None
+    # Filled by ReportIndex.explain(): (word, contribution) for each word of the
+    # question; contribution is None for words that were not scored ("the", "of").
+    word_contributions: Optional[List[Tuple[str, Optional[float]]]] = None
+    explanation_method: str = ""
 
 
 @dataclass
@@ -97,6 +102,25 @@ def _join_overlapping(first: str, second: str) -> str:
     return first + "\n" + second
 
 
+# --- Explanation ---------------------------------------------------------------
+MAX_SHAPLEY_WORDS = 8
+
+# Words that carry little meaning on their own. They stay in every version of the
+# question when computing word contributions, so only content words are scored.
+# "company"/"company's" are here because prepare_query() inserted them.
+_FILLER_WORDS = {
+    "a", "an", "the", "of", "in", "on", "for", "to", "and", "or", "by", "with", "at", "from",
+    "is", "are", "was", "were", "be", "been", "does", "do", "did", "has", "have", "had",
+    "what", "which", "who", "how", "when", "where", "why", "much", "many",
+    "its", "it", "this", "that", "these", "those", "their", "there",
+    "company", "company's", "companys",
+}
+
+
+def _normalise_word(word: str) -> str:
+    return word.lower().strip("?.,!:;\"'()").replace("’", "'")
+
+
 class ReportIndex:
     """Holds one FAISS index + chunk list per company.
 
@@ -111,12 +135,14 @@ class ReportIndex:
         data = build_index(force=force_rebuild)
         self.indexes: Dict[str, faiss.IndexFlatIP] = {}
         self.chunks: Dict[str, List[dict]] = {}
+        self.vectors: Dict[str, np.ndarray] = {}
         for company, entry in data.items():
             vectors = np.ascontiguousarray(entry["vectors"], dtype=np.float32)
             index = faiss.IndexFlatIP(vectors.shape[1])
             index.add(vectors)
             self.indexes[company] = index
             self.chunks[company] = entry["chunks"]
+            self.vectors[company] = vectors
 
     def retrieve(
         self,
@@ -136,7 +162,7 @@ class ReportIndex:
             raise ValueError(f"Unknown company '{company}'. Choose from {list(COMPANIES)}.")
 
         query = prepare_query(question) if neutralize_names else question
-        query_vector = embed_texts([query])
+        query_vector = embed_queries([query])
         scores, positions = self.indexes[company].search(query_vector, top_k)
 
         results = []
@@ -186,6 +212,63 @@ class ReportIndex:
             for i in window:
                 context = _join_overlapping(context, chunks[i]["text"]) if context else chunks[i]["text"]
             result.context = context
+
+    def explain(self, question: str, results: List[RetrievedChunk], company: str) -> None:
+        """Explain each match: how much did each word of the question contribute?
+
+        Method: exact Shapley values (the idea behind SHAP), applied to retrieval.
+        The "players" are the content words of the question; filler words such as
+        "what", "the", "of" stay in every version of the question. For every subset
+        of content words we embed the shortened question and measure its cosine
+        similarity with the passage. A word's Shapley value is its average extra
+        similarity over all the orders in which words could be added.
+
+        Useful property: for each passage the values add up exactly to
+        (similarity of the full question) - (similarity with no content words).
+
+        With n content words this needs 2**n small embeddings (n <= 8: at most
+        256, well under a second). Longer questions use leave-one-out instead:
+        each word's value = full similarity - similarity without that word.
+        Results are stored on each RetrievedChunk (word_contributions).
+        """
+        if not results:
+            return
+        words = prepare_query(question).split()
+        players = [i for i, w in enumerate(words) if _normalise_word(w) not in _FILLER_WORDS]
+        n = len(players)
+        if n == 0:
+            return
+
+        def question_with(kept_players):
+            return " ".join(w for i, w in enumerate(words) if i not in players or i in kept_players)
+
+        exact = n <= MAX_SHAPLEY_WORDS
+        if exact:
+            masks = list(range(2 ** n))  # bit j set = player j kept
+        else:
+            full_mask = 2 ** n - 1
+            masks = [full_mask] + [full_mask & ~(1 << j) for j in range(n)]
+        texts = [question_with({players[j] for j in range(n) if mask >> j & 1}) for mask in masks]
+        chunk_vectors = self.vectors[company][[r.chunk_index for r in results]]
+        sims = embed_queries(texts) @ chunk_vectors.T  # rows: question versions, cols: passages
+        row = {mask: i for i, mask in enumerate(masks)}
+
+        values = np.zeros((n, len(results)))
+        if exact:
+            weight = [factorial(s) * factorial(n - s - 1) / factorial(n) for s in range(n)]
+            for j in range(n):
+                for mask in masks:
+                    if not mask >> j & 1:
+                        gain = sims[row[mask | 1 << j]] - sims[row[mask]]
+                        values[j] += weight[bin(mask).count("1")] * gain
+        else:
+            for j in range(n):
+                values[j] = sims[0] - sims[1 + j]
+
+        for col, result in enumerate(results):
+            by_word = {players[j]: float(values[j, col]) for j in range(n)}
+            result.word_contributions = [(w, by_word.get(i)) for i, w in enumerate(words)]
+            result.explanation_method = "Shapley values" if exact else "leave-one-out"
 
     def retrieve_comparison(self, question: str, top_k: int = DEFAULT_TOP_K) -> Dict[str, List[RetrievedChunk]]:
         """Search each report separately so both companies are always represented.

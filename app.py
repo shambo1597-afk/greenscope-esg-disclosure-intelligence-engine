@@ -7,6 +7,7 @@ This file only handles the screen. The real work lives in:
     src/model.py  - searching the chunks and asking Claude for a cited answer
 """
 
+import html
 from typing import List
 
 import streamlit as st
@@ -48,12 +49,37 @@ def use_example(question: str) -> None:
     st.session_state.run_now = True
 
 
+def word_contributions_html(chunk: RetrievedChunk) -> str:
+    """Colour each question word by how much it raised (green) or lowered (red) the match."""
+    scored = [v for _, v in chunk.word_contributions if v is not None]
+    largest = max((abs(v) for v in scored), default=0) or 1.0
+    spans = []
+    for word, value in chunk.word_contributions:
+        word = html.escape(word)
+        if value is None:
+            spans.append(f'<span style="opacity:0.55">{word}</span>')
+            continue
+        strength = 0.15 + 0.65 * abs(value) / largest
+        colour = f"rgba(34,139,34,{strength:.2f})" if value >= 0 else f"rgba(200,40,40,{strength:.2f})"
+        spans.append(
+            f'<span title="{value:+.3f}" style="background:{colour};padding:1px 4px;'
+            f'border-radius:4px">{word} <small>{value:+.2f}</small></span>'
+        )
+    return " ".join(spans)
+
+
 def show_sources(chunks: List[RetrievedChunk], expanded: bool = False) -> None:
     """Expandable list of the passages the answer was based on."""
     with st.expander(f"Retrieved passages ({len(chunks)})", expanded=expanded):
-        st.caption("Each match is shown with its neighbouring text on the same page, exactly as sent to the AI.")
+        st.caption(
+            "Each match is shown with its neighbouring text on the same page, exactly as sent to the AI. "
+            "**Why it matched:** each word of your question is coloured by how much it raised (green) or "
+            "lowered (red) the similarity score, measured with Shapley values."
+        )
         for rank, c in enumerate(chunks, start=1):
             st.markdown(f"**#{rank} · {c.company}, page {c.page}** · similarity {c.score:.3f}")
+            if c.word_contributions:
+                st.markdown(word_contributions_html(c), unsafe_allow_html=True)
             if c.context == "":
                 st.caption("Already included in a higher-ranked passage above.")
             else:
@@ -111,12 +137,15 @@ if (ask or run_now) and question.strip():
     if len(companies) == 1:
         with st.spinner(f"Searching the {companies[0]} report and writing an answer..."):
             chunks = index.retrieve(question, companies[0], top_k)
+            index.explain(question, chunks, companies[0])
             answer = generate_answer(question, chunks)
         st.subheader(companies[0])
         show_answer(answer)
     else:
         with st.spinner("Searching both reports and writing two answers..."):
             per_company = index.retrieve_comparison(question, top_k)
+            for company, chunks in per_company.items():
+                index.explain(question, chunks, company)
             answers = {c: generate_answer(question, chunks) for c, chunks in per_company.items()}
         columns = st.columns(len(answers))
         for col, (company, answer) in zip(columns, answers.items()):
