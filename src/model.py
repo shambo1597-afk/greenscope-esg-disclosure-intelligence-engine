@@ -98,7 +98,7 @@ def prepare_query(question: str) -> str:
     "About HCLTech / HCLTech Sustainability Report 2024 / 92". Those boilerplate
     chunks then crowd out the passages that hold the actual answer. In our eval
     this one change raised Hit@5 from 0.56 to 0.94 with the original settings,
-    and from 0.70 to 0.93 with the tuned ones (see eval/results.md).
+    and from 0.82 to 0.97 with the current ones (see eval/results.md).
     Only the search query is changed; Claude still sees the original question.
     """
     query = re.sub(_COMPANY_NAME + r"(?:'s|’s)", "the company's", question, flags=re.IGNORECASE)
@@ -243,7 +243,7 @@ class ReportIndex:
         Meaning search finds paraphrases ("green power" ~ "renewable electricity");
         keyword search catches exact terms the vectors blur ("CDP", "14001",
         "nationalities"). RRF needs no weight to tune. On the 40-question set it
-        raised MRR@5 from 0.82 to 0.86 (eval/retrieval_methods.md).
+        raised MRR@5 from 0.84 to 0.91 (eval/retrieval_methods.md).
 
         neutralize_names=False searches with the question exactly as typed, and
         hybrid=False uses meaning search only (both used by the evaluations).

@@ -25,7 +25,7 @@
    if not, say so; don't fake it", no secrets staged). The agent reported each one,
    including what it could *not* verify.
 4. **Explicit budget and scope limits.** "I have US$5 of credits": the agent then
-   tracked the cost of every test call. Total API spend for development: about US$0.75, most of it one graded evaluation of 120 answers.
+   tracked the cost of every test call. Total API spend for development: about US$1.30, most of it two graded evaluations of 120 answers each.
 5. **Challenging the agent's recommendations.** When the agent dismissed a better PDF
    parser as "a bigger change", we asked *"why not?"*. It tested the idea instead of
    assuming, and that turned into two documented experiments (PyMuPDF, Docling).

@@ -9,7 +9,7 @@
 ## 1. The problem
 
 Sustainability (ESG) reports are long, unstructured PDFs. The two reports in GreenScope
-are **163 pages (Wipro FY2024-25)** and **113 pages (HCLTech FY2024)**. Answering one
+are **163 pages (Wipro)** and **122 pages (HCLTech)**, both for FY2024-25. Answering one
 question such as *"What is each company's Scope 3 target?"* means searching both PDFs,
 reading the surrounding text to check the scope, baseline year and fiscal year, and
 recording the page so a reviewer can check it. Doing this for dozens of metrics across
@@ -52,8 +52,8 @@ exact supporting passages one click away. Measured in this repository:
 | Measure | Value | Source |
 |---|---|---|
 | Cost per answer (Claude Haiku 4.5) | about US$0.002 to US$0.0035 | measured token usage, shown in the app |
-| Right page among the 5 passages given to the AI | 93% of 40 test questions (Hit@5); first passage right in 85% | `eval/results.md` |
-| Fully correct answers | 82% of 120 answers (40 questions × 3 runs; 11% contain an error, 5% missed), graded by an AI judge that agreed with a hand check on 14 of 14 | `eval/answer_quality.md` |
+| Right page among the 5 passages given to the AI | 97% of 40 test questions (Hit@5); first passage right in 88% | `eval/results.md` |
+| Fully correct answers | 86% of 120 answers (40 questions × 3 runs; 7% contain an error, 2% missed), graded by an AI judge that agreed with a hand check on 20 of 20 | `eval/answer_quality.md` |
 | Time per answer | about 3.5 s (search 0.03 s, word explanation 0.2 s, AI answer 3.3 s) | measured on a 4-core CPU |
 | Setup | one-off indexing of both reports in about 2 minutes on a laptop | `src/data.py` |
 
@@ -110,8 +110,8 @@ benchmarking at volume.
 ### Non-financial benefits
 - **Auditability:** every figure carries a page reference, which speeds up review.
 - **Consistency:** the same question gets the same retrieval for every company.
-- **Error reduction:** side-by-side answers with the fiscal-year warning make
-  apples-to-oranges comparisons visible.
+- **Error reduction:** side-by-side answers for the same fiscal year, each with its exact
+  wording one click away, make differences in definitions and baselines visible.
 
 ## 5. Market strategy
 
@@ -159,7 +159,7 @@ estimate into evidence.
 |---|---|
 | Wrong or invented figures | Answers restricted to retrieved text, page citations, evidence panel, word-level explanation, documented evaluation and known failure cases |
 | Charts and tables extracted badly | Neighbouring-chunk context and prompt rules; layout-aware parsing evaluated (`eval/pdf_parser_comparison.md`) and listed as future work |
-| Comparing different years or definitions | Fiscal-year note on every page; citations show the exact wording |
+| Comparing different years or definitions | Both reports cover the same fiscal year (FY2024-25); citations show each company's exact definitions and baselines |
 | Dependence on one AI provider | Retrieval runs locally; the generation step is one function and can be switched to another model |
 | Confidential client documents | Embeddings computed locally; only the top passages leave the machine |
 | Liability | Positioned as decision support for analysts, not investment advice |

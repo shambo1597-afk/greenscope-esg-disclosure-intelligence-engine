@@ -155,4 +155,4 @@ def test_real_index_retrieval_quality_has_not_regressed():
     for q in eval_set:
         pages = {r.page for r in index.retrieve(q["question"], q["company"], top_k=5, neighbours=False)}
         hits += bool(pages & set(q["gold_pages"]))
-    assert hits / len(eval_set) >= 0.90  # currently 0.93 (eval/results.md)
+    assert hits / len(eval_set) >= 0.90  # currently 0.97 (eval/results.md)

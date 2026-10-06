@@ -80,7 +80,7 @@ index is rebuilt automatically (about 2 minutes); to force it: `python -m src.da
  ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
  │ data/raw/*.pdf   │──►│ PyPDFLoader      │──►│ Recursive splitter   │──►│ BAAI/bge-small-en-   │
  │ Wipro 163 pp.    │   │ 1 doc per page   │   │ 400 chars, 250 over- │   │ v1.5: 384-dim unit   │
- │ HCLTech 122 pp.  │   │ page = PDF page  │   │ lap, drop < 50 chars │   │ vectors (~4,000)     │
+ │ HCLTech 122 pp.  │   │ page = PDF page  │   │ lap, drop < 50 chars │   │ vectors (~3,800)     │
  └──────────────────┘   └──────────────────┘   └──────────────────────┘   └──────────┬───────────┘
                                                                                      │
                                    index/  <Company>_vectors.npy + <Company>_chunks.json
@@ -139,35 +139,35 @@ Current retrieval results (40 questions, top 5 passages):
 | Group | Hit@1 | Hit@3 | Hit@5 | MRR@5 | Precision@5 |
 |---|---|---|---|---|---|
 | Wipro (20) | 0.80 | 0.95 | 0.95 | 0.85 | 0.67 |
-| HCLTech (20) | 0.90 | 0.90 | 0.90 | 0.90 | 0.64 |
-| Overall (40) | 0.85 | 0.93 | 0.93 | 0.88 | 0.66 |
+| HCLTech (20) | 0.95 | 1.00 | 1.00 | 0.97 | 0.73 |
+| Overall (40) | 0.88 | 0.97 | 0.97 | 0.91 | 0.70 |
 
 **Tuning with cross-validation.** 36 settings (embedding model × chunk size × overlap);
 in each of 5 folds the best was chosen on 32 questions and scored on the 8 held out. The
-same setting won every fold: held-out MRR@5 **0.82 ± 0.13** vs **0.67 ± 0.15** for the
+same setting won every fold: held-out MRR@5 **0.84 ± 0.09** vs **0.69 ± 0.12** for the
 original setting (MiniLM, 800/150). Details:
 [`eval/tuning_results.md`](eval/tuning_results.md).
 
 **Hybrid search.** Keyword search (BM25) fused with vector search by Reciprocal Rank
-Fusion beat vector search alone (MRR@5 0.875 vs 0.818 on all 40; held-out 0.85 vs 0.82);
-re-rankers were tested and left out ([`eval/retrieval_methods.md`](eval/retrieval_methods.md)).
+Fusion beat vector search alone (MRR@5 0.912 vs 0.837 on all 40; held-out 0.89 vs 0.84);
+re-rankers were tested and made results worse ([`eval/retrieval_methods.md`](eval/retrieval_methods.md)).
 
 **Answer quality.** 120 answers (40 questions × 3 runs) graded by Claude Sonnet 5.5 against
-reference answers and the source passages: **82% correct**, 2% partly correct, 11% with
-an error, 5% missed; citations supported in 88%
-([`eval/answer_quality.md`](eval/answer_quality.md)). A hand check of 14 judge verdicts
-agreed with all 14 ([`eval/answer_quality_judge_check.md`](eval/answer_quality_judge_check.md)).
+reference answers and the source passages: **86% correct**, 5% partly correct, 7% with
+an error, 2% missed; citations supported in 90%
+([`eval/answer_quality.md`](eval/answer_quality.md)). Hand checks of 20 judge verdicts
+agreed with all 20 ([`eval/answer_quality_judge_check.md`](eval/answer_quality_judge_check.md)).
 
 **Other experiments:** splitting two-topic questions
 ([`eval/multi_topic_results.md`](eval/multi_topic_results.md)), removing company names
-from the query (Hit@5 0.85 to 0.93;
+from the query (Hit@5 0.82 to 0.97;
 `eval/results.md`), distance metrics ([`eval/distance_metrics.md`](eval/distance_metrics.md)),
 and PyPDF vs the layout-aware parser Docling, on retrieval and graded answers
 ([`eval/pdf_parser_comparison.md`](eval/pdf_parser_comparison.md); reproduce with
 `python eval/compare_pdf_parsers.py --answers`, needs `pip install docling`).
 
 Limitations: 40 questions is small; matching is by page, not passage; gold pages are not
-yet human-verified (`"verified": false`); the answer judge was checked on 14 verdicts.
+yet human-verified (`"verified": false`); the answer judge was checked on 20 verdicts.
 
 ## Notes
 

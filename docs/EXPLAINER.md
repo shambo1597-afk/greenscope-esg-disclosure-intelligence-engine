@@ -8,7 +8,8 @@ is likely to ask. No coding knowledge is needed.
 
 ## 1. The problem
 
-Wipro's sustainability report is 163 pages long and HCLTech's is 113. Finding one
+Wipro's sustainability report is 163 pages long and HCLTech's is 122; both cover the
+same fiscal year, FY2024-25 (April 2024 to March 2025). Finding one
 figure, such as a Scope 3 emissions target, means a lot of scrolling, and comparing
 the two companies means doing it twice. A general chatbot could answer from memory,
 but it might be out of date or invent a number, and it can't tell you which page
@@ -83,12 +84,12 @@ sentences), where each chunk repeats the last **250 characters** of the previous
   and board diversity, its fingerprint is a blur of all three and matches none of
   them well. ESG reports put a different metric in almost every sentence, so short
   chunks match questions precisely. We **measured** this: average retrieval score
-  (MRR@5) fell from 0.72 at 400 characters to 0.66 at 800 and 0.57 at 1,200 (section 5).
+  (MRR@5) fell from 0.74 at 400 characters to 0.67 at 800 and 0.61 at 1,200 (section 5).
 - **Why a large overlap (250)? To keep context across cuts.** The cut is mechanical and
   can land mid-sentence: "...reduce emissions by" | "42% by FY30". With overlap, a fact
   that straddles one cut appears whole in another chunk, and every sentence sits near
   the middle of at least one chunk. Measured at 400 characters: overlap 0 / 75 / 150 /
-  250 gave MRR@5 0.74 / 0.79 / 0.74 / 0.82.
+  250 gave MRR@5 0.80 / 0.80 / 0.74 / 0.84.
 - **The trade-off and how we handle it.** A small chunk can separate a number from the
   words explaining it ("42%" without "reduction in Scope 3 by FY30"). So search uses the
   small chunks, but the model receives each match **widened to about 2,000 characters
@@ -99,7 +100,7 @@ sentences), where each chunk repeats the last **250 characters** of the previous
 - Chunks shorter than **50 characters** are dropped: cover titles, page footers and
   section dividers with no facts in them.
 
-Result: **2,357 chunks for Wipro and 1,719 for HCLTech**.
+Result: **2,357 chunks for Wipro and 1,487 for HCLTech**.
 
 > History: the first version used 800-character chunks with 150 overlap, chosen by
 > reasoning alone. Testing showed smaller chunks work better, so we changed it.
@@ -168,16 +169,16 @@ The two rankings are combined with **Reciprocal Rank Fusion (RRF)**:
 
 A passage near the top of either list rises; near the top of both, it wins. RRF has no
 weight to tune (60 is the standard constant), which matters on a small test set
-(section 5). Results: MRR@5 0.82 -> 0.88, Hit@1 0.78 -> 0.85. Example: "How many
+(section 5). Results: MRR@5 0.84 -> 0.91, Hit@1 0.78 -> 0.88. Example: "How many
 nationalities are in Wipro's workforce?" was a miss with meaning search alone; with
 keywords, page 7 ("146 Nationalities") comes first. The app shows each passage's
 meaning rank, keyword rank and matched keywords.
 
 We also tested **re-ranking**: a cross-encoder model reads the question and each of the
-top 20 passages *together* and re-scores them. The BGE re-ranker put a gold page in the
-top 5 for all 40 questions, but ranked the best page first less often, added 1.8 s per
-company and needs a 1.1 GB model, so we left it out (`eval/retrieval_methods.md`). A
-smaller re-ranker trained on web searches made results worse.
+top 20 passages *together* and re-scores them. On our questions the BGE re-ranker made
+results worse (MRR@5 0.75 vs 0.91, Hit@5 0.95 vs 0.97), added about 4.5 s per company on
+our CPU and needs a 1.1 GB model, so we left it out (`eval/retrieval_methods.md`). A
+smaller re-ranker trained on web searches was also worse.
 
 **Two-topic questions.** "What are the water **and** waste goals?" is really two
 searches. Questions that contain "and", "&", "as well as" or ";" (a free check) are sent
@@ -186,14 +187,17 @@ question unchanged ("Scope 1 **and** 2 emissions" is one topic). Each topic gets
 top 5. On 8 two-topic test questions, both topics reached the model in 8 of 8 vs 7 of 8
 with a single search; a single search with 10 passages also got 8 of 8, so the gain is
 "more passages, only where needed" rather than anything cleverer (`eval/multi_topic_results.md`).
+One HCLTech test question (water and waste goals) was replaced when we moved to the FY2025
+report, because that report states no water goal.
 
 **Query clean-up.** Before searching, GreenScope replaces the company name in your
 question with "the company" (e.g. "HCLTech's water target" becomes "the company's
 water target"). Since we're already searching inside one company's report, the name
 adds nothing. Worse, it made the question look similar to useless page footers like
-"About HCLTech / HCLTech Sustainability Report 2024 / 92". With the final settings,
-this raises the share of questions with a correct page in the top 5 from **0.85 to
-0.93** (`eval/results.md`; with meaning search alone the effect was larger: 0.56 to 0.94
+"About HCLTech / HCLTech Sustainability Report 2024 / 92" (a footer in the FY2024
+HCLTech report we started with). With the final settings,
+this raises the share of questions with a correct page in the top 5 from **0.82 to
+0.97** (`eval/results.md`; with meaning search alone the effect was larger: 0.56 to 0.94
 on our first test set). Claude still sees your original question.
 
 **Small-to-big context.** Each match is widened with neighbouring chunks, alternately
@@ -259,11 +263,11 @@ Final system:
 
 | Metric | Meaning | Score |
 |---|---|---|
-| Hit@1 | The very first passage is from a gold page | 0.85 |
-| Hit@3 | A gold page is in the top 3 | 0.93 |
-| Hit@5 | A gold page is in the top 5 (what the model sees) | 0.93 |
-| MRR@5 | Average of 1/rank of the first gold page (1 = always first) | 0.88 |
-| Precision@5 | Share of the 5 passages that are from gold pages | 0.66 |
+| Hit@1 | The very first passage is from a gold page | 0.88 |
+| Hit@3 | A gold page is in the top 3 | 0.97 |
+| Hit@5 | A gold page is in the top 5 (what the model sees) | 0.97 |
+| MRR@5 | Average of 1/rank of the first gold page (1 = always first) | 0.91 |
+| Precision@5 | Share of the 5 passages that are from gold pages | 0.70 |
 
 **Answers** (`eval/answer_eval.py`, US$0.52): every one of the 40 questions is answered
 **3 times** through the app's exact pipeline (answers vary between runs), and each of
@@ -275,10 +279,10 @@ through the **Message Batches API**, which costs half as much and returns within
 
 | Correct | Partly correct | Contains an error | Missed | Citations all supported | Correct in all 3 runs |
 |---|---|---|---|---|---|
-| **82%** | 2% | 11% | 5% | 88% | 30 of 40 questions |
+| **86%** | 5% | 7% | 2% | 90% | 31 of 40 questions |
 
-An AI judge can be wrong too, so we checked 14 of its verdicts by hand against the PDF:
-it agreed in all 14, and it is strict about exact figures (`eval/answer_quality_judge_check.md`).
+An AI judge can be wrong too, so we checked 20 of its verdicts by hand against the PDF
+(over two runs): it agreed in all 20, and it is strict about exact figures (`eval/answer_quality_judge_check.md`).
 Most errors are figures paired with the wrong label from scrambled chart or table text;
 the misses are facts that only appear on infographic pages (section 6).
 
@@ -297,8 +301,8 @@ estimate.
 
 | | Held-out MRR@5 | Held-out Hit@5 |
 |---|---|---|
-| Original setting (MiniLM, 800/150) | 0.67 ± 0.15 | 0.85 |
-| Tuned setting, chosen without seeing the test questions | **0.82 ± 0.13** | **0.93** |
+| Original setting (MiniLM, 800/150) | 0.69 ± 0.12 | 0.85 |
+| Tuned setting, chosen without seeing the test questions | **0.84 ± 0.09** | **0.97** |
 
 The same setting (**BGE-small, 400, 250**) won in **all 5 folds**, and it beat the
 original in 4 of 5. Charts: `docs/figures/tuning_chunk_size.png`,
@@ -314,7 +318,7 @@ original in 4 of 5. Charts: `docs/figures/tuning_chunk_size.png`,
 
 **Choosing top_k (5).** top_k can't be tuned the same way: showing more passages can
 only raise Hit@k, so the metric would always pick the biggest number. Instead we looked
-at the curve (`docs/figures/hit_at_k.png`): Hit@k reaches 0.93 at k = 5 and only 0.95
+at the curve (`docs/figures/hit_at_k.png`): Hit@k reaches 0.97 at k = 5 and stays 0.97
 at k = 10, while each extra passage adds cost and noise to the prompt. So 5 it is (the
 sidebar slider allows 3 to 8).
 
@@ -325,8 +329,8 @@ Retrieval improved clearly, so we kept the tuned setting.
 **Retrieval method, also cross-validated** (`eval/retrieval_methods.py`): with the same 5
 folds we compared meaning search, keyword search (BM25), weighted blends of the two (7
 weights), RRF, and each of those followed by two re-rankers. Every blend beat meaning
-search alone on the full set; RRF was best (MRR@5 0.875 vs 0.818) and was picked in 3
-of 5 folds (held-out 0.85 vs 0.82). The "best" blend weight changed from fold to fold,
+search alone on the full set; RRF was best (MRR@5 0.912 vs 0.837) and was picked in 4
+of 5 folds (held-out 0.89 vs 0.84). The "best" blend weight changed from fold to fold,
 a sign that tuning it would mostly fit noise, which is why we chose weight-free RRF.
 
 ## 6. Where hallucination (made-up content) can still happen
@@ -334,17 +338,17 @@ a sign that tuning it would mostly fit noise, which is why we chose weight-free 
 Grounding reduces the risk a lot, but doesn't remove it:
 
 - **Retrieval misses.** If the right passage isn't in the top 5 (7% of test questions),
-  the model should say "not disclosed" (5% of graded answers), but it may stretch a
+  the model should say "not disclosed" (2% of graded answers), but it may stretch a
   related passage into an answer. The misses are facts printed only on infographic
   pages, such as Wipro's 13.5% supplier diversity spend on its highlights page.
 - **Garbled extraction.** Tables and infographics come out as jumbled text. The model
   may pair a number with the wrong label (examples below). This is the main source of
-  the 11% of answers with an error in the graded evaluation.
+  the 7% of answers with an error in the graded evaluation.
 - **Run-to-run variation.** The same question with the same passages can be answered
   slightly differently. Once in four runs, the model wrote Wipro's CDP rating as "A"
   although the passage says "A-".
-- **Different fiscal years.** Wipro's report is FY2024-25 and HCLTech's is FY2024.
-  A side-by-side answer can look like a like-for-like comparison when it isn't.
+- **Different baselines and definitions** remain even though the fiscal years now match
+  (see "Fiscal years" below).
 - **Different definitions.** "Renewable share" may mean purchased electricity in one
   report and total energy in another; baselines differ (2017 vs FY20).
 - **Model knowledge leaking in.** Claude may know facts about these companies from
@@ -372,8 +376,9 @@ that says which chart is which. The fixes, all in `src/model.py`:
    sentence "55% reduction in Scope 3 from 2020 baseline" reaches the model;
 2. **prompt rules 5 and 6**: don't pair figures with labels the text doesn't connect,
    and don't draw conclusions such as "target exceeded". The second rule fixed a
-   separate HCLTech answer that wrongly said its 42% Scope 3 target was "already
-   exceeded" (29% was achieved; the report says it beat an *interim* pathway).
+   separate answer (on the FY2024 HCLTech report we used at first) that wrongly said its
+   42% Scope 3 target was "already exceeded" (29% was achieved; the report says it beat
+   an *interim* pathway).
 
 The answer now gives 55% by 2030 correctly.
 
@@ -387,8 +392,9 @@ We also tried fixing the extraction at the source with two other PDF readers:
   large install and about 8 minutes of conversion. We kept PyPDF
   (`eval/pdf_parser_comparison.md`).
 
-One known error remains: asked how much HCLTech's Scope 1 and 2 emissions fell, the
-answer correctly says 25% but adds "173,743 mtCO2 in FY24". The chart's values were
+A typical example of the remaining errors (from the FY2024 HCLTech report we used at
+first): asked how much HCLTech's Scope 1 and 2 emissions fell, the answer correctly said
+25% but added "173,743 mtCO2 in FY24". The chart's values were
 extracted as an unordered list (`167,426 162,407 158,810 224,094 173,743`) and the model
 picked the wrong one; FY24 is 167,426. Prompt rule 5 reduces this kind of error but
 cannot prevent it, because the labels needed to pair the numbers are not in the
@@ -397,21 +403,52 @@ extracted text.
 The safeguard is the **Retrieved passages** panel: every figure can be checked against
 the exact text and page in seconds.
 
+### Fiscal years and data integrity: what is and isn't guaranteed
+
+**Fiscal years.** Both reports cover FY2024-25 (April 2024 to March 2025). Our first
+version paired Wipro FY2024-25 with HCLTech **FY2024**; we replaced HCLTech's report
+because figures genuinely move between years (its Scope 3 reduction since FY20 is 29% in
+the FY24 report and 22% in FY25), so mixed years would have made side-by-side answers
+misleading.
+
+**What we control**
+- **Same period, official sources.** Both PDFs are downloaded unmodified from the
+  companies' websites (links in the README) and committed, so anyone can check them.
+- **Traceability.** Every claim is cited to a PDF page, and the exact passage is shown.
+- **Answers only from the reports.** The model is instructed to use nothing else.
+- **Measured accuracy.** Retrieval and answer quality are evaluated and reported,
+  including the errors.
+
+**What we cannot guarantee**
+- **The companies' own numbers.** GreenScope reports what each company discloses. It
+  does not audit it. Parts of these reports are externally assured (both include
+  assurance statements), but not every figure.
+- **Different baselines and definitions.** Wipro measures against 2017 (Scope 1 and 2)
+  and 2020 (Scope 3); HCLTech against FY20. Same year, different yardsticks.
+- **Reports that contradict themselves.** HCLTech's FY25 report says on page 8 that 98%
+  of its owned buildings are Platinum-rated, and on page 32 that all of them are. We left
+  that fact out of the test set because it has no single right answer.
+- **Extraction.** Charts and tables can come out scrambled, which causes most of the
+  answer errors (section 4).
+- **Our test set.** Gold pages and reference answers were found by searching the text
+  and have not yet been checked by a person; the questions were written while reading the
+  reports, so their wording may be closer to the reports' than a real user's.
+
 ## 7. Why each setting was chosen (summary)
 
 | Setting | Value | Why |
 |---|---|---|
 | Chunk size | 400 characters | Best in tuning for all three models; precise matches (section 5) |
-| Overlap | 250 characters | Best at 400 characters (MRR@5 0.82 vs 0.74 with none); facts straddling a cut survive whole |
+| Overlap | 250 characters | Best at 400 characters (MRR@5 0.84 vs 0.80 with none); facts straddling a cut survive whole |
 | Context per match | ~2,000 characters, same page | Small-to-big: the model sees the sentence that explains each figure |
 | Minimum chunk | 50 characters | Removes covers, footers and headings that have no facts |
 | Embedding model | BAAI/bge-small-en-v1.5 | Trained for search; won the cross-validated comparison against MiniLM and MPNet |
 | Similarity | Cosine (unit vectors + inner product) | Matches how the model was trained; equals dot product and Euclidean ranking here |
 | Index | FAISS IndexFlatIP, one per company | Exact search in 0.03 s; per-company keeps sources and comparisons fair |
-| Ranking | Hybrid: meaning (FAISS) + keywords (BM25), fused with RRF (k = 60) | MRR@5 0.82 -> 0.88; no weight to tune; a re-ranker was tested and left out |
+| Ranking | Hybrid: meaning (FAISS) + keywords (BM25), fused with RRF (k = 60) | MRR@5 0.84 -> 0.91; no weight to tune; a re-ranker was tested and left out |
 | Two-topic questions | Split into one search per topic (free gate + Haiku) | Both topics found in 8/8 vs 7/8 two-topic questions |
-| top_k | 5 (slider 3 to 8) | Hit@k reaches 0.93 at 5, only 0.95 at 10 |
-| Query clean-up | company name -> "the company" | Hit@5 0.85 -> 0.93 |
+| top_k | 5 (slider 3 to 8) | Hit@k reaches 0.97 at 5, unchanged up to 10 |
+| Query clean-up | company name -> "the company" | Hit@5 0.82 -> 0.97 |
 | LLM | Claude Haiku 4.5, max 600 tokens | Cheapest current Claude model; the job is reading supplied text and citing it. Measured: about 3 seconds and US$0.002 to US$0.0035 per answer |
 
 ## 8. How this project maps to the course rubric
@@ -442,7 +479,7 @@ restricts the answer to the actual reports and makes every claim checkable.
 
 **2. Why chunk size 400 and overlap 250?**
 They won a grid search of 36 settings, and the same choice won in all 5 folds of
-cross-validation (held-out MRR@5 0.82 vs 0.67 for our original 800/150). The intuition:
+cross-validation (held-out MRR@5 0.84 vs 0.69 for our original 800/150). The intuition:
 small chunks give focused fingerprints, because ESG reports pack a metric into almost
 every sentence; large overlap keeps facts that straddle a cut whole. The cost, less
 context per chunk, is handled by sending ~2,000 characters around each match to the model.
@@ -457,7 +494,7 @@ size (MPNet). It is free and runs on a laptop.
 We tried 36 settings. Reporting the best score on the same 40 questions would be
 optimistic, since some setting always gets lucky. So we split the questions into 5
 groups, chose the setting on 4 groups and tested it on the fifth, five times. The tuned
-setting scored 0.82 on questions it had never seen, against 0.67 for the original.
+setting scored 0.84 on questions it had never seen, against 0.69 for the original.
 
 **5. How do you explain the model's decisions (SHAP/LIME)?**
 For every retrieved passage we compute exact Shapley values, the method behind SHAP:
@@ -470,9 +507,9 @@ in "Scope 3".
 Cosine similarity, computed as an inner product on unit-length vectors (FAISS
 IndexFlatIP). On unit vectors, cosine, dot product and Euclidean distance give exactly
 the same ranking (distance² = 2 − 2 × cosine); we verified this on all 40 questions.
-Manhattan distance ranked differently and scored lower (MRR@5 0.795 vs 0.818).
+Manhattan distance ranked differently and scored lower (MRR@5 0.812 vs 0.837).
 
-**7. What does FAISS do, and is it overkill for ~4,000 chunks?**
+**7. What does FAISS do, and is it overkill for ~3,800 chunks?**
 It finds the vectors most similar to the question. At this size plain numpy would also
 be fast. FAISS keeps the code standard and would scale to thousands of reports. We use
 its exact (flat) index, so no accuracy is traded for speed.
@@ -481,14 +518,14 @@ its exact (flat) index, so no accuracy is traded for speed.
 Vectors capture meaning but blur exact terms such as "CDP", "ISO 14001" or
 "nationalities"; keyword search (BM25) catches exactly those. We merge the two rankings
 with Reciprocal Rank Fusion, which needs no weight to tune. Cross-validated, it raised
-MRR@5 from 0.82 to 0.85 on held-out questions (0.88 on the full set). We also tried a
-re-ranking model; it did not help enough to justify 1.8 extra seconds per company.
+MRR@5 from 0.84 to 0.89 on held-out questions (0.91 on the full set). We also tried
+re-ranking models; on our questions they made results worse and added seconds per answer.
 
 **9. How do you know the answers are correct?**
-Three layers. Retrieval: a correct page is in the top 5 for 93% of 40 test questions.
+Three layers. Retrieval: a correct page is in the top 5 for 97% of 40 test questions.
 Answers: we generated 120 answers (40 questions × 3 runs) and had a stronger model grade
-each against a reference answer and the source passages: 82% fully correct, 11% with an
-error, 5% missed. We checked the judge itself by hand on 14 verdicts (14 agreed). And
+each against a reference answer and the source passages: 86% fully correct, 7% with an
+error, 2% missed. We checked the judge itself by hand on 20 verdicts (all 20 agreed). And
 every answer in the app shows its citations, the exact passages and the word
 explanation, so a reader can verify each claim.
 
@@ -511,14 +548,16 @@ mostly on whether retrieval found the right passages and whether the PDF text is
 which a bigger model doesn't fix.
 
 **13. Is the comparison between Wipro and HCLTech fair?**
-Partly. Retrieval is fair: each company gets its own top 5. But the reports cover
-different fiscal years (FY2024-25 vs FY2024), use different baselines (2017/2020 vs
-FY20) and sometimes different definitions. The app states the fiscal-year difference on
-every page, and the citations let users check definitions.
+Mostly. Both reports cover the same fiscal year (FY2024-25), and retrieval is fair: each
+company gets its own top 5. Our first version paired Wipro FY2024-25 with HCLTech
+FY2024; we replaced HCLTech's report because the figures really move between years (its
+Scope 3 reduction since FY20 is 29% in the FY24 report and 22% in FY25). What still
+differs: baselines (Wipro uses 2017 and 2020, HCLTech FY20) and some definitions. The
+app says so, and the citations let users check the exact wording.
 
 **14. What was the biggest problem you found, and how did you fix it?**
 Two. First, the company name in questions matched page footers ("About HCLTech ...
-92"); replacing it with "the company" raised Hit@5 from 0.56 to 0.94 on our first test
+92" in the FY2024 report we started with); replacing it with "the company" raised Hit@5 from 0.56 to 0.94 on our first test
 set. Second, a chart on Wipro's page 67 made the model report 59% (the Scope 1 and 2
 target) as the Scope 3 target; we traced it to scrambled chart text and fixed it with
 context around each match and two prompt rules. Section 6 has the details, including
@@ -533,9 +572,9 @@ consultancy rates, after hosting and maintenance. The 10 and 2 minutes are assum
 
 **16. What are the main limitations, and what would you improve next?**
 Charts and images aren't read, and tables are extracted poorly: that causes most of
-the 11% of answers with an error and the 5% misses. The evaluation set (40 questions) is
+the 7% of answers with an error and the 2% misses. The evaluation set (40 questions) is
 small, its gold pages are not yet human-verified, and the answer judge was checked on
-only 14 verdicts. Page numbers are PDF file pages, not printed pages. Next steps:
+only 20 verdicts. Page numbers are PDF file pages, not printed pages. Next steps:
 layout-aware text for chart and table pages only (or a vision model reading those
-pages), the BGE re-ranker as an optional "precise mode", a larger human-verified
+pages), a larger human-verified
 evaluation set, and the time trial to measure the business case.

@@ -47,7 +47,7 @@ COMPANIES: Dict[str, str] = {
 # 40-question evaluation set (eval/tune.py, results in eval/tuning_results.md).
 # The same combination won in all 5 folds. On questions NOT used to choose it,
 # it ranked the right page higher than the original setting (MiniLM, 800/150):
-# held-out MRR@5 0.82 vs 0.67, Hit@5 0.93 vs 0.85.
+# held-out MRR@5 0.84 vs 0.69, Hit@5 0.97 vs 0.85.
 
 # EMBEDDING MODEL: BAAI/bge-small-en-v1.5 (384-number vectors, reads up to 512
 # word-pieces). Same size and speed class as all-MiniLM-L6-v2, but trained
@@ -65,7 +65,7 @@ QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 #     average that matches no single question well. ESG reports pack a different
 #     metric into almost every sentence, so short chunks match questions precisely.
 #   * Measured: average MRR@5 fell steadily with size for every model
-#     (400: 0.72, 800: 0.66, 1200: 0.57).
+#     (400: 0.74, 800: 0.67, 1200: 0.61).
 # The risk of small chunks is losing context: a figure such as "42%" cut off from
 # the words saying WHAT it measures. That is handled separately: the model is
 # given each match WITH its surrounding text from the same page ("small-to-big",
@@ -80,8 +80,8 @@ QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 #   * With high overlap, every sentence appears in two or three chunks, at least
 #     one of which has it near the middle with its neighbours, which helps short
 #     chunks most. Measured at 400 characters: overlap 0 / 75 / 150 / 250 gave
-#     MRR@5 0.74 / 0.79 / 0.74 / 0.82 with BGE.
-#   * The cost is more chunks to store (about 4,000 instead of 1,100), which is
+#     MRR@5 0.80 / 0.80 / 0.74 / 0.84 with BGE.
+#   * The cost is more chunks to store (about 3,800 instead of 1,100), which is
 #     still tiny for FAISS. Repeated text is merged before it reaches the model.
 CHUNK_SIZE = 400
 CHUNK_OVERLAP = 250
