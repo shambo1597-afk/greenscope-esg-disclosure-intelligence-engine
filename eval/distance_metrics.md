@@ -6,12 +6,12 @@ The model already outputs vectors of length 1 (norm min 1.000, max 1.000), so 'r
 
 | Metric | MRR@5 | Hit@1 | Hit@5 | Top 5 identical to cosine |
 |---|---|---|---|---|
-| Cosine similarity | 0.818 | 0.78 | 0.93 | 100% of questions |
-| Dot product (raw vectors) | 0.818 | 0.78 | 0.93 | 100% of questions |
-| Euclidean (raw vectors) | 0.818 | 0.78 | 0.93 | 100% of questions |
-| Euclidean (normalized vectors) | 0.818 | 0.78 | 0.93 | 100% of questions |
-| Manhattan (raw vectors) | 0.795 | 0.75 | 0.90 | 20% of questions |
-| Manhattan (normalized vectors) | 0.795 | 0.75 | 0.90 | 20% of questions |
+| Cosine similarity | 0.837 | 0.78 | 0.97 | 100% of questions |
+| Dot product (raw vectors) | 0.837 | 0.78 | 0.97 | 100% of questions |
+| Euclidean (raw vectors) | 0.837 | 0.78 | 0.97 | 100% of questions |
+| Euclidean (normalized vectors) | 0.837 | 0.78 | 0.97 | 100% of questions |
+| Manhattan (raw vectors) | 0.812 | 0.75 | 0.93 | 10% of questions |
+| Manhattan (normalized vectors) | 0.812 | 0.75 | 0.93 | 10% of questions |
 
 ## Reading the table
 

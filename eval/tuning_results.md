@@ -8,12 +8,12 @@ In each fold the best configuration was chosen on 32 questions and scored on the
 
 | Fold | Chosen on training questions | Train MRR@5 | Held-out MRR@5 (tuned) | Held-out MRR@5 (baseline) | Held-out Hit@5 (tuned) | Held-out Hit@5 (baseline) |
 |---|---|---|---|---|---|---|
-| 1 | BGE-small / 400 / 250 | 0.81 | 0.83 | 0.69 | 1.00 | 0.75 |
-| 2 | BGE-small / 400 / 250 | 0.85 | 0.69 | 0.84 | 0.88 | 1.00 |
-| 3 | BGE-small / 400 / 250 | 0.79 | 0.92 | 0.69 | 1.00 | 0.88 |
-| 4 | BGE-small / 400 / 250 | 0.86 | 0.65 | 0.39 | 0.75 | 0.75 |
-| 5 | BGE-small / 400 / 250 | 0.77 | 1.00 | 0.75 | 1.00 | 0.88 |
-| **Mean ± std** | | | **0.82 ± 0.13** | **0.67 ± 0.15** | 0.93 ± 0.10 | 0.85 ± 0.09 |
+| 1 | BGE-small / 400 / 250 | 0.84 | 0.83 | 0.75 | 1.00 | 0.75 |
+| 2 | BGE-small / 400 / 250 | 0.86 | 0.73 | 0.75 | 1.00 | 1.00 |
+| 3 | BGE-small / 400 / 250 | 0.84 | 0.84 | 0.69 | 1.00 | 0.88 |
+| 4 | BGE-small / 400 / 250 | 0.85 | 0.78 | 0.46 | 0.88 | 0.75 |
+| 5 | BGE-small / 400 / 250 | 0.80 | 1.00 | 0.81 | 1.00 | 0.88 |
+| **Mean ± std** | | | **0.84 ± 0.09** | **0.69 ± 0.12** | 0.97 ± 0.05 | 0.85 ± 0.09 |
 
 Train MRR@5 is higher than held-out MRR@5 in most folds: that gap is the optimism a single "best of 36" score would have hidden.
 
@@ -23,31 +23,31 @@ Chosen on all 40 questions (standard practice after cross-validation). Full-set 
 
 | Configuration | MRR@5 | Hit@1 | Hit@3 | Hit@5 |
 |---|---|---|---|---|
-| BGE-small / 400 / 250 (final) | 0.818 | 0.78 | 0.88 | 0.93 |
-| BGE-small / 400 / 75 | 0.794 | 0.70 | 0.85 | 0.93 |
-| MiniLM-L6 / 400 / 250 | 0.757 | 0.68 | 0.82 | 0.93 |
-| BGE-small / 400 / 150 | 0.744 | 0.65 | 0.85 | 0.88 |
-| BGE-small / 400 / 0 | 0.743 | 0.65 | 0.82 | 0.90 |
-| MPNet-base / 400 / 0 | 0.731 | 0.65 | 0.82 | 0.85 |
-| MiniLM-L6 / 400 / 75 | 0.717 | 0.60 | 0.82 | 0.88 |
-| MPNet-base / 400 / 150 | 0.706 | 0.57 | 0.85 | 0.88 |
-| MiniLM-L6 / 400 / 150 | 0.706 | 0.60 | 0.80 | 0.85 |
-| MPNet-base / 400 / 75 | 0.697 | 0.60 | 0.80 | 0.82 |
+| BGE-small / 400 / 250 (final) | 0.837 | 0.78 | 0.90 | 0.97 |
+| BGE-small / 400 / 0 | 0.802 | 0.70 | 0.93 | 0.95 |
+| BGE-small / 400 / 75 | 0.802 | 0.68 | 0.90 | 0.97 |
+| MiniLM-L6 / 400 / 250 | 0.763 | 0.65 | 0.88 | 0.95 |
+| MPNet-base / 400 / 0 | 0.754 | 0.65 | 0.90 | 0.90 |
+| MPNet-base / 400 / 150 | 0.748 | 0.65 | 0.85 | 0.88 |
+| BGE-small / 400 / 150 | 0.743 | 0.62 | 0.85 | 0.93 |
+| MiniLM-L6 / 400 / 150 | 0.731 | 0.62 | 0.82 | 0.85 |
+| MPNet-base / 400 / 75 | 0.728 | 0.62 | 0.82 | 0.88 |
+| MiniLM-L6 / 400 / 75 | 0.720 | 0.55 | 0.88 | 0.93 |
 | ... | | | | |
-| MiniLM-L6 / 800 / 150 (baseline, rank 13 of 36) | 0.671 | 0.55 | 0.75 | 0.85 |
+| MiniLM-L6 / 800 / 150 (baseline, rank 12 of 36) | 0.692 | 0.60 | 0.75 | 0.85 |
 
 ## Average MRR@5 by setting (all 40 questions, the 6 grid points every model was run on)
 
-- **Model:** MiniLM-L6: 0.617 · BGE-small: 0.677 · MPNet-base: 0.650
-- **Chunk size:** 400: 0.715 · 800: 0.661 · 1200: 0.568
-- **Overlap:** 0: 0.632 · 150: 0.664
+- **Model:** MiniLM-L6: 0.659 · BGE-small: 0.694 · MPNet-base: 0.674
+- **Chunk size:** 400: 0.744 · 800: 0.674 · 1200: 0.608
+- **Overlap:** 0: 0.664 · 150: 0.688
 
 ## Choosing top_k: Hit@k curve
 
 | k | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Baseline | 0.55 | 0.75 | 0.75 | 0.78 | 0.85 | 0.85 | 0.85 | 0.85 | 0.85 | 0.85 |
-| Final | 0.78 | 0.78 | 0.88 | 0.88 | 0.93 | 0.93 | 0.93 | 0.93 | 0.93 | 0.95 |
+| Baseline | 0.60 | 0.72 | 0.75 | 0.78 | 0.85 | 0.85 | 0.85 | 0.85 | 0.85 | 0.85 |
+| Final | 0.78 | 0.80 | 0.90 | 0.93 | 0.97 | 0.97 | 0.97 | 0.97 | 0.97 | 0.97 |
 
 ## Limitations
 

@@ -230,8 +230,9 @@ def write_report(rows, cost):
         "",
         "## Limitations",
         "",
-        "- The judge is a language model and can be wrong. A hand check of 14 of its verdicts against "
-        "the PDF text agreed with all 14 (`answer_quality_judge_check.md`); it is strict about exact figures.",
+        "- The judge is a language model and can be wrong. Hand checks of 20 of its verdicts against "
+        "the PDF text, across two runs, agreed with all 20 (`answer_quality_judge_check.md`); it is "
+        "strict about exact figures.",
         "- Reference answers are short summaries written from the PDF text and not yet human-verified.",
         "- 40 questions; one question is 2.5% of the total.",
         "",

@@ -99,27 +99,25 @@
   {
     "id": "multi-05",
     "company": "HCLTech",
-    "question": "What are HCLTech's water and waste goals?",
+    "question": "What is HCLTech's Sustainalytics ESG risk rating, and how many hours of sustainability training did its employees complete?",
     "topics": [
       {
-        "topic": "water",
+        "topic": "Sustainalytics rating",
         "gold_pages": [
-          13
+          88
         ]
       },
       {
-        "topic": "landfill goal",
+        "topic": "training hours",
         "gold_pages": [
-          6,
-          10,
           11,
           13,
-          15,
-          16
+          30
         ]
       }
     ],
-    "verified": false
+    "verified": false,
+    "notes": "Replaced 'water and waste goals': HCLTech's FY2025 report states no water goals (its FY2024 report did), so that question had no correct answer."
   },
   {
     "id": "multi-06",
