@@ -14,11 +14,30 @@ retrieved passage comes with a word-level explanation of why it matched.
 
 ## Setup
 
-Requires Python 3.10+ (tested on 3.11). Versions in `requirements.txt` are the ones tested.
+Requires **Python 3.11 or newer** (tested on 3.11; the pinned numpy needs 3.11+). Versions in
+`requirements.txt` are the ones tested.
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
+
+Use `python -m pip` (not plain `pip`) and start the app with `python -m streamlit run app.py`,
+so the packages and the app use the same Python. If `pip` and `streamlit` belong to different
+Python installations, the app fails with `ModuleNotFoundError` (e.g. `No module named 'faiss'`).
+
+**Windows:** in the project folder, a virtual environment avoids mixing installations:
+
+```powershell
+py -3.11 -m venv .venv
+.venv\Scripts\activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m src.model --check
+python -m streamlit run app.py
+```
+
+(Optional, smaller download: `python -m pip install torch --index-url https://download.pytorch.org/whl/cpu`
+before the requirements, for the CPU-only build of PyTorch.)
 
 Create a file called `.env` in the project root (it's gitignored, so it's never committed):
 
@@ -36,7 +55,7 @@ with Claude Haiku 4.5 and takes about 3 seconds (Compare mode makes two calls).
 ## Run
 
 ```bash
-streamlit run app.py
+python -m streamlit run app.py
 ```
 
 The pre-built index is committed in `index/`, so the app starts in seconds; the first
@@ -45,11 +64,11 @@ index is rebuilt automatically (about 2 minutes); to force it: `python -m src.da
 
 ## Before a live demo
 
-1. On the presenting laptop, with internet: `pip install -r requirements.txt`, then
+1. On the presenting laptop, with internet: `python -m pip install -r requirements.txt`, then
    `python -m src.model --check --live`. Every line should say PASS. This downloads the
    embedding model, so search keeps working later even if the Wi-Fi drops (only the AI
    answer needs internet).
-2. Start the app (`streamlit run app.py`) 5 minutes early and ask one example question,
+2. Start the app (`python -m streamlit run app.py`) 5 minutes early and ask one example question,
    so everything is loaded.
 3. Have a fallback: if the API fails, the retrieved passages and their explanations are
    still shown, and each one is a cited answer in itself.
