@@ -104,16 +104,18 @@
       {
         "topic": "water",
         "gold_pages": [
-          3,
-          6,
-          57
+          13
         ]
       },
       {
         "topic": "landfill goal",
         "gold_pages": [
-          5,
-          54
+          6,
+          10,
+          11,
+          13,
+          15,
+          16
         ]
       }
     ],
@@ -127,16 +129,14 @@
       {
         "topic": "Scope 3 target",
         "gold_pages": [
-          54,
-          56
+          29
         ]
       },
       {
         "topic": "women share",
         "gold_pages": [
-          39,
-          40,
-          41
+          11,
+          49
         ]
       }
     ],
@@ -150,15 +150,16 @@
       {
         "topic": "EcoVadis",
         "gold_pages": [
-          97
+          6,
+          8,
+          88
         ]
       },
       {
         "topic": "HCLFoundation lives",
         "gold_pages": [
-          3,
-          6,
-          31
+          13,
+          75
         ]
       }
     ],
@@ -167,21 +168,20 @@
   {
     "id": "multi-08",
     "company": "HCLTech",
-    "question": "What was HCLTech's FY24 headcount and what share of fresher hires were women?",
+    "question": "What is HCLTech's MSCI ESG rating and what share of its campus hires are women?",
     "topics": [
       {
-        "topic": "headcount",
+        "topic": "MSCI rating",
         "gold_pages": [
-          36,
-          40,
-          49,
-          95
+          6,
+          8,
+          88
         ]
       },
       {
-        "topic": "women fresher hires",
+        "topic": "women campus hires",
         "gold_pages": [
-          39
+          49
         ]
       }
     ],

@@ -229,10 +229,9 @@
     "company": "HCLTech",
     "question": "What is HCLTech's target for reducing Scope 3 emissions?",
     "gold_pages": [
-      54,
-      56
+      29
     ],
-    "expected_answer": "42% reduction in absolute Scope 3 emissions by FY30",
+    "expected_answer": "42% reduction in Scope 3 by 2030 against the FY20 baseline",
     "verified": false
   },
   {
@@ -240,10 +239,11 @@
     "company": "HCLTech",
     "question": "By what year does HCLTech aim to reach net zero?",
     "gold_pages": [
-      5,
-      10,
-      55,
-      65
+      8,
+      11,
+      15,
+      16,
+      19
     ],
     "expected_answer": "net zero by 2040",
     "verified": false
@@ -253,8 +253,10 @@
     "company": "HCLTech",
     "question": "What is HCLTech's renewable electricity target?",
     "gold_pages": [
-      5,
-      54
+      11,
+      16,
+      30,
+      31
     ],
     "expected_answer": "80% of electricity from renewable sources by 2030",
     "verified": false
@@ -264,34 +266,38 @@
     "company": "HCLTech",
     "question": "What percentage of HCLTech's employees are women?",
     "gold_pages": [
-      39,
-      40,
-      41
+      11,
+      49
     ],
-    "expected_answer": "29.1% women in FY23-24; target 40% by 2030",
+    "expected_answer": "28.8% gender diversity in FY25; target 40% women by 2030",
     "verified": false
   },
   {
     "id": "hcltech-05",
     "company": "HCLTech",
-    "question": "How has HCLTech reduced its water usage?",
+    "question": "How has HCLTech reduced its water consumption?",
     "gold_pages": [
-      3,
       6,
-      57
+      13,
+      35
     ],
-    "expected_answer": "40% reduction in water usage in India since 2020; recharged 32x more water than consumed",
-    "verified": false
+    "expected_answer": "32.2% reduction in Pan India water consumption vs 2019-20; 31x water replenished vs consumed in India",
+    "verified": false,
+    "notes": "p.6 and p.35 added after inspecting a retrieval miss: both state the 31x water replenishment (part of the expected answer)."
   },
   {
     "id": "hcltech-06",
     "company": "HCLTech",
     "question": "What is HCLTech's goal for waste sent to landfill?",
     "gold_pages": [
-      5,
-      54
+      6,
+      10,
+      11,
+      13,
+      15,
+      16
     ],
-    "expected_answer": "zero waste to landfill at all owned facilities by 2025 (FY25)",
+    "expected_answer": "zero waste to landfill at all owned facilities by 2025; reported as achieved",
     "verified": false
   },
   {
@@ -299,10 +305,9 @@
     "company": "HCLTech",
     "question": "What CDP rating did HCLTech receive?",
     "gold_pages": [
-      6,
-      97
+      31
     ],
-    "expected_answer": "A- rating for climate change disclosures",
+    "expected_answer": "highest 'A' rating from CDP for Supplier Engagement on Climate Change",
     "verified": false
   },
   {
@@ -310,12 +315,14 @@
     "company": "HCLTech",
     "question": "How much have HCLTech's Scope 1 and 2 emissions fallen since FY20?",
     "gold_pages": [
-      3,
       6,
-      31,
-      56
+      11,
+      13,
+      16,
+      29,
+      31
     ],
-    "expected_answer": "25% reduction against the FY20 baseline",
+    "expected_answer": "46% reduction against the FY20 baseline",
     "verified": false
   },
   {
@@ -323,10 +330,11 @@
     "company": "HCLTech",
     "question": "What is HCLTech's 2030 target for Scope 1 and 2 emissions?",
     "gold_pages": [
-      5,
-      54
+      11,
+      16,
+      29
     ],
-    "expected_answer": "50% reduction in absolute Scope 1 and 2 emissions by FY30 (FY20 baseline)",
+    "expected_answer": "50% reduction in absolute Scope 1 and 2 emissions by 2030 (FY20 baseline)",
     "verified": false
   },
   {
@@ -334,7 +342,7 @@
     "company": "HCLTech",
     "question": "What is HCLTech's target for women in senior leadership?",
     "gold_pages": [
-      5
+      11
     ],
     "expected_answer": "30% gender representation in senior leadership by 2030",
     "verified": false
@@ -342,11 +350,11 @@
   {
     "id": "hcltech-11",
     "company": "HCLTech",
-    "question": "What share of HCLTech's fresher hires are women?",
+    "question": "What share of HCLTech's campus hires are women?",
     "gold_pages": [
-      39
+      49
     ],
-    "expected_answer": "44% of fresher hires are women",
+    "expected_answer": "50% of campus hires are women",
     "verified": false
   },
   {
@@ -354,35 +362,36 @@
     "company": "HCLTech",
     "question": "How much have HCLTech's Scope 3 emissions fallen since FY20?",
     "gold_pages": [
-      3,
       6,
-      31,
-      56
+      11,
+      16,
+      29
     ],
-    "expected_answer": "29% reduction in FY24 vs FY20",
+    "expected_answer": "22% reduction against the FY20 baseline",
     "verified": false
   },
   {
     "id": "hcltech-13",
     "company": "HCLTech",
-    "question": "By how much has HCLTech reduced its total energy consumption?",
+    "question": "What share of HCLTech's electricity came from renewable energy in FY25?",
     "gold_pages": [
-      3,
-      6,
-      60
+      11,
+      16,
+      31,
+      34
     ],
-    "expected_answer": "26% reduction vs FY20 baseline",
+    "expected_answer": "34% (up from 19% in FY24); target 80% by 2030",
     "verified": false
   },
   {
     "id": "hcltech-14",
     "company": "HCLTech",
-    "question": "What share of HCLTech's owned buildings are Platinum certified?",
+    "question": "How much of HCLTech's employee transport in Hyderabad moved to electric vehicles?",
     "gold_pages": [
-      6,
-      60
+      8,
+      32
     ],
-    "expected_answer": "98% of owned buildings Platinum certified by Green Building Councils",
+    "expected_answer": "85% of employee transportation in Hyderabad (30% in Bengaluru)",
     "verified": false
   },
   {
@@ -390,7 +399,9 @@
     "company": "HCLTech",
     "question": "What EcoVadis rating did HCLTech receive?",
     "gold_pages": [
-      97
+      6,
+      8,
+      88
     ],
     "expected_answer": "Gold rating from EcoVadis",
     "verified": false
@@ -400,34 +411,33 @@
     "company": "HCLTech",
     "question": "How many hours of sustainability training did HCLTech employees complete?",
     "gold_pages": [
-      6,
-      31,
-      71
+      11,
+      13,
+      30
     ],
-    "expected_answer": "over 15,700 hours at the Sustainability School",
+    "expected_answer": "over 16,600 hours at the Sustainability School",
     "verified": false
   },
   {
     "id": "hcltech-17",
     "company": "HCLTech",
-    "question": "What share of HCLTech's water withdrawals come from high water-stress areas?",
+    "question": "What MSCI ESG rating does HCLTech have?",
     "gold_pages": [
-      59
+      6,
+      8,
+      88
     ],
-    "expected_answer": "53% of withdrawals in FY2022-23 from 'Extremely High' water stress areas",
+    "expected_answer": "AA (ESG 'Leader')",
     "verified": false
   },
   {
     "id": "hcltech-18",
     "company": "HCLTech",
-    "question": "What was HCLTech's total headcount in FY24?",
+    "question": "What is HCLTech's Sustainalytics ESG risk rating?",
     "gold_pages": [
-      36,
-      40,
-      49,
-      95
+      88
     ],
-    "expected_answer": "227,481 employees",
+    "expected_answer": "13.9, 'Low Risk'",
     "verified": false
   },
   {
@@ -435,11 +445,10 @@
     "company": "HCLTech",
     "question": "How many lives has the HCLFoundation impacted?",
     "gold_pages": [
-      3,
-      6,
-      31
+      13,
+      75
     ],
-    "expected_answer": "6.5 million lives",
+    "expected_answer": "7.5 million lives",
     "verified": false
   },
   {
@@ -447,10 +456,12 @@
     "company": "HCLTech",
     "question": "Was HCLTech recognised as one of the World's Most Ethical Companies?",
     "gold_pages": [
-      3,
-      97
+      6,
+      8,
+      88,
+      90
     ],
-    "expected_answer": "Yes, by Ethisphere in 2024",
+    "expected_answer": "Yes, by Ethisphere in 2025, for the second year in a row",
     "verified": false
   }
 ]

@@ -619,7 +619,7 @@ def preflight(live: bool = False) -> bool:
     index = ReportIndex()
     report(True, "Index and embedding model loaded", f"{time.time() - t0:.0f} s")
     for company, question, page in (("Wipro", "What is Wipro's Scope 3 target?", {46, 63, 67, 88}),
-                                    ("HCLTech", "What is HCLTech's Scope 3 target?", {54, 56})):
+                                    ("HCLTech", "What is HCLTech's Scope 3 target?", {29})):
         pages = [r.page for r in index.retrieve(question, company, top_k=5)]
         report(bool(page & set(pages)), f"{company} sample search finds the right page", f"pages {pages}")
     report(has_api_key(), "Anthropic API key configured",

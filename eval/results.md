@@ -8,9 +8,9 @@ Settings: `BAAI/bge-small-en-v1.5`, chunk_size=400, chunk_overlap=250, FAISS Ind
 
 | Group | n | Hit@1 | Hit@3 | Hit@5 | MRR@5 | Precision@5 |
 |---|---|---|---|---|---|---|
-| HCLTech | 20 | 0.90 | 0.90 | 0.90 | 0.90 | 0.64 |
+| HCLTech | 20 | 0.95 | 1.00 | 1.00 | 0.97 | 0.73 |
 | Wipro | 20 | 0.80 | 0.95 | 0.95 | 0.85 | 0.67 |
-| Overall | 40 | 0.85 | 0.93 | 0.93 | 0.88 | 0.66 |
+| Overall | 40 | 0.88 | 0.97 | 0.97 | 0.91 | 0.70 |
 
 ## Effect of removing company names from the search query
 
@@ -18,9 +18,9 @@ The app replaces "Wipro" / "HCLTech" in the question with "the company" before s
 
 | Group | Hit@5 as typed | Hit@5 names removed (used by the app) | MRR@5 as typed | MRR@5 names removed |
 |---|---|---|---|---|
-| HCLTech | 0.85 | 0.90 | 0.71 | 0.90 |
+| HCLTech | 0.80 | 1.00 | 0.70 | 0.97 |
 | Wipro | 0.85 | 0.95 | 0.69 | 0.85 |
-| Overall | 0.85 | 0.93 | 0.70 | 0.88 |
+| Overall | 0.82 | 0.97 | 0.70 | 0.91 |
 
 ## Per question
 
@@ -48,26 +48,26 @@ Retrieved pages are listed in rank order; **bold** = a gold page.
 | wipro-18 | What share of Wipro's facilities hold ISO 14001 certification? | 64 | **64**, **64**, 145, **64**, 108 | 1 |
 | wipro-19 | Which Wipro campus received LEED Platinum certification, and when? | 4, 66 | **4**, **4**, **66**, **66**, 145 | 1 |
 | wipro-20 | How much did Wipro's customer Net Promoter Score increase? | 7 | **7**, 119, **7**, **7**, 120 | 1 |
-| hcltech-01 | What is HCLTech's target for reducing Scope 3 emissions? | 54, 56 | **56**, **56**, **54**, **56**, **56** | 1 |
-| hcltech-02 | By what year does HCLTech aim to reach net zero? | 5, 10, 55, 65 | **65**, 87, 3, **10**, 7 | 1 |
-| hcltech-03 | What is HCLTech's renewable electricity target? | 5, 54 | **54**, **54**, **5**, 71, 71 | 1 |
-| hcltech-04 | What percentage of HCLTech's employees are women? | 39, 40, 41 | **41**, **39**, **39**, **40**, **40** | 1 |
-| hcltech-05 | How has HCLTech reduced its water usage? | 3, 6, 57 | **57**, **3**, **57**, **3**, 56 | 1 |
-| hcltech-06 | What is HCLTech's goal for waste sent to landfill? | 5, 54 | **54**, 71, **54**, 71, **5** | 1 |
-| hcltech-07 | What CDP rating did HCLTech receive? | 6, 97 | **6**, 87, 7, **6**, **97** | 1 |
-| hcltech-08 | How much have HCLTech's Scope 1 and 2 emissions fallen since FY20? | 3, 6, 31, 56 | **56**, **56**, **56**, **56**, **31** | 1 |
-| hcltech-09 | What is HCLTech's 2030 target for Scope 1 and 2 emissions? | 5, 54 | 56, 56, 56, 56, 3 | miss |
-| hcltech-10 | What is HCLTech's target for women in senior leadership? | 5 | 43, 41, 41, 43, 41 | miss |
-| hcltech-11 | What share of HCLTech's fresher hires are women? | 39 | **39**, **39**, 41, 41, 41 | 1 |
-| hcltech-12 | How much have HCLTech's Scope 3 emissions fallen since FY20? | 3, 6, 31, 56 | **56**, **56**, **3**, **56**, **31** | 1 |
-| hcltech-13 | By how much has HCLTech reduced its total energy consumption? | 3, 6, 60 | **3**, **3**, 59, **60**, **60** | 1 |
-| hcltech-14 | What share of HCLTech's owned buildings are Platinum certified? | 6, 60 | **60**, 69, **60**, **60**, 69 | 1 |
-| hcltech-15 | What EcoVadis rating did HCLTech receive? | 97 | **97**, **97**, 7, 6, 87 | 1 |
-| hcltech-16 | How many hours of sustainability training did HCLTech employees complete? | 6, 31, 71 | **71**, **71**, **31**, **6**, 65 | 1 |
-| hcltech-17 | What share of HCLTech's water withdrawals come from high water-stress areas? | 59 | **59**, **59**, **59**, 69, 69 | 1 |
-| hcltech-18 | What was HCLTech's total headcount in FY24? | 36, 40, 49, 95 | **95**, 39, 56, **95**, 59 | 1 |
-| hcltech-19 | How many lives has the HCLFoundation impacted? | 3, 6, 31 | **6**, **3**, **3**, **6**, 93 | 1 |
-| hcltech-20 | Was HCLTech recognised as one of the World's Most Ethical Companies? | 3, 97 | **3**, **97**, **97**, **97**, **3** | 1 |
+| hcltech-01 | What is HCLTech's target for reducing Scope 3 emissions? | 29 | **29**, 16, **29**, 11, **29** | 1 |
+| hcltech-02 | By what year does HCLTech aim to reach net zero? | 8, 11, 15, 16, 19 | **19**, **15**, 29, 29, **15** | 1 |
+| hcltech-03 | What is HCLTech's renewable electricity target? | 11, 16, 30, 31 | **30**, **11**, **11**, **31**, **30** | 1 |
+| hcltech-04 | What percentage of HCLTech's employees are women? | 11, 49 | 113, **49**, 46, 43, 113 | 2 |
+| hcltech-05 | How has HCLTech reduced its water consumption? | 6, 13, 35 | **35**, 20, 20, **35**, 10 | 1 |
+| hcltech-06 | What is HCLTech's goal for waste sent to landfill? | 6, 10, 11, 13, 15, 16 | **6**, 19, 20, **6**, 19 | 1 |
+| hcltech-07 | What CDP rating did HCLTech receive? | 31 | **31**, **31**, 8, 8, 88 | 1 |
+| hcltech-08 | How much have HCLTech's Scope 1 and 2 emissions fallen since FY20? | 6, 11, 13, 16, 29, 31 | **16**, **16**, **16**, **11**, **29** | 1 |
+| hcltech-09 | What is HCLTech's 2030 target for Scope 1 and 2 emissions? | 11, 16, 29 | **16**, **16**, **11**, **29**, **11** | 1 |
+| hcltech-10 | What is HCLTech's target for women in senior leadership? | 11 | **11**, **11**, 46, 85, **11** | 1 |
+| hcltech-11 | What share of HCLTech's campus hires are women? | 49 | **49**, **49**, 46, **49**, 43 | 1 |
+| hcltech-12 | How much have HCLTech's Scope 3 emissions fallen since FY20? | 6, 11, 16, 29 | **16**, **11**, **29**, **29**, **29** | 1 |
+| hcltech-13 | What share of HCLTech's electricity came from renewable energy in FY25? | 11, 16, 31, 34 | **31**, **11**, **31**, **31**, **16** | 1 |
+| hcltech-14 | How much of HCLTech's employee transport in Hyderabad moved to electric vehicles? | 8, 32 | **32**, **32**, **32**, **32**, **32** | 1 |
+| hcltech-15 | What EcoVadis rating did HCLTech receive? | 6, 8, 88 | **8**, **88**, **8**, **88**, **8** | 1 |
+| hcltech-16 | How many hours of sustainability training did HCLTech employees complete? | 11, 13, 30 | **30**, **13**, **11**, **30**, 112 | 1 |
+| hcltech-17 | What MSCI ESG rating does HCLTech have? | 6, 8, 88 | **8**, **8**, **88**, **88**, **8** | 1 |
+| hcltech-18 | What is HCLTech's Sustainalytics ESG risk rating? | 88 | **88**, 8, **88**, 8, **88** | 1 |
+| hcltech-19 | How many lives has the HCLFoundation impacted? | 13, 75 | **75**, 76, 76, **13**, 76 | 1 |
+| hcltech-20 | Was HCLTech recognised as one of the World's Most Ethical Companies? | 6, 8, 88, 90 | **90**, **6**, **6**, **90**, **6** | 1 |
 
 ## Metric definitions
 

@@ -1,7 +1,7 @@
 # GreenScope: ESG Disclosure Intelligence Engine
 
 A Streamlit app that answers questions about the sustainability (ESG) reports of two
-Indian IT companies, **Wipro (FY2024-25)** and **HCLTech (FY2024)**, using
+Indian IT companies, **Wipro** and **HCLTech**, both for **FY2024-25** (April 2024 to March 2025), using
 Retrieval-Augmented Generation (RAG). Every claim in an answer is cited to a page,
 e.g. *[Wipro, p.67]*, a **Compare both** mode answers side by side, and every
 retrieved passage comes with a word-level explanation of why it matched.
@@ -80,7 +80,7 @@ index is rebuilt automatically (about 2 minutes); to force it: `python -m src.da
  ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
  │ data/raw/*.pdf   │──►│ PyPDFLoader      │──►│ Recursive splitter   │──►│ BAAI/bge-small-en-   │
  │ Wipro 163 pp.    │   │ 1 doc per page   │   │ 400 chars, 250 over- │   │ v1.5: 384-dim unit   │
- │ HCLTech 113 pp.  │   │ page = PDF page  │   │ lap, drop < 50 chars │   │ vectors (~4,000)     │
+ │ HCLTech 122 pp.  │   │ page = PDF page  │   │ lap, drop < 50 chars │   │ vectors (~4,000)     │
  └──────────────────┘   └──────────────────┘   └──────────────────────┘   └──────────┬───────────┘
                                                                                      │
                                    index/  <Company>_vectors.npy + <Company>_chunks.json
@@ -171,11 +171,12 @@ yet human-verified (`"verified": false`); the answer judge was checked on 14 ver
 
 ## Notes
 
-- The reports cover **different fiscal years** (Wipro FY2024-25, HCLTech FY2024), so
-  side-by-side figures aren't always like-for-like.
+- Both reports cover **FY2024-25** (April 2024 to March 2025). An earlier version used
+  HCLTech's FY2024 report; it was replaced so comparisons are like-for-like. Companies can
+  still use different baselines and definitions (e.g. Wipro's 2017/2020 vs HCLTech's FY20).
 - Page numbers are PDF file pages (page 1 = first page of the file), which may differ
   from the numbers printed on the pages.
 - Charts and images aren't read; only extractable text is searched.
 - Source PDFs:
   [Wipro](https://www.wipro.com/content/dam/nexus/en/sustainability/sustainability_reports/wipro-sustainability-report-fy-2024-2025.pdf),
-  [HCLTech](https://www.hcltech.com/sites/default/files/documents/resources/pdf-landing-page/files/2024/08/08/hcltech-sustainability-report-august.pdf).
+  [HCLTech](https://www.hcltech.com/sites/default/files/documents/resources/pdf-landing-page/files/2025/10/15/sustainability-report-fy25.pdf).

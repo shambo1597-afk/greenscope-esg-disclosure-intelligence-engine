@@ -202,8 +202,8 @@ elif ask:
 # --- Footer ----------------------------------------------------------------------
 st.divider()
 st.caption(
-    "Note: the two reports cover different fiscal years: **Wipro FY2024-25** and **HCLTech FY2024** "
-    "(April 2023 to March 2024). Keep this in mind when comparing figures. Page numbers refer to the "
+    "Both reports cover the same fiscal year, **FY2024-25** (April 2024 to March 2025). Companies can "
+    "still define metrics and baselines differently, so check the cited passages when comparing. Page numbers refer to the "
     "page of the PDF file, which may differ from the number printed on the page. "
     "AI answers can still contain mistakes, so verify important figures in the cited passages."
 )

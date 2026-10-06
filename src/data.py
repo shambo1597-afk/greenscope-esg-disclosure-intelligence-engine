@@ -38,7 +38,7 @@ INDEX_DIR = PROJECT_ROOT / "index"
 # The two reports, keyed by the company name shown in the app.
 COMPANIES: Dict[str, str] = {
     "Wipro": "wipro_sustainability_2024_25.pdf",
-    "HCLTech": "hcltech_sustainability_fy2024.pdf",
+    "HCLTech": "hcltech_sustainability_fy2025.pdf",
 }
 
 # --- Tuned parameters ----------------------------------------------------------
