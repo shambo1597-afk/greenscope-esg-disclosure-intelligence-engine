@@ -1,6 +1,6 @@
 # Vibe Coding Log: GreenScope
 
-*Team: [add names] · Course: AI and ML for Digital Business Managers · October 2026*
+*Group 2: Shambadeb Ghosh (DBM/1069/03), Madhav Narayan Yadav (DBM/1045/03), Iringakaran Rhishi Sasidharan (DBM/1029/03), Arjun Madanan (DBM/1009/03), Lakshya Maheshwari (DBM/1044/03) · Course: AI and ML for Digital Business Managers · October 2026*
 
 ## Platforms used
 

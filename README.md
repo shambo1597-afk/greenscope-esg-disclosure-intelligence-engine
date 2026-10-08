@@ -12,6 +12,16 @@ retrieved passage comes with a word-level explanation of why it matched.
 | [`docs/BUSINESS_CASE.md`](docs/BUSINESS_CASE.md) | Persona, ROI model, market strategy, risks |
 | [`docs/VIBE_CODING_LOG.md`](docs/VIBE_CODING_LOG.md) | How the project was built with AI agents |
 
+## Team (Group 2)
+
+| Name | Reg No |
+|---|---|
+| Shambadeb Ghosh | DBM/1069/03 |
+| Madhav Narayan Yadav | DBM/1045/03 |
+| Iringakaran Rhishi Sasidharan | DBM/1029/03 |
+| Arjun Madanan | DBM/1009/03 |
+| Lakshya Maheshwari | DBM/1044/03 |
+
 ## Setup
 
 Requires **Python 3.11 or newer** (tested on 3.11; the pinned numpy needs 3.11+). Versions in
