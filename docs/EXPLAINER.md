@@ -286,10 +286,66 @@ An AI judge can be wrong too, so we checked 20 of its verdicts by hand against t
 Most errors are figures paired with the wrong label from scrambled chart or table text;
 the misses are facts that only appear on infographic pages (section 6).
 
+In counts: of the 120 answers, **103 were correct**, 6 partly correct, 8 contained an
+error and 3 missed the answer. The 8 errors come from 5 questions (Wipro's Scope 1 and 2
+target in all 3 runs, plus 4 single runs); the 3 misses are one question, Wipro's 13.5%
+supplier-diversity spend, which only appears on an infographic highlights page. A typical
+error: asked for Wipro's 2030 Scope 1 and 2 target, the answer gave the correct 59% but
+then said the reduction from 195,453 to 31,462 tCO2e "represents" that target. On page 67
+those figures are 2025 performance, not the target. The 120 answers are 3 runs of the same
+40 questions, so they are not 120 independent tests.
+
+### Which numbers are held-out, and which are not (read this before quoting a number)
+
+Only some of our numbers come from questions that played no part in choosing the
+settings:
+
+| Number | Held-out? |
+|---|---|
+| Tuned chunking and embedding model: MRR@5 **0.84 ± 0.09**, Hit@5 **0.97 ± 0.05** | Yes, 5-fold cross-validation |
+| Hybrid search (RRF): MRR@5 **0.89** vs 0.84 for meaning search alone | Yes, cross-validated |
+| Final system on all 40: Hit@1 0.88, Hit@5 0.97 (39 of 40), MRR@5 0.91 | No: same 40 questions used to choose settings |
+| Answers: 86% correct (103 of 120) | No: same 40 questions |
+
+Five later design choices were made by looking at results on the same 40 questions,
+without cross-validation: replacing the company name with "the company", splitting
+two-topic questions, the 2,000-character page context, RRF over meaning search, and
+rejecting the re-rankers. So the full-set numbers are somewhat **optimistic**. The honest
+summary is: **tuned and tested on the same 40 questions, with cross-validation for the
+main settings**. The fix is a fresh, frozen test set (20 to 30 questions, including table
+questions, unanswerable questions and comparisons) written by someone who never tuned
+against it. We list it as the first next step. Note also that with 40 questions one
+question moves Hit@5 by 2.5 points.
+
+### Two extra checks
+
+**Whole report in the prompt instead of RAG** (`eval/long_context_baseline.md`, US$0.37).
+Both reports fit in Claude Haiku 4.5's context window (about 97,000 tokens for Wipro and
+66,000 for HCLTech), so the obvious alternative is to skip retrieval. On 10 questions
+fixed in advance (ids 01, 05, 09, 13, 17 per company), same model, rules and judge:
+
+| Method | Fully correct | Cost per question |
+|---|---|---|
+| Whole report in prompt | 8 of 10 | US$0.083 (US$0.028 with prompt caching) |
+| GreenScope, same 10 questions | 23 of 30 runs | about US$0.003 |
+
+Accuracy is about the same on this small sample (the two methods failed on
+partly different questions), but GreenScope costs about **28 times less** per question (9 times less even with
+caching), sends about 2,500 tokens instead of 82,000, and shows the exact passages it used.
+Long context would also stop fitting as reports are added or get longer.
+
+**Questions the reports don't answer** (`eval/out_of_scope.md`, under one cent). We asked
+four questions with no answer in the reports (Wipro's water use in 2010, its cryptocurrency
+holdings, HCLTech's EV charging points in Brazil, HCLTech's share-price target). GreenScope
+said "This is not disclosed in the retrieved text" for **all 4**, and did not use outside
+knowledge.
+
 ## 5. Tuning the settings, with cross-validation
 
-`eval/tune.py` tried **36 combinations** of embedding model (MiniLM, BGE-small, MPNet),
-chunk size (400 to 1,200 characters) and overlap (0 to 250), scoring each by MRR@5 on
+`eval/tune.py` tried **36 combinations** in three stages: MiniLM with 5 chunk sizes
+(400 to 1,200 characters) × 4 overlaps (0 to 250) = 20; then BGE-small and MPNet on 6
+promising size/overlap pairs = 12; then 2 more overlaps for those two models = 4. Each was
+scored by MRR@5 on
 the 40 questions. Retrieval only, so no API cost.
 
 **Why cross-validation?** Pick the best of 36 settings on 40 questions and report its
@@ -727,3 +783,83 @@ won all 5 rounds.
 - Net benefit: 1,920 − 943 = US$977; ROI = 977 / 943 ≈ **104%**
 - Break-even: each lookup earns 8/60 h × US$6 − US$0.003 ≈ US$0.80 against fixed costs
   of US$936, so 936 / 0.80 ≈ **1,200 lookups a year**
+
+---
+
+## 11. Q&A cheat sheet: the hard questions
+
+**17. Why not just give the whole PDF to a long-context model, or use NotebookLM?**
+We tested it (section 4, "Two extra checks"). Same model, whole report in the prompt: 8 of
+10 correct, against 23 of 30 runs for GreenScope on the same questions, so about the same
+accuracy on a small sample. But it costs US$0.083 per question (US$0.028 with caching)
+against about US$0.003 for GreenScope: 9 to 28 times more. GreenScope also shows the exact
+passages and why they matched, and keeps working when there are more reports than fit in
+one prompt. Tools like NotebookLM do cite sources; our difference is page-level citations
+restricted to the reports, a side-by-side mode, and measured accuracy.
+
+**18. How do you know you didn't overfit to your 40 questions?**
+Partly we do, and we say so. The main settings (chunk size, overlap, embedding model) were
+chosen with 5-fold cross-validation: held-out MRR@5 0.84 ± 0.09 vs 0.69 for the original.
+Hybrid search was also cross-validated (held-out 0.89 vs 0.84). But five later choices
+were made on the same 40 questions, so the final full-set numbers (Hit@5 0.97, 86% correct)
+are somewhat optimistic. The next step is a fresh frozen test set written by someone who
+did not tune the system.
+
+**19. What happens with tables, charts, or a question the reports don't answer?**
+Unanswerable: we asked 4 such questions and GreenScope declined all 4 ("This is not
+disclosed in the retrieved text"). Tables and charts: this is our main weakness. PDF text
+extraction turns them into unlabelled lists of numbers, and that causes most of the 8 wrong
+answers. We tried a layout-aware parser (Docling): no better on graded answers and much
+slower. The next step is to send only the table and chart pages to a vision model, which
+reads the page as an image; as a rough estimate this is a one-off cost of well under US$1
+for both reports at indexing time.
+
+**20. Does it generalise beyond two Indian IT companies?**
+Not tested. Nothing in the code is specific to these companies: adding a report is one line
+in `src/data.py` plus re-indexing (about 2 minutes). But our accuracy numbers only hold for
+these two reports, and other sectors (e.g. manufacturing) have more tables. A new report
+needs new test questions before we can claim the same accuracy.
+
+**21. Why Claude Haiku 4.5? Did you compare models?**
+It is the cheapest current Claude model, and answer cost drives the business case. We did
+not run a systematic model comparison. The evidence that the model is not the bottleneck:
+most errors come from scrambled table text in the passages, which a bigger model would
+receive in the same form. The grader is a stronger model (Claude Sonnet 5.5). It is from
+the same family, so self-preference is possible; that is why we hand-checked 20 of its
+verdicts against the PDF (all 20 agreed).
+
+**22. A 7% error rate is risky for analysts. How do you handle that?**
+GreenScope is decision support, not an oracle. Every claim carries a page citation, the
+exact passages are one click away, and the word explanation shows why each passage was
+picked. The ROI assumes the analyst checks the cited passage (2 minutes per lookup). The
+errors are mostly a figure paired with the wrong label from a table, which the cited
+passage makes visible. Citations were fully supported in 90% of answers, so the analyst
+should check the citation, not just the number.
+
+**23. Who would pay US$99 a month, and what evidence do you have?**
+No direct evidence yet: that is what the pilot and the time trial are for. The arithmetic:
+an analyst doing about 200 lookups a month saves about 27 hours at our assumed 8 minutes
+each. At ₹500/hour that is worth about ₹13,300 (about US$160), so US$99 is a thin margin in
+India and regional pricing would likely be needed; at a global consultancy rate (US$60/hour)
+the same hours are worth about US$1,600. The ">95% gross margin" counts only AI usage, not
+hosting or support.
+
+**24. What exactly is the Shapley value function?**
+The "players" are the content words of the question; filler words ("what", "the", "of")
+are always kept. For a set S of content words, v(S) = cosine similarity between the
+passage and the question containing only the words in S (plus the filler words), each
+embedded with BGE-small. A word's Shapley value is its average extra v when added, over
+all orders of adding words. The values add up to v(all words) − v(no content words). That
+second term is not zero: the filler-only question ("what are the company's ...") already
+has some similarity to most passages. That is why the word values on the slide add up to
+about 0.30 while the full similarity is 0.786. "Scope" and "3" are scored as separate words
+because the method works word by word; it showed that "3" adds very little, i.e. the
+embedding barely tells Scope 3 from Scope 1 and 2.
+
+**25. Your ROI costs: where do they come from?**
+Per team per year: AI 2,400 lookups × US$0.003 ≈ US$7 (single-company answers; if every
+lookup were a side-by-side comparison, about US$14). Hosting US$360. Maintenance 96 hours,
+priced at the analyst's own rate: US$576 in India (US$6/hour), US$5,760 for a global
+consultancy (US$60/hour). Totals: US$943 and US$6,127. The 8 minutes saved per lookup is
+an assumption; the 10-question time trial in the business case would replace it with a
+measurement.

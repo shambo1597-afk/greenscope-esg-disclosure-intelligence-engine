@@ -141,6 +141,8 @@ python eval/distance_metrics.py  # distance metrics             -> eval/distance
 python eval/retrieval_methods.py # hybrid search / re-ranking   -> eval/retrieval_methods.md
 python eval/multi_topic_eval.py  # two-topic questions (API, <1 cent) -> eval/multi_topic_results.md
 python eval/answer_eval.py       # answer quality (API, ~US$0.50)    -> eval/answer_quality.md
+python eval/long_context_baseline.py # whole report in the prompt (API, ~US$0.40) -> eval/long_context_baseline.md
+python eval/out_of_scope.py      # unanswerable questions (API, <1 cent) -> eval/out_of_scope.md
 pytest -q                        # automated tests
 ```
 
@@ -176,7 +178,15 @@ and PyPDF vs the layout-aware parser Docling, on retrieval and graded answers
 ([`eval/pdf_parser_comparison.md`](eval/pdf_parser_comparison.md); reproduce with
 `python eval/compare_pdf_parsers.py --answers`, needs `pip install docling`).
 
-Limitations: 40 questions is small; matching is by page, not passage; gold pages are not
+**Long-context baseline:** the whole report in the prompt (same model and judge) got 8 of
+10 questions right vs 23 of 30 runs for GreenScope, at about 28× the cost per question
+([`eval/long_context_baseline.md`](eval/long_context_baseline.md)). **Out-of-scope
+questions:** GreenScope declined all 4 questions the reports don't answer
+([`eval/out_of_scope.md`](eval/out_of_scope.md)).
+
+Limitations: the main settings were cross-validated, but later choices were made on the same
+40 questions, so full-set scores are somewhat optimistic (held-out MRR@5 0.84 dense, 0.89
+hybrid; see `docs/EXPLAINER.md` section 4); 40 questions is small; matching is by page, not passage; gold pages are not
 yet human-verified (`"verified": false`); the answer judge was checked on 20 verdicts.
 
 ## Notes

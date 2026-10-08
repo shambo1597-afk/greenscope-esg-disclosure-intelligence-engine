@@ -1,0 +1,122 @@
+[
+  {
+    "id": "wipro-01",
+    "question": "What is Wipro's target for reducing Scope 3 emissions?",
+    "answer": "According to the report, Wipro's target for reducing Scope 3 emissions is:\n\n**55% reduction by 2030 on a 2020 baseline** [Wipro, p.67]\n\nAdditionally, Wipro has a longer-term commitment to achieve **Net-Zero on Scope 1, 2, and 3 emissions by 2040** [Wipro, p.67]\n\nThese targets have been validated by the Science Based Targets initiative (SBTi), making Wipro the first company in India and the seventh globally to receive SBTi approval for Net-Zero targets [Wipro, p.67].",
+    "verdict": "correct",
+    "citations_supported": true,
+    "explanation": "States 55% Scope 3 reduction by 2030 from 2020 baseline, matching the reference. Net-Zero by 2040 and the SBTi first-in-India, seventh-globally claim are supported by p.67 excerpt.",
+    "prompt_tokens": 97253,
+    "cost_cached": 0.122306,
+    "cost_uncached": 0.097998,
+    "judge_cost": 0.008668
+  },
+  {
+    "id": "wipro-05",
+    "question": "What are Wipro's water management targets?",
+    "answer": "# Wipro's Water Management Targets\n\nBased on the report, Wipro has established the following water management targets:\n\n## Current Targets (Through FY25)\n\n**Freshwater Efficiency:**\n- Target: 60% improvement by 2030 (from 150 to 60 Lpcd - liters per capita per day)\n- FY25 Achievement: 50% improvement achieved, bringing usage down to 75 Lpcd [Wipro, p.74]\n\n**Wastewater Treatment and Recycling:**\n- Target: 100% of wastewater treated\n- FY25 Achievement: 100% achieved [Wipro, p.74]\n- Recycled water usage target: 31% of total water requirement met from treated wastewater\n- FY25 Achievement: 31% [Wipro, p.74]\n\n**Zero Liquid Discharge:**\n- Maintain Zero Liquid Discharge (ZLD) of untreated water across all owned facilities [Wipro, p.74]\n\n## Revised Targets from FY26 Onwards\n\nWipro has updated its water goals to be \"more feasible, time-bound, and aligned with current infrastructure and investment capacity.\" The revised targets include:\n\n- Continue to treat 100% of all used water as per safe standards\n- Increase the utilization of treated water to constitute 45% of total water use by 2030\n- Reduce the absolute consumption of freshwater year-on-year by 3% in all operationally-controlled facilities [Wipro, p.74]\n\nThese targets reflect a balanced approach with planned improvements in sewage treatment infrastructure [Wipro, p.74].",
+    "verdict": "contains_error",
+    "citations_supported": false,
+    "explanation": "The answer lists the revised targets correctly (3% freshwater reduction, ZLD, 45% recycled by 2030). But it states the FY25 recycled water target as 31%, when 31% was the performance figure and the target was 60%, which the excerpts contradict. The citation on that claim is unsupported.",
+    "prompt_tokens": 97247,
+    "cost_cached": 0.0116682,
+    "cost_uncached": 0.099177,
+    "judge_cost": 0.00919
+  },
+  {
+    "id": "wipro-09",
+    "question": "What is Wipro's 2030 target for Scope 1 and 2 emissions?",
+    "answer": "According to the report, Wipro's 2030 target for Scope 1 and 2 emissions is a **59% reduction from the 2017 baseline** [Wipro, p.67].\n\nThe report states: \"Reduce baseline emissions by 59% for Scope 1, 2 by 2030 on 2017 baseline\" [Wipro, p.46].\n\nAs of FY25 (the reporting period), Wipro has already achieved an **84% reduction** in Scope 1 and 2 emissions compared to the 2017 baseline, bringing emissions down from 195,453 tCO2e to 31,462 tCO2e [Wipro, p.67].",
+    "verdict": "correct",
+    "citations_supported": true,
+    "explanation": "The 59% reduction by 2030 from a 2017 baseline matches the reference. The 84% achieved and the 195,453 to 31,462 tCO2e figures are supported by p.67, and the quote is on p.46.",
+    "prompt_tokens": 97260,
+    "cost_cached": 0.010616200000000001,
+    "cost_uncached": 0.098125,
+    "judge_cost": 0.008646
+  },
+  {
+    "id": "wipro-13",
+    "question": "How many nationalities are represented in Wipro's workforce?",
+    "answer": "According to the report, **146 nationalities** are represented in Wipro's workforce [Wipro, p.7].",
+    "verdict": "correct",
+    "citations_supported": true,
+    "explanation": "The answer states 146 nationalities, matching the reference and the p.7 excerpt (\"146 Nationalities in Workforce\"). The citation points to the correct page and supports the claim.",
+    "prompt_tokens": 97250,
+    "cost_cached": 0.0098962,
+    "cost_uncached": 0.097405,
+    "judge_cost": 0.003766
+  },
+  {
+    "id": "wipro-17",
+    "question": "How many of Wipro's independent directors are women?",
+    "answer": "According to the report, **two of the six independent directors are women** [Wipro, p.15].\n\nThe report states: \"Two of the six independent directors are women.\" The two female independent directors mentioned in the Board composition table are:\n\n1. **Tulsi Naidu** - Independent Director\n2. **Paivi Rekonen** - Independent Director",
+    "verdict": "correct",
+    "citations_supported": true,
+    "explanation": "Answer states two of six independent directors are women, matching the reference and the excerpt. Names Tulsi Naidu and Paivi Rekonen are marked 'Woman' in the table, so they are supported, and the p.15 citation fits.",
+    "prompt_tokens": 97249,
+    "cost_cached": 0.010155200000000001,
+    "cost_uncached": 0.097664,
+    "judge_cost": 0.005206
+  },
+  {
+    "id": "hcltech-01",
+    "question": "What is HCLTech's target for reducing Scope 3 emissions?",
+    "answer": "# HCLTech's Scope 3 Emissions Reduction Target\n\nAccording to the report, HCLTech's Science-Based Targets initiative (SBTi)-approved target for 2030 requires **a reduction of 42% for Scope 3 emissions compared to the FY20 baseline** [HCLTech, p.29].\n\nAdditionally, the report notes that in FY25, HCLTech achieved **a 22% reduction in Scope 3 emissions from FY20**, which is already progressing toward the 2030 target [HCLTech, p.6].",
+    "verdict": "correct",
+    "citations_supported": true,
+    "explanation": "States the 42% Scope 3 reduction by 2030 vs the FY20 baseline, matching the reference and p.29. The 22% progress figure is supported by p.6 and p.29.",
+    "prompt_tokens": 66354,
+    "cost_cached": 0.08366175,
+    "cost_uncached": 0.067079,
+    "judge_cost": 0.006874
+  },
+  {
+    "id": "hcltech-05",
+    "question": "How has HCLTech reduced its water consumption?",
+    "answer": "According to the report, HCLTech has achieved a **59% reduction in water intensity since FY20** [HCLTech, p.37].\n\nKey strategies HCLTech used to reduce water consumption include:\n\n**Water Efficiency Initiatives:**\n- Recycled 100% of wastewater onsite through advanced closed-loop systems [HCLTech, p.36]\n- Upgraded cooling tower systems to utilize harvested rainwater [HCLTech, p.36]\n- Implemented the \"Scale Bio Remover\" (SBR) for automated cooling water treatment, which resulted in water savings of 2.051 million liters during the reporting year [HCLTech, p.36]\n- Installed smart water metering to monitor usage in real time and detect leaks instantly [HCLTech, p.36]\n\n**Rainwater Harvesting:**\n- Deployed a network of rooftop collectors, recharge wells, storage tanks and artificial lakes across campuses [HCLTech, p.37]\n- Expanded rooftop rainwater harvesting across campuses in Bengaluru, Chennai, Madurai and Vijayawada, covering 51,702 m\u00b2 [HCLTech, p.37]\n\n**Operational Changes:**\n- Reduced grass coverage and native plantings with automated drip irrigation [HCLTech, p.36]\n- Shifted from groundwater extraction to municipal water sourcing at the Jigani campus in Bengaluru, reducing groundwater extraction by nearly 14% year-on-year [HCLTech, p.39]\n\n**Result:** Water consumption intensity is now **10.2 liters per full-time employee per day, 35% lower than comparable peers** [HCLTech, p.10].",
+    "verdict": "contains_error",
+    "citations_supported": false,
+    "explanation": "The answer omits the reference's headline figures (32.2% Pan India reduction vs 2019-20; 31x replenished). It also says \"per full-time employee\", but p.10 says \"per employee\" (unsupported detail), and claims 100% onsite recycling while p.37 says 97.5% treated.",
+    "prompt_tokens": 66348,
+    "cost_cached": 0.0087501,
+    "cost_uncached": 0.068448,
+    "judge_cost": 0.016098
+  },
+  {
+    "id": "hcltech-09",
+    "question": "What is HCLTech's 2030 target for Scope 1 and 2 emissions?",
+    "answer": "According to the report, HCLTech's 2030 target for Scope 1 and 2 emissions is to **reduce absolute Scope 1 and 2 emissions by 50% compared to the FY20 baseline** [HCLTech, p.11].\n\nThis target was validated by the Science Based Targets initiative (SBTi) and is part of HCLTech's pathway to achieve net-zero emissions by 2040 [HCLTech, p.11].",
+    "verdict": "correct",
+    "citations_supported": false,
+    "explanation": "The 50% absolute reduction vs FY20 matches the reference. But p.11 does not say FY20 baseline for that target, nor that this 50% target was SBTi-validated (that is on p.29). The net zero 2040 link is on p.11, though.}",
+    "prompt_tokens": 66361,
+    "cost_cached": 0.007263100000000001,
+    "cost_uncached": 0.066961,
+    "judge_cost": 0.007294
+  },
+  {
+    "id": "hcltech-13",
+    "question": "What share of HCLTech's electricity came from renewable energy in FY25?",
+    "answer": "According to the report, **34% of HCLTech's electricity came from renewable energy in FY25** [HCLTech, p.11].\n\nThe report also notes that this represents progress toward the company's target of transitioning 80% of electricity usage to renewable energy by 2030 [HCLTech, p.11].\n\nAdditionally, the report states that renewable energy consumption has increased 83% from the FY20 baseline [HCLTech, p.6].",
+    "verdict": "correct",
+    "citations_supported": true,
+    "explanation": "The answer gives 34% for FY25 and the 80% by 2030 target, matching the reference. The 83% increase from FY20 is supported on p.6. It omits the FY24 19% figure, which is not required. Citations match their excerpts.",
+    "prompt_tokens": 66355,
+    "cost_cached": 0.0072271,
+    "cost_uncached": 0.066925,
+    "judge_cost": 0.013318
+  },
+  {
+    "id": "hcltech-17",
+    "question": "What MSCI ESG rating does HCLTech have?",
+    "answer": "According to the report, HCLTech has been rated 'AA' by MSCI for ESG performance [HCLTech, p.6].",
+    "verdict": "correct",
+    "citations_supported": true,
+    "explanation": "The answer states MSCI rated HCLTech 'AA', matching the reference. Omitting the 'Leader' label is minor. The p.6 excerpt says 'MSCI rated us AA', so the citation is supported.",
+    "prompt_tokens": 66351,
+    "cost_cached": 0.0068481,
+    "cost_uncached": 0.066546,
+    "judge_cost": 0.008778
+  }
+]
