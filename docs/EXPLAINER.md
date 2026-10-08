@@ -904,3 +904,16 @@ priced at the analyst's own rate: US$576 in India (US$6/hour), US$5,760 for a gl
 consultancy (US$60/hour). Totals: US$943 and US$6,127. The 8 minutes saved per lookup is
 an assumption; the 10-question time trial in the business case would replace it with a
 measurement.
+
+**26. Why not just use NotebookLM?**
+We tested it (`docs/NOTEBOOKLM_TEST.md`) on 10 questions chosen to be our hardest. It got 8 of
+10 right, against GreenScope's 16 of 30 runs on the same questions, mainly because it reads
+charts and infographics that our text extraction loses. Our honest answer: for one person
+reading one report, NotebookLM is very good. GreenScope's case is different: a side-by-side
+company comparison in one question, a measured accuracy number on a frozen test set, word-level
+explanations of why a passage was picked, costs we control (under half a US cent per answer),
+and an app a firm can run itself with its own reports. The test also confirms our first next
+step: a vision model for chart and table pages. Bonus finding: HCLTech's report contradicts
+itself on training hours (text says +27% for men and women; the chart on the same page shows
+men down 14%), which is why we show the source passage, not just the number.
+

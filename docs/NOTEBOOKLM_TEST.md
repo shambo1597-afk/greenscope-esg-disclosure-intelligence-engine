@@ -24,19 +24,45 @@ The 10 questions were chosen before seeing any NotebookLM answer. **They are del
 
 | # | Question (paste exactly) | Correct answer | Page | GreenScope (3 runs) | NotebookLM | Cite OK |
 |---|---|---|---|---|---|---|
-| 1 | What is Wipro's 2030 target for Scope 1 and 2 emissions? | 59% reduction by 2030 from a 2017 baseline | 46, 63, 67, 88 | E E E | | |
-| 2 | What share of Wipro's spend goes to diverse suppliers? | 13.5% supplier diversity spend | 7 | M M M | | |
-| 3 | What was Wipro's Lost Time Injury Frequency Rate (LTIFR) in FY25? | 0.27 per million person-hours (0.18 in FY24) | 111 | C C C | | |
-| 4 | What was Wipro's total energy consumption in FY25? | About 754 trillion Joules | 65 | C C C | | |
-| 5 | What internal carbon price per tonne of CO2 does Wipro use? | Not in the report | – | C C C | | |
-| 6 | What percentage of HCLTech's employees are women? | 28.8% in FY25; target 40% by 2030 | 11, 49 | E C E | | |
-| 7 | How has HCLTech reduced its water consumption? | 32.2% less Pan-India water vs 2019-20; 31x replenished in India | 6, 13, 35 | P P P | | |
-| 8 | How much did HCLTech's average training hours per employee change from FY24 to FY25? | Up 27% for both male and female employees | 46 | E E E | | |
-| 9 | How many members are on HCLTech's Board, and what share are independent directors? | Ten members, 70% independent | 85 | C C C | | |
-| 10 | By what year does HCLTech aim to become water positive? | Not in the report (no target year) | – | C C C | | |
+| 1 | What is Wipro's 2030 target for Scope 1 and 2 emissions? | 59% reduction by 2030 from a 2017 baseline | 46, 63, 67, 88 | E E E | C | not checked |
+| 2 | What share of Wipro's spend goes to diverse suppliers? | 13.5% supplier diversity spend | 7 | M M M | C | not checked |
+| 3 | What was Wipro's Lost Time Injury Frequency Rate (LTIFR) in FY25? | 0.27 per million person-hours (0.18 in FY24) | 111 | C C C | C | not checked |
+| 4 | What was Wipro's total energy consumption in FY25? | About 754 trillion Joules | 65 | C C C | C | not checked |
+| 5 | What internal carbon price per tonne of CO2 does Wipro use? | Not in the report | – | C C C | P | not checked |
+| 6 | What percentage of HCLTech's employees are women? | 28.8% in FY25; target 40% by 2030 | 11, 49 | E C E | C | not checked |
+| 7 | How has HCLTech reduced its water consumption? | 32.2% less Pan-India water vs 2019-20; 31x replenished in India | 6, 13, 35 | P P P | C | not checked |
+| 8 | How much did HCLTech's average training hours per employee change from FY24 to FY25? | Up 27% for both male and female employees | 46 | E E E | E | not checked |
+| 9 | How many members are on HCLTech's Board, and what share are independent directors? | Ten members, 70% independent | 85 | C C C | C | not checked |
+| 10 | By what year does HCLTech aim to become water positive? | Not in the report (no target year) | – | C C C | C | not checked |
 
 GreenScope on these 10: 16 of 30 runs fully correct (53%), versus 86% on all 40 original questions and 95% on the fresh set.
 That gap is the point: these are its hardest questions.
+
+## Result (run on 8 October 2026, graded by Claude against the report text)
+
+**NotebookLM: 8 of 10 correct, 1 partly correct, 1 with an error. GreenScope on the same 10: 16 of 30 runs (53%), 5 questions correct in a majority of runs.**
+NotebookLM is clearly better on these hard questions. It got all four that GreenScope misses or gets partly right
+because the answer sits in a chart, a highlights infographic or a long table (questions 1, 2, 6 and 7).
+
+| # | NotebookLM | Note |
+|---|---|---|
+| 1 | C | 59% by 2030 from 2017; also correctly adds that 84% is already achieved (p.67-68). |
+| 2 | C | 13.5% (p.7 infographic, which GreenScope misses every time). |
+| 3 | C | 0.27 (0.18 in FY24). |
+| 4 | C | 754 TJ with the full breakdown. |
+| 5 | P | Wipro has no internal carbon price. NotebookLM gave the US$124.66 social cost of carbon Wipro uses for natural capital valuation (p.51), correctly labelled, but under an "internal carbon price" heading instead of saying there is none. Its HCLTech figures (US$10 benchmark, ₹1,609 in FY25, p.26-27) are right. |
+| 6 | C | 28.8% (and 28.66% of headcount, p.49); does not mention the 40% target. |
+| 7 | C | 32.2% and 31x, plus a long list of measures. |
+| 8 | E | Wrong chart pairing (male 22.12 → 25.84; overall "22.50", a number not in the report). Same failure as GreenScope. |
+| 9 | C | Ten members, 70% independent. |
+| 10 | C | Says there is no target year. Its claim that HCLTech "achieved net water positivity" is its own inference from the 31x figure; the report does not use that phrase. |
+
+Citations were not checked (the pasted answers had no citation markers).
+
+**Finding: question 8 has no clean answer.** The report text (HCLTech p.46) says training hours rose "27% among both
+male and female employees", but the chart on the same page shows male 25.80 → 22.12 (down 14%), female 25.84 → 29.63
+(up 15%) and overall 23.18 → 26.89 (up 16%). The report contradicts itself. Our reference answer used the text; both
+tools mangled the chart. This is a real example of why GreenScope shows the passage instead of only a number.
 
 ## How to use the result in Q&A
 
@@ -47,4 +73,6 @@ That gap is the point: these are its hardest questions.
   and it's why a vision model for table and chart pages is our first next step."
 - **NotebookLM worse:** "It's one small test on 10 questions with one run each, so it's a signal, not proof."
 
-Limits: 10 questions, 1 run each, graded by us rather than by the judge model used for GreenScope.
+Limits: 10 questions, 1 run for NotebookLM, graded by Claude reading the report rather than by the judge model used
+for GreenScope, and the questions were chosen to be GreenScope's hardest. It shows where NotebookLM is stronger
+(charts and infographics); it does not say which tool is better overall.
