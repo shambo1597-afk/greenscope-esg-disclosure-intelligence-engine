@@ -317,6 +317,45 @@ questions, unanswerable questions and comparisons) written by someone who never 
 against it. We list it as the first next step. Note also that with 40 questions one
 question moves Hit@5 by 2.5 points.
 
+### A fresh, frozen test set (the most honest number)
+
+To get a number nobody tuned against, we wrote **20 new questions** (`eval/fresh_test_set.json`):
+8 per company, deliberately including table, infographic and text questions, plus 4 questions
+the reports don't answer. They were committed to GitHub **before** the first run, the system was
+not changed afterwards, and each was answered 3 times and graded by the same judge
+(`eval/fresh_test_results.md`, US$0.47):
+
+| | Result |
+|---|---|
+| Answers fully correct | **57 of 60 (95%)** |
+| Questions correct in all 3 runs | 19 of 20 |
+| Table questions (6) / infographic (3) / unanswerable (4) | all runs correct |
+| Right page in the top 5 (16 answerable questions) | 16 of 16; MRR@5 0.86 |
+| Citations supported | 56 of 60 answers |
+
+The one failure is the known weakness: asked how HCLTech's training hours changed, the answer
+gave the correct 27% but paired the chart's numbers with the wrong categories. Two honest
+caveats: the questions were written by the same assistant that built the system (not an
+outsider), and they are single-fact questions, which are easier than some of the multi-part
+questions in the original 40. So 95% is not "better than 86%"; it shows the system was not
+merely fitted to the original 40 questions.
+
+### MRR@5, one progression
+
+MRR@5 means: how high the first passage from a correct page ranks, averaged over questions
+(1.0 = always first, 0.5 = typically second).
+
+| Step | MRR@5 | Measured on |
+|---|---|---|
+| Original setup (MiniLM, 800/150, meaning search) | 0.69 ± 0.12 | held-out folds of the 40 |
+| + tuned chunks and model (BGE-small, 400/250) | 0.84 ± 0.09 | held-out folds of the 40 |
+| + hybrid search (RRF) | 0.89 ± 0.08 | held-out folds of the 40 |
+| Final system, all 40 questions | 0.91 | the 40 used for tuning (optimistic) |
+| Final system, fresh frozen questions | 0.86 | 16 new answerable questions |
+
+The hybrid step (+0.05) is small next to the fold spread (±0.09), so it is suggestive rather
+than proven; we kept it because it was picked in 4 of 5 folds and costs nothing extra.
+
 ### Two extra checks
 
 **Whole report in the prompt instead of RAG** (`eval/long_context_baseline.md`, US$0.37).
@@ -802,8 +841,10 @@ Partly we do, and we say so. The main settings (chunk size, overlap, embedding m
 chosen with 5-fold cross-validation: held-out MRR@5 0.84 ± 0.09 vs 0.69 for the original.
 Hybrid search was also cross-validated (held-out 0.89 vs 0.84). But five later choices
 were made on the same 40 questions, so the final full-set numbers (Hit@5 0.97, 86% correct)
-are somewhat optimistic. The next step is a fresh frozen test set written by someone who
-did not tune the system.
+are somewhat optimistic. So we wrote 20 fresh questions, froze them on GitHub before the first
+run, and changed nothing afterwards: 57 of 60 answers were correct and the right page was in the
+top 5 for 16 of 16. Caveat: we wrote them ourselves, and they are single-fact questions; a set
+written by an outside analyst is the next step.
 
 **19. What happens with tables, charts, or a question the reports don't answer?**
 Unanswerable: we asked 4 such questions and GreenScope declined all 4 ("This is not

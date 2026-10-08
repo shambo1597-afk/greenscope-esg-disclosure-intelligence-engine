@@ -143,6 +143,7 @@ python eval/multi_topic_eval.py  # two-topic questions (API, <1 cent) -> eval/mu
 python eval/answer_eval.py       # answer quality (API, ~US$0.50)    -> eval/answer_quality.md
 python eval/long_context_baseline.py # whole report in the prompt (API, ~US$0.40) -> eval/long_context_baseline.md
 python eval/out_of_scope.py      # unanswerable questions (API, <1 cent) -> eval/out_of_scope.md
+python eval/fresh_test_eval.py   # frozen fresh test set (API, ~US$0.50) -> eval/fresh_test_results.md
 pytest -q                        # automated tests
 ```
 
@@ -177,6 +178,10 @@ from the query (Hit@5 0.82 to 0.97;
 and PyPDF vs the layout-aware parser Docling, on retrieval and graded answers
 ([`eval/pdf_parser_comparison.md`](eval/pdf_parser_comparison.md); reproduce with
 `python eval/compare_pdf_parsers.py --answers`, needs `pip install docling`).
+
+**Fresh frozen test set:** 20 new questions (tables, infographics, unanswerable ones),
+committed before the first run: 57 of 60 answers correct, right page in the top 5 for 16 of 16
+([`eval/fresh_test_results.md`](eval/fresh_test_results.md)).
 
 **Long-context baseline:** the whole report in the prompt (same model and judge) got 8 of
 10 questions right vs 23 of 30 runs for GreenScope, at about 28× the cost per question

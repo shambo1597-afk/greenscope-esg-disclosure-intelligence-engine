@@ -107,6 +107,25 @@ Multiply by the hourly cost for the value. Even in the most pessimistic cell
 fixed costs, which is why the go-to-market below starts with teams that do recurring
 benchmarking at volume.
 
+### The customer's view: buying a seat instead of building it
+
+The table above is the cost of **running GreenScope yourself**. A customer buying an Analyst
+seat at US$99 a month (US$1,188 a year) sees it differently. One analyst doing 2,400 lookups a
+year (about 200 a month) saves 320 hours at 8 minutes each:
+
+| Minutes saved per lookup | 4 | 8 | 12 |
+|---|---|---|---|
+| Hours saved a year | 160 | 320 | 480 |
+| India value (₹500/h ≈ US$6 at ₹83 per US$) | US$960 | US$1,920 | US$2,880 |
+| India ROI on a US$1,188 seat | −19% | **62%** | 142% |
+| Global value (US$60/h) | US$9,600 | US$19,200 | US$28,800 |
+
+So the India case only works if the real saving is above about 5 minutes per lookup, and an
+India-specific price (or a team licence) is likely needed. The 8 minutes already assumes
+2 minutes to check the cited passage. If the 14% of answers that are not fully correct cost an
+extra 10 minutes each to catch and fix, the average saving falls to about 6.6 minutes, India
+ROI to about 33%.
+
 ### Non-financial benefits
 - **Auditability:** every figure carries a page reference, which speeds up review.
 - **Consistency:** the same question gets the same retrieval for every company.
