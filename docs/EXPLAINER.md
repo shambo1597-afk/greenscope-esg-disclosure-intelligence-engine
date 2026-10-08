@@ -578,3 +578,152 @@ only 20 verdicts. Page numbers are PDF file pages, not printed pages. Next steps
 layout-aware text for chart and table pages only (or a vision model reading those
 pages), a larger human-verified
 evaluation set, and the time trial to measure the business case.
+
+---
+
+## 10. Small examples to work on the board
+
+Each example uses tiny made-up numbers so it can be done by hand in a minute or two. The
+method is exactly what GreenScope does; only the sizes are smaller. Where the real
+numbers differ, the last line of each example says what they are.
+
+### 10.1 Chunking with overlap
+
+Text: the 26 letters `ABCDEFGHIJKLMNOPQRSTUVWXYZ`. Chunk size 10, overlap 4, so each new
+chunk starts 10 − 4 = 6 letters after the previous one:
+
+| Chunk | Positions | Letters |
+|---|---|---|
+| 1 | 1–10 | ABCDEFGHIJ |
+| 2 | 7–16 | GHIJKLMNOP |
+| 3 | 13–22 | MNOPQRSTUV |
+| 4 | 19–26 | STUVWXYZ |
+
+A fact sitting on a cut, say "IJK", is split between chunks 1 and 2 without overlap, but
+with overlap chunk 2 holds it whole. **Real:** 400 characters with 250 overlap, and the
+splitter prefers to cut at paragraph, line or word breaks rather than mid-word.
+
+### 10.2 Cosine similarity: which passage is closest?
+
+Pretend embeddings have only 2 numbers instead of 384. Divide each vector by its length
+so it has length 1 (this is what `normalize_embeddings=True` does):
+
+| | Vector | Length | Unit vector |
+|---|---|---|---|
+| Question | (3, 4) | 5 | (0.6, 0.8) |
+| Passage A | (4, 3) | 5 | (0.8, 0.6) |
+| Passage B | (0, 10) | 10 | (0, 1) |
+| Passage C | (5, 0) | 5 | (1, 0) |
+
+Cosine similarity = multiply matching numbers and add (the dot product of unit vectors):
+
+- A: 0.6 × 0.8 + 0.8 × 0.6 = **0.96**
+- B: 0.6 × 0 + 0.8 × 1 = **0.80**
+- C: 0.6 × 1 + 0.8 × 0 = **0.60**
+
+Ranking: A, B, C. Note B's raw vector is long (10) but that doesn't help it: only the
+direction counts. **Why Euclidean distance gives the same order:** for unit vectors,
+distance² = 2 − 2 × cosine, so A = 0.08, B = 0.40, C = 0.80 (smallest distance = most
+similar, same order). **Real:** 384 numbers per vector, and FAISS does these
+multiplications for about 2,000 passages per report in about 0.03 seconds.
+
+### 10.3 BM25 keyword score: rare words count more
+
+Imagine a report of N = 4 passages. Each query word gets a rarity weight (IDF):
+
+> IDF = ln( 1 + (N − n + 0.5) / (n + 0.5) ), where n = passages containing the word
+
+- "CDP" appears in 1 passage: ln(1 + 3.5 / 1.5) = ln(3.33) ≈ **1.20**
+- "company" appears in all 4: ln(1 + 0.5 / 4.5) = ln(1.11) ≈ **0.11**
+
+So a match on "CDP" is worth about 11 times a match on "company". Repetition helps, but
+with diminishing returns: for a passage of average length, the count factor is
+count × 2.5 / (count + 1.5) (k1 = 1.5):
+
+| Times the word appears | 1 | 2 | 10 |
+|---|---|---|---|
+| Count factor | 1.00 | 1.43 | 2.17 |
+
+Ten mentions are worth only about twice one mention, so a passage can't win by
+repeating a word. Passage score = sum over query words of IDF × count factor.
+
+### 10.4 Reciprocal Rank Fusion: combining the two rankings
+
+Every passage gets a rank from meaning search and a rank from keyword search.
+Score = 1/(60 + meaning rank) + 1/(60 + keyword rank):
+
+| Passage | Meaning rank | Keyword rank | Score |
+|---|---|---|---|
+| X | 1 | 5 | 1/61 + 1/65 = 0.01639 + 0.01538 = **0.03178** |
+| Y | 3 | 1 | 1/63 + 1/61 = 0.01587 + 0.01639 = **0.03227** |
+| Z | 2 | 40 | 1/62 + 1/100 = 0.01613 + 0.01000 = **0.02613** |
+
+Final order: **Y, X, Z**. Y is not first by meaning, but being near the top of *both*
+lists beats being first in one. Z ranks second by meaning but the keyword search barely
+finds it, so it drops. Only ranks are used, never raw scores, so there's no weight to
+tune between a cosine score (0 to 1) and a BM25 score (0 to 20 or more).
+
+### 10.5 Shapley values: sharing the credit between two words
+
+Question with two content words, "water" and "target". Suppose these are the similarities
+to one passage (filler words like "what" and "the" are always kept):
+
+| Words kept | Similarity |
+|---|---|
+| neither | 0.50 |
+| water only | 0.70 |
+| target only | 0.60 |
+| both | 0.75 |
+
+A word's Shapley value = its average extra similarity over both orders of adding words:
+
+- **water**: added first: 0.70 − 0.50 = 0.20; added second: 0.75 − 0.60 = 0.15. Average = **0.175**
+- **target**: added first: 0.60 − 0.50 = 0.10; added second: 0.75 − 0.70 = 0.05. Average = **0.075**
+
+Check: 0.175 + 0.075 = 0.25 = 0.75 − 0.50, so the values add up to the full effect. In the
+app "water" would be shown in a darker green than "target". **Real:** up to 8 content
+words, so up to 2⁸ = 256 versions of the question are embedded per answer.
+
+### 10.6 Hit@k and MRR: grading the search
+
+Four test questions. The rank of the first passage from a correct page:
+
+| Question | First correct rank | 1 / rank |
+|---|---|---|
+| Q1 | 1 | 1 |
+| Q2 | 3 | 0.333 |
+| Q3 | not in top 5 | 0 |
+| Q4 | 2 | 0.5 |
+
+- Hit@1 = 1 of 4 = **0.25**; Hit@3 = 3 of 4 = **0.75**; Hit@5 = **0.75**
+- MRR@5 = (1 + 0.333 + 0 + 0.5) / 4 = **0.46**
+- Precision@5 for Q1, if 3 of its 5 passages come from correct pages: 3 / 5 = **0.6**
+
+**Real (40 questions):** Hit@1 0.88, Hit@5 0.97, MRR@5 0.91, Precision@5 0.70.
+
+### 10.7 Five-fold cross-validation
+
+Split the 40 questions into 5 folds of 8 (4 Wipro + 4 HCLTech each). Draw five rows:
+
+| Round | Choose the best setting using | Score it on |
+|---|---|---|
+| 1 | folds 2, 3, 4, 5 (32 questions) | fold 1 (8 questions) |
+| 2 | folds 1, 3, 4, 5 | fold 2 |
+| 3 | folds 1, 2, 4, 5 | fold 3 |
+| 4 | folds 1, 2, 3, 5 | fold 4 |
+| 5 | folds 1, 2, 3, 4 | fold 5 |
+
+Every question is used for scoring exactly once, and never by the round that chose the
+setting. The result is the average of the five held-out scores ± their spread.
+**Real:** held-out MRR@5 0.84 ± 0.09 (tuned) vs 0.69 ± 0.12 (original); the same setting
+won all 5 rounds.
+
+### 10.8 The ROI, India scenario
+
+- Time saved: 2,400 lookups × 8 minutes = 19,200 minutes = **320 hours**
+- Value: 320 h × ₹500/h = ₹1.6 lakh ≈ **US$1,920** (₹500 ≈ US$6)
+- Cost: AI 2,400 × US$0.003 ≈ US$7, hosting US$360, maintenance 96 h × US$6 = US$576;
+  total **US$943**
+- Net benefit: 1,920 − 943 = US$977; ROI = 977 / 943 ≈ **104%**
+- Break-even: each lookup earns 8/60 h × US$6 − US$0.003 ≈ US$0.80 against fixed costs
+  of US$936, so 936 / 0.80 ≈ **1,200 lookups a year**
