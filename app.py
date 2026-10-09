@@ -7,7 +7,9 @@ This file only handles the screen. The real work lives in:
     src/model.py  - searching the chunks and asking Claude for a cited answer
 """
 
+import hmac
 import html
+import os
 import re
 from typing import List
 
@@ -42,6 +44,25 @@ EXAMPLE_QUESTIONS = [
 MINUTES_SAVED_PER_LOOKUP = 8
 
 st.set_page_config(page_title="GreenScope", page_icon="🌱", layout="wide")
+
+
+def require_password() -> None:
+    """If APP_PASSWORD is set (e.g. as a Streamlit Cloud secret), ask for it before
+    showing the app, so a public link can't spend the API budget. Unset: no gate."""
+    expected = os.environ.get("APP_PASSWORD", "").strip()
+    if not expected or st.session_state.get("unlocked"):
+        return
+    st.title("🌱 GreenScope")
+    entered = st.text_input("Password", type="password")
+    if entered and hmac.compare_digest(entered, expected):
+        st.session_state.unlocked = True
+        st.rerun()
+    if entered:
+        st.error("Wrong password.")
+    st.stop()
+
+
+require_password()
 
 
 @st.cache_resource(show_spinner="Loading the report index (first run builds it, about 2 minutes)...")

@@ -9,6 +9,10 @@ langchain-core==1.6.5
 langchain-text-splitters==1.1.2
 pypdf==6.19.0
 sentence-transformers==6.1.0
+# CPU-only PyTorch on Linux (e.g. Streamlit Community Cloud): the default Linux wheel
+# pulls ~3 GB of GPU libraries the app never uses. Windows and macOS are unaffected.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.14.0+cpu; sys_platform == "linux"
 faiss-cpu==1.15.1
 numpy==2.4.6
 # Optional, only for eval/compare_pdf_parsers.py:  pip install docling

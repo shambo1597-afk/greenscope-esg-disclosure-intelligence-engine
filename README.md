@@ -72,6 +72,20 @@ The pre-built index is committed in `index/`, so the app starts in seconds; the 
 run only downloads the embedding model (~130 MB). If the PDFs or settings change, the
 index is rebuilt automatically (about 2 minutes); to force it: `python -m src.data --rebuild`.
 
+## Deploy on Streamlit Community Cloud (free)
+
+1. Go to share.streamlit.io and sign in with the GitHub account that owns this repo.
+2. **Create app** → **Deploy a public app from GitHub**. Repository: this repo, branch `main`, main file `app.py`.
+3. **Advanced settings**: Python version **3.11**, and paste into **Secrets**:
+   ```toml
+   ANTHROPIC_API_KEY = "sk-ant-..."
+   APP_PASSWORD = "choose-a-password"
+   ```
+   Streamlit passes these to the app as environment variables. With `APP_PASSWORD` set the app asks
+   for that password first, so a public link can't spend the API budget. Never put the key in the repo.
+4. **Deploy**. The first build takes about 5 to 10 minutes; later starts are faster. The app sleeps after
+   some days without visits; open the link a few minutes before a demo to wake it.
+
 ## Before a live demo
 
 1. On the presenting laptop, with internet: `python -m pip install -r requirements.txt`, then
